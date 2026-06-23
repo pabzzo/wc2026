@@ -1227,6 +1227,7 @@ function transformMatch(m){
   const hour=utc.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',timeZone:tz});
   return{id:String(m.id),status,home:m.homeTeam.tla||m.homeTeam.shortName||'???',away:m.awayTeam.tla||m.awayTeam.shortName||'???',scoreH:status!=='upcoming'?(m.score.fullTime.home??0):null,scoreA:status!=='upcoming'?(m.score.fullTime.away??0):null,minute:m.minute||null,date:m.utcDate.slice(0,10),time:`${day} · ${hour}`,group:(m.group||'').replace('GROUP_',''),stadium:m.venue||'',md:m.matchday||1,scorers:[],stats:{possession:[50,50],shots:[0,0],shotsOT:[0,0],passes:[0,0],fouls:[0,0],corners:[0,0]}};
 }
+let apiInitialized=false;
 async function loadScoresFromAPI(){
   const dot=document.getElementById('api-dot'),lbl=document.getElementById('api-label');
   try{
@@ -1234,14 +1235,25 @@ async function loadScoresFromAPI(){
     if(!res.ok)throw new Error('HTTP '+res.status);
     const data=await res.json();
     if(!data.matches?.length)throw new Error('no data');
-    data.matches.forEach(am=>{
-      const t=transformMatch(am);
-      const i=M.findIndex(m=>m.home===t.home&&m.away===t.away&&m.date===t.date);
-      if(i>=0){M[i]={...M[i],status:t.status,scoreH:t.scoreH,scoreA:t.scoreA,minute:t.minute}}
-      else M.push(t);
+    // Remplacer M entièrement pour éviter les doublons
+    const apiMatches=data.matches.map(transformMatch);
+    // Conserver les données enrichies (scorers, stats, odds) depuis M statique
+    apiMatches.forEach(am=>{
+      const old=M.find(m=>m.home===am.home&&m.away===am.away&&m.date===am.date);
+      if(old){am.scorers=old.scorers||[];am.stats=old.stats||am.stats;am.probH=old.probH;am.probD=old.probD;am.probA=old.probA}
     });
+    M.length=0;apiMatches.forEach(m=>M.push(m));
     if(dot)dot.className='api-dot ok';if(lbl)lbl.textContent='API connectée';
-    renderS();renderST();renderCal();renderLiveModule();buildDN();
+    if(!apiInitialized){
+      // Premier chargement : tout re-rendre
+      apiInitialized=true;
+      renderS();renderST();renderCal();buildDN();
+    } else {
+      // Poll suivants : uniquement le module live + scores si match en cours
+      const hasLive=M.some(m=>m.status==='live');
+      if(hasLive)renderS();
+    }
+    renderLiveModule();
   }catch(e){
     if(dot)dot.className='api-dot err';if(lbl)lbl.textContent='Données statiques';
     console.warn('football-data indisponible:',e.message);
