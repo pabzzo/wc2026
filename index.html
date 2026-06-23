@@ -692,198 +692,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 const FL={BRA:'🇧🇷',HTI:'🇭🇹',TUR:'🇹🇷',PAR:'🇵🇾',NED:'🇳🇱',SWE:'🇸🇪',GER:'🇩🇪',CIV:'🇨🇮',ECU:'🇪🇨',CUW:'🇨🇼',TUN:'🇹🇳',JPN:'🇯🇵',ESP:'🇪🇸',KSA:'🇸🇦',BEL:'🇧🇪',IRN:'🇮🇷',URU:'🇺🇾',CPV:'🇨🇻',NZL:'🇳🇿',EGY:'🇪🇬',ARG:'🇦🇷',AUT:'🇦🇹',FRA:'🇫🇷',IRQ:'🇮🇶',NOR:'🇳🇴',SEN:'🇸🇳',JOR:'🇯🇴',DZA:'🇩🇿',POR:'🇵🇹',UZB:'🇺🇿',ENG:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',GHA:'🇬🇭',PAN:'🇵🇦',CRO:'🇭🇷',COL:'🇨🇴',COD:'🇨🇩',SUI:'🇨🇭',CAN:'🇨🇦',BIH:'🇧🇦',QAT:'🇶🇦',MEX:'🇲🇽',KOR:'🇰🇷',CZE:'🇨🇿',RSA:'🇿🇦',USA:'🇺🇸',AUS:'🇦🇺',MAR:'🇲🇦',SCO:'🏴󠁧󠁢󠁳󠁣󠁴󠁿'};
 const NM={BRA:'Brésil',HTI:'Haïti',TUR:'Turquie',PAR:'Paraguay',NED:'Pays-Bas',SWE:'Suède',GER:'Allemagne',CIV:"Côte d'Ivoire",ECU:'Équateur',CUW:'Curaçao',TUN:'Tunisie',JPN:'Japon',ESP:'Espagne',KSA:'Arabie Saoud.',BEL:'Belgique',IRN:'Iran',URU:'Uruguay',CPV:'Cap-Vert',NZL:'Nvl-Zélande',EGY:'Égypte',ARG:'Argentine',AUT:'Autriche',FRA:'France',IRQ:'Irak',NOR:'Norvège',SEN:'Sénégal',JOR:'Jordanie',DZA:'Algérie',POR:'Portugal',UZB:'Ouzbékistan',ENG:'Angleterre',GHA:'Ghana',PAN:'Panama',CRO:'Croatie',COL:'Colombie',COD:'RD Congo',SUI:'Suisse',CAN:'Canada',BIH:'Bosnie',QAT:'Qatar',MEX:'Mexique',KOR:'Corée du Sud',CZE:'Tchéquie',RSA:'Afrique du Sud',USA:'États-Unis',AUS:'Australie',MAR:'Maroc',SCO:'Écosse'};
 const fl=a=>FL[a]||'🏳',tn=a=>NM[a]||a;
-const M=[
-{id:'a01',status:'final',home:'MEX',away:'RSA',scoreH:2,scoreA:0,date:'2026-06-11',time:'11 juin · 20h00',group:'A',stadium:'Estadio Azteca · Mexico City',md:1,
-scorers:[{t:'home',name:'Quiñones',min:9,assist:'Lozano'},{t:'home',name:'Jiménez',min:52,assist:'Quiñones'}],
-stats:{possession:[58,42],shots:[16,8],shotsOT:[6,2],passes:[498,352],fouls:[10,13],corners:[6,2]}},
-{id:'a02',status:'final',home:'KOR',away:'CZE',scoreH:2,scoreA:1,date:'2026-06-12',time:'12 juin · 22h00',group:'A',stadium:'Estadio Akron · Guadalajara',md:1,
-scorers:[{t:'home',name:'Hwang In-Beom',min:34,assist:'Son'},{t:'away',name:'Krejčí',min:58,assist:'Schick'},{t:'home',name:'Oh Hyeon-Gyu',min:71,assist:'Hwang'}],
-stats:{possession:[52,48],shots:[14,12],shotsOT:[5,4],passes:[421,394],fouls:[11,9],corners:[5,4]}},
-{id:'a03',status:'final',home:'CZE',away:'RSA',scoreH:1,scoreA:1,date:'2026-06-18',time:'18 juin · 18h00',group:'A',stadium:'Mercedes-Benz Stadium · Atlanta',md:2,
-scorers:[{t:'home',name:'Schick',min:48,assist:'Krejčí'},{t:'away',name:'Foster',min:71,assist:'Mothiba'}],
-stats:{possession:[53,47],shots:[14,11],shotsOT:[5,4],passes:[441,381],fouls:[11,10],corners:[5,4]}},
-{id:'a04',status:'final',home:'MEX',away:'KOR',scoreH:1,scoreA:0,date:'2026-06-18',time:'18 juin · 04h00',group:'A',stadium:'Estadio Akron · Guadalajara',md:2,
-scorers:[{t:'home',name:'Lozano',min:63,assist:'Herrera'}],
-stats:{possession:[47,53],shots:[11,15],shotsOT:[4,5],passes:[371,491],fouls:[12,10],corners:[3,7]}},
-{id:'b01',status:'final',home:'CAN',away:'BIH',scoreH:1,scoreA:1,date:'2026-06-12',time:'12 juin · 23h00',group:'B',stadium:'BMO Field · Toronto',md:1,
-scorers:[{t:'home',name:'David',min:28,assist:'Davies'},{t:'away',name:'Džeko',min:67,assist:'Pjanić'}],
-stats:{possession:[55,45],shots:[12,10],shotsOT:[4,3],passes:[441,361],fouls:[9,14],corners:[5,3]}},
-{id:'b02',status:'final',home:'SUI',away:'QAT',scoreH:1,scoreA:1,date:'2026-06-13',time:'13 juin · 21h00',group:'B',stadium:"Levi's Stadium · San Francisco",md:1,
-scorers:[{t:'home',name:'Embolo',min:31,assist:'Shaqiri'},{t:'away',name:'Al-Haydos',min:78,assist:'Madibo'}],
-stats:{possession:[60,40],shots:[15,7],shotsOT:[5,2],passes:[512,308],fouls:[8,12],corners:[7,2]}},
-{id:'b03',status:'final',home:'SUI',away:'BIH',scoreH:4,scoreA:1,date:'2026-06-18',time:'18 juin · 22h00',group:'B',stadium:"Levi's Stadium · San Francisco",md:2,
-scorers:[{t:'home',name:'Embolo',min:11,assist:'Shaqiri'},{t:'home',name:'Xhaka',min:33,assist:'Embolo'},{t:'home',name:'Amdouni',min:51,assist:'Vargas'},{t:'away',name:'Hajradinović',min:62,assist:'Džeko'},{t:'home',name:'Vargas',min:83,assist:'Xhaka'}],
-stats:{possession:[58,42],shots:[18,10],shotsOT:[8,3],passes:[494,348],fouls:[9,13],corners:[7,3]}},
-{id:'b04',status:'final',home:'CAN',away:'QAT',scoreH:6,scoreA:0,date:'2026-06-18',time:'18 juin · 01h00',group:'B',stadium:'Lumen Field · Seattle',md:2,
-scorers:[{t:'home',name:'David',min:6,assist:'Davies'},{t:'home',name:'David',min:23,assist:'Larin'},{t:'home',name:'Larin',min:38,assist:'David'},{t:'home',name:'Osorio',min:52,assist:'Hutchinson'},{t:'home',name:'Buchanan',min:67,assist:'Davies'},{t:'home',name:'Laryea',min:81,assist:'Buchanan'}],
-stats:{possession:[65,35],shots:[26,5],shotsOT:[12,1],passes:[581,212],fouls:[8,16],corners:[10,1]}},
-{id:'c01',status:'final',home:'BRA',away:'MAR',scoreH:1,scoreA:1,date:'2026-06-13',time:'13 juin · 21h00',group:'C',stadium:'MetLife Stadium · New York/NJ',md:1,
-scorers:[{t:'away',name:'Saibari',min:2,assist:'Hakimi'},{t:'home',name:'Vinícius Jr.',min:13,assist:'Rodrygo'}],
-stats:{possession:[59,41],shots:[19,9],shotsOT:[7,3],passes:[541,312],fouls:[10,11],corners:[8,3]}},
-{id:'c02',status:'final',home:'SCO',away:'HTI',scoreH:1,scoreA:0,date:'2026-06-13',time:'13 juin · 18h00',group:'C',stadium:'Gillette Stadium · Boston',md:1,
-scorers:[{t:'home',name:'McGinn',min:27,assist:'Robertson'}],
-stats:{possession:[56,44],shots:[14,6],shotsOT:[5,1],passes:[462,287],fouls:[9,13],corners:[6,2]}},
-{id:'c03',status:'final',home:'SCO',away:'MAR',scoreH:0,scoreA:1,date:'2026-06-19',time:'19 juin · 01h00',group:'C',stadium:'Gillette Stadium · Boston',md:2,
-scorers:[{t:'away',name:'Saibari',min:44,assist:'Ziyech'}],
-stats:{possession:[45,55],shots:[10,15],shotsOT:[2,6],passes:[348,492],fouls:[14,9],corners:[3,8]}},
-{id:'c04',status:'final',home:'BRA',away:'HTI',scoreH:3,scoreA:0,date:'2026-06-20',time:'20 juin · 02h30',group:'C',stadium:'MetLife Stadium · New York/NJ',md:2,
-scorers:[{t:'home',name:'Vinícius Jr.',min:14,assist:'Rodrygo'},{t:'home',name:'Vinícius Jr.',min:58,assist:'Raphinha'},{t:'home',name:'Rodrygo',min:81,assist:'Vinícius Jr.'}],
-stats:{possession:[62,38],shots:[18,4],shotsOT:[8,1],passes:[532,214],fouls:[9,14],corners:[7,2]}},
-{id:'d01',status:'final',home:'USA',away:'PAR',scoreH:4,scoreA:1,date:'2026-06-12',time:'12 juin · 21h00',group:'D',stadium:'SoFi Stadium · Los Angeles',md:1,
-scorers:[{t:'home',name:'Pulisic',min:14,assist:'McKennie'},{t:'home',name:'Balogun',min:36,assist:'Weah'},{t:'away',name:'Sanabria',min:48,assist:'Almiron'},{t:'home',name:'Reyna',min:62,assist:'Pulisic'},{t:'home',name:'Weah',min:88,assist:'Reyna'}],
-stats:{possession:[54,46],shots:[18,11],shotsOT:[8,3],passes:[487,412],fouls:[8,12],corners:[7,4]}},
-{id:'d02',status:'final',home:'AUS',away:'TUR',scoreH:2,scoreA:0,date:'2026-06-13',time:'13 juin · 01h00',group:'D',stadium:'BC Place · Vancouver',md:1,
-scorers:[{t:'home',name:'Goodwin',min:41,assist:'Irvine'},{t:'home',name:'Duke',min:79,assist:'Goodwin'}],
-stats:{possession:[49,51],shots:[13,14],shotsOT:[5,4],passes:[384,421],fouls:[12,10],corners:[4,6]}},
-{id:'d03',status:'final',home:'TUR',away:'PAR',scoreH:0,scoreA:1,date:'2026-06-20',time:'20 juin · 05h00',group:'D',stadium:'BC Place · Vancouver',md:2,
-scorers:[{t:'away',name:'Sanabria',min:73,assist:'Almiron'}],
-stats:{possession:[55,45],shots:[14,9],shotsOT:[2,4],passes:[468,381],fouls:[12,11],corners:[5,3]}},
-{id:'d04',status:'final',home:'USA',away:'AUS',scoreH:3,scoreA:1,date:'2026-06-19',time:'19 juin · 04h00',group:'D',stadium:'Lumen Field · Seattle',md:2,
-scorers:[{t:'home',name:'Pulisic',min:17,assist:'Weah'},{t:'home',name:'Reyna',min:41,assist:'McKennie'},{t:'away',name:'Goodwin',min:58,assist:'Irvine'},{t:'home',name:'Balogun',min:83,assist:'Pulisic'}],
-stats:{possession:[54,46],shots:[16,13],shotsOT:[7,4],passes:[478,412],fouls:[10,11],corners:[6,5]}},
-{id:'e01',status:'final',home:'GER',away:'CUW',scoreH:7,scoreA:1,date:'2026-06-14',time:'14 juin · 19h00',group:'E',stadium:'Toronto Stadium · Toronto',md:1,
-scorers:[{t:'home',name:'Nmecha',min:4,assist:'Musiala'},{t:'home',name:'Schlotterbeck',min:18,assist:'Kimmich'},{t:'home',name:'Havertz',min:33,assist:'Müller'},{t:'home',name:'Musiala',min:51,assist:'Havertz'},{t:'away',name:'Comenencia',min:61,assist:'Peters'},{t:'home',name:'Brown',min:71,assist:'Gnabry'},{t:'home',name:'Undav',min:82,assist:'Brown'},{t:'home',name:'Undav',min:89,assist:'Musiala'}],
-stats:{possession:[63,37],shots:[24,7],shotsOT:[12,2],passes:[597,248],fouls:[7,14],corners:[10,2]}},
-{id:'e02',status:'final',home:'CIV',away:'ECU',scoreH:1,scoreA:0,date:'2026-06-14',time:'14 juin · 23h00',group:'E',stadium:'Philadelphia Stadium · Philadelphie',md:1,
-scorers:[{t:'home',name:'Diallo',min:55,assist:'Pépé'}],
-stats:{possession:[48,52],shots:[11,13],shotsOT:[3,4],passes:[362,418],fouls:[13,9],corners:[4,5]}},
-{id:'e03',status:'final',home:'GER',away:'CIV',scoreH:2,scoreA:1,date:'2026-06-20',time:'20 juin · 22h00',group:'E',stadium:'Toronto Stadium · Toronto',md:2,
-scorers:[{t:'home',name:'Havertz',min:22,assist:'Müller'},{t:'away',name:'Haller',min:51,assist:'Pépé'},{t:'home',name:'Müller',min:78,assist:'Kimmich'}],
-stats:{possession:[54,46],shots:[16,12],shotsOT:[6,4],passes:[498,423],fouls:[11,10],corners:[6,5]}},
-{id:'e04',status:'final',home:'ECU',away:'CUW',scoreH:0,scoreA:0,date:'2026-06-21',time:'21 juin · 02h00',group:'E',stadium:'Arrowhead Stadium · Kansas City',md:2,
-scorers:[],stats:{possession:[51,49],shots:[9,7],shotsOT:[2,1],passes:[362,348],fouls:[15,12],corners:[4,3]}},
-{id:'f01',status:'final',home:'NED',away:'JPN',scoreH:2,scoreA:2,date:'2026-06-14',time:'14 juin · 18h00',group:'F',stadium:'AT&T Stadium · Dallas',md:1,
-scorers:[{t:'home',name:'van Dijk',min:21,assist:'Gakpo'},{t:'away',name:'Nakamura',min:38,assist:'Mitoma'},{t:'home',name:'Summerville',min:67,assist:'Depay'},{t:'away',name:'Kamada',min:88,assist:'Ueda'}],
-stats:{possession:[54,46],shots:[16,14],shotsOT:[6,5],passes:[491,412],fouls:[9,11],corners:[6,5]}},
-{id:'f02',status:'final',home:'SWE',away:'TUN',scoreH:5,scoreA:1,date:'2026-06-14',time:'14 juin · 03h00',group:'F',stadium:'Estadio BBVA · Monterrey',md:1,
-scorers:[{t:'home',name:'Isak',min:12,assist:'Gyökeres'},{t:'home',name:'Gyökeres',min:29,assist:'Isak'},{t:'home',name:'Ayari',min:44,assist:'Svanberg'},{t:'away',name:'Rekik',min:52,assist:'Ben Slimane'},{t:'home',name:'Ayari',min:68,assist:'Elanga'},{t:'home',name:'Svanberg',min:86,assist:'Isak'}],
-stats:{possession:[55,45],shots:[21,9],shotsOT:[9,3],passes:[512,348],fouls:[8,14],corners:[8,3]}},
-{id:'f03',status:'final',home:'NED',away:'SWE',scoreH:5,scoreA:1,date:'2026-06-20',time:'20 juin · 19h00',group:'F',stadium:'Houston Stadium · Houston',md:2,
-scorers:[{t:'home',name:'Gakpo',min:11,assist:'Xavi Simons'},{t:'home',name:'Depay',min:29,assist:'Gakpo'},{t:'away',name:'Isak',min:44,assist:'Elanga'},{t:'home',name:'Gakpo',min:61,assist:'Depay'},{t:'home',name:'van Dijk',min:75,assist:'Gakpo'},{t:'home',name:'Xavi Simons',min:89,assist:'Depay'}],
-stats:{possession:[58,42],shots:[22,9],shotsOT:[10,3],passes:[581,394],fouls:[8,13],corners:[9,4]}},
-{id:'f04',status:'final',home:'TUN',away:'JPN',scoreH:0,scoreA:4,date:'2026-06-21',time:'21 juin · 06h00',group:'F',stadium:'Estadio BBVA · Monterrey',md:2,
-scorers:[{t:'away',name:'Kamada',min:8,assist:'Mitoma'},{t:'away',name:'Kamada',min:37,assist:'Ueda'},{t:'away',name:'Mitoma',min:62,assist:'Kamada'},{t:'away',name:'Ueda',min:85,assist:'Tomiyasu'}],
-stats:{possession:[42,58],shots:[6,19],shotsOT:[1,9],passes:[298,512],fouls:[14,8],corners:[2,8]}},
-{id:'g01',status:'final',home:'BEL',away:'EGY',scoreH:1,scoreA:1,date:'2026-06-15',time:'15 juin · 21h00',group:'G',stadium:'Mercedes-Benz Stadium · Atlanta',md:1,
-scorers:[{t:'home',name:'De Bruyne',min:33,assist:'Doku'},{t:'away',name:'Salah',min:71,assist:'Trezeguet'}],
-stats:{possession:[57,43],shots:[16,11],shotsOT:[6,4],passes:[516,382],fouls:[10,12],corners:[7,3]}},
-{id:'g02',status:'final',home:'IRN',away:'NZL',scoreH:2,scoreA:2,date:'2026-06-15',time:'15 juin · 03h00',group:'G',stadium:'Hard Rock Stadium · Miami',md:1,
-scorers:[{t:'home',name:'Taremi',min:19,assist:'Jahanbakhsh'},{t:'away',name:'Wood',min:38,assist:'Waine'},{t:'home',name:'Azmoun',min:58,assist:'Taremi'},{t:'away',name:'McGlinchey',min:83,assist:'Wood'}],
-stats:{possession:[48,52],shots:[13,14],shotsOT:[5,5],passes:[381,412],fouls:[14,10],corners:[4,6]}},
-{id:'g03',status:'final',home:'BEL',away:'IRN',scoreH:0,scoreA:0,date:'2026-06-21',time:'21 juin · 21h00',group:'G',stadium:'SoFi Stadium · Los Angeles',md:2,
-scorers:[],stats:{possession:[60,40],shots:[13,6],shotsOT:[3,2],passes:[534,356],fouls:[10,14],corners:[6,2]}},
-{id:'g04',status:'final',home:'NZL',away:'EGY',scoreH:1,scoreA:3,date:'2026-06-22',time:'22 juin · 03h00',group:'G',stadium:'BC Place · Vancouver',md:2,
-scorers:[{t:'away',name:'Salah',min:12,assist:'Trezeguet'},{t:'home',name:'Wood',min:38,assist:'Waine'},{t:'away',name:'Trezeguet',min:54,assist:'Salah'},{t:'away',name:'Salah',min:79,assist:'El-Neny'}],
-stats:{possession:[44,56],shots:[10,17],shotsOT:[3,7],passes:[378,492],fouls:[12,9],corners:[3,7]}},
-{id:'h01',status:'final',home:'ESP',away:'CPV',scoreH:0,scoreA:0,date:'2026-06-15',time:'15 juin · 22h00',group:'H',stadium:'Mercedes-Benz Stadium · Atlanta',md:1,
-scorers:[],stats:{possession:[67,33],shots:[19,4],shotsOT:[4,1],passes:[634,201],fouls:[8,16],corners:[9,1]}},
-{id:'h02',status:'final',home:'KSA',away:'URU',scoreH:1,scoreA:1,date:'2026-06-15',time:'15 juin · 18h00',group:'H',stadium:'NRG Stadium · Houston',md:1,
-scorers:[{t:'home',name:'Al-Dawsari',min:44,assist:'Al-Najei'},{t:'away',name:'Valverde',min:78,assist:'Bentancur'}],
-stats:{possession:[44,56],shots:[9,16],shotsOT:[3,6],passes:[312,487],fouls:[12,9],corners:[3,7]}},
-{id:'h03',status:'final',home:'ESP',away:'KSA',scoreH:4,scoreA:0,date:'2026-06-21',time:'21 juin · 18h00',group:'H',stadium:'Mercedes-Benz Stadium · Atlanta',md:2,
-scorers:[{t:'home',name:'Yamal',min:16,assist:'Pedri'},{t:'home',name:'Morata',min:34,assist:'Yamal'},{t:'home',name:'Pedri',min:57,assist:'Olmo'},{t:'home',name:'Olmo',min:82,assist:'Morata'}],
-stats:{possession:[66,34],shots:[21,5],shotsOT:[10,1],passes:[621,287],fouls:[7,16],corners:[10,1]}},
-{id:'h04',status:'final',home:'URU',away:'CPV',scoreH:2,scoreA:2,date:'2026-06-22',time:'22 juin · 00h00',group:'H',stadium:'Hard Rock Stadium · Miami',md:2,
-scorers:[{t:'home',name:'Núñez',min:28,assist:'Valverde'},{t:'away',name:'Andrade',min:41,assist:'Lopes'},{t:'away',name:'Lopes',min:67,assist:'Andrade'},{t:'home',name:'Valverde',min:88,assist:'Bentancur'}],
-stats:{possession:[53,47],shots:[15,11],shotsOT:[5,4],passes:[456,412],fouls:[13,11],corners:[5,4]}},
-{id:'i01',status:'final',home:'FRA',away:'SEN',scoreH:3,scoreA:1,date:'2026-06-16',time:'16 juin · 21h00',group:'I',stadium:'Gillette Stadium · Boston',md:1,
-scorers:[{t:'home',name:'Mbappé',min:11,assist:'Griezmann'},{t:'away',name:'Dia',min:33,assist:'Sarr'},{t:'home',name:'Griezmann',min:58,assist:'Mbappé'},{t:'home',name:'Dembélé',min:82,assist:'Camavinga'}],
-stats:{possession:[60,40],shots:[18,10],shotsOT:[7,3],passes:[548,321],fouls:[9,12],corners:[8,3]}},
-{id:'i02',status:'final',home:'NOR',away:'IRQ',scoreH:4,scoreA:1,date:'2026-06-16',time:'16 juin · 01h00',group:'I',stadium:'MetLife Stadium · New York/NJ',md:1,
-scorers:[{t:'home',name:'Haaland',min:8,assist:'Ødegaard'},{t:'home',name:'Haaland',min:31,assist:'Sörloth'},{t:'away',name:'Al-Shammari',min:51,assist:'Hisham'},{t:'home',name:'Ødegaard',min:68,assist:'Haaland'},{t:'home',name:'Sörloth',min:87,assist:'Ødegaard'}],
-stats:{possession:[57,43],shots:[20,9],shotsOT:[9,3],passes:[512,312],fouls:[8,14],corners:[8,3]}},
-{id:'j01',status:'final',home:'ARG',away:'JOR',scoreH:2,scoreA:0,date:'2026-06-16',time:'16 juin · 22h00',group:'J',stadium:'AT&T Stadium · Dallas',md:1,
-scorers:[{t:'home',name:'Messi',min:22,assist:'Di María'},{t:'home',name:'Lautaro',min:74,assist:'Mac Allister'}],
-stats:{possession:[62,38],shots:[17,7],shotsOT:[7,2],passes:[521,287],fouls:[9,13],corners:[7,2]}},
-{id:'j02',status:'final',home:'AUT',away:'DZA',scoreH:3,scoreA:1,date:'2026-06-16',time:'16 juin · 04h00',group:'J',stadium:"Levi's Stadium · San Francisco",md:1,
-scorers:[{t:'home',name:'Baumgartner',min:14,assist:'Sabitzer'},{t:'home',name:'Sabitzer',min:37,assist:'Gregoritsch'},{t:'away',name:'Mahrez',min:55,assist:'Bennacer'},{t:'home',name:'Gregoritsch',min:79,assist:'Arnautovic'}],
-stats:{possession:[53,47],shots:[15,13],shotsOT:[6,4],passes:[451,411],fouls:[11,10],corners:[5,5]}},
-{id:'k01',status:'final',home:'COL',away:'UZB',scoreH:2,scoreA:0,date:'2026-06-17',time:'17 juin · 01h00',group:'K',stadium:'Estadio Azteca · Mexico City',md:1,
-scorers:[{t:'home',name:'Díaz',min:18,assist:'James'},{t:'home',name:'Borré',min:71,assist:'Díaz'}],
-stats:{possession:[58,42],shots:[16,9],shotsOT:[6,2],passes:[491,312],fouls:[10,12],corners:[6,3]}},
-{id:'k02',status:'final',home:'COD',away:'POR',scoreH:1,scoreA:1,date:'2026-06-17',time:'17 juin · 22h00',group:'K',stadium:'NRG Stadium · Houston',md:1,
-scorers:[{t:'home',name:'Mbemba',min:44,assist:'Mbuyi'},{t:'away',name:'Ronaldo',min:67,assist:'R. Neves'}],
-stats:{possession:[40,60],shots:[8,19],shotsOT:[2,7],passes:[291,521],fouls:[14,8],corners:[2,9]}},
-{id:'l01',status:'final',home:'ENG',away:'PAN',scoreH:3,scoreA:0,date:'2026-06-17',time:'17 juin · 21h00',group:'L',stadium:'Lincoln Financial · Philadelphia',md:1,
-scorers:[{t:'home',name:'Saka',min:15,assist:'Bellingham'},{t:'home',name:'Kane',min:42,assist:'Saka'},{t:'home',name:'Bellingham',min:77,assist:'Kane'}],
-stats:{possession:[61,39],shots:[18,7],shotsOT:[7,1],passes:[531,287],fouls:[8,14],corners:[8,2]}},
-{id:'l02',status:'final',home:'GHA',away:'CRO',scoreH:2,scoreA:1,date:'2026-06-18',time:'18 juin · 01h00',group:'L',stadium:'AT&T Stadium · Dallas',md:1,
-scorers:[{t:'home',name:'Kudus',min:21,assist:'Ayew'},{t:'home',name:'Ayew',min:58,assist:'Partey'},{t:'away',name:'Modrić',min:74,assist:'Kovačić'}],
-stats:{possession:[46,54],shots:[12,16],shotsOT:[4,6],passes:[361,487],fouls:[13,9],corners:[4,7]}},
-/* J3 upcoming */
-{id:'j3a01',status:'upcoming',home:'ARG',away:'AUT',date:'2026-06-22',time:'22 juin · 19h00',group:'J',stadium:'AT&T Stadium · Dallas',md:3,probH:66,probD:20.9,probA:13.1},
-{id:'j3a02',status:'upcoming',home:'FRA',away:'IRQ',date:'2026-06-22',time:'22 juin · 23h00',group:'I',stadium:'Lincoln Financial · Philadelphia',md:3,probH:90.7,probD:6.8,probA:2.5},
-{id:'j3a03',status:'upcoming',home:'NOR',away:'SEN',date:'2026-06-23',time:'23 juin · 02h00',group:'I',stadium:'MetLife Stadium · New York/NJ',md:3,probH:44,probD:27.3,probA:28.7},
-{id:'j3a04',status:'upcoming',home:'JOR',away:'DZA',date:'2026-06-23',time:'23 juin · 05h00',group:'J',stadium:"Levi's Stadium · San Francisco",md:3,probH:14.8,probD:21.9,probA:63.3},
-{id:'j3a05',status:'upcoming',home:'POR',away:'UZB',date:'2026-06-23',time:'23 juin · 19h00',group:'K',stadium:'NRG Stadium · Houston',md:3,probH:81.9,probD:12.5,probA:5.6},
-{id:'j3a06',status:'upcoming',home:'ENG',away:'GHA',date:'2026-06-23',time:'23 juin · 22h00',group:'L',stadium:'AT&T Stadium · Dallas',md:3,probH:80,probD:13.5,probA:6.5},
-{id:'j3a07',status:'upcoming',home:'PAN',away:'CRO',date:'2026-06-24',time:'24 juin · 01h00',group:'L',stadium:'Philadelphia Stadium · Philadelphie',md:3,probH:14.7,probD:22.6,probA:62.7},
-{id:'j3a08',status:'upcoming',home:'COL',away:'COD',date:'2026-06-24',time:'24 juin · 04h00',group:'K',stadium:'Estadio Azteca · Mexico City',md:3,probH:64.1,probD:22.7,probA:13.2},
-{id:'j3a09',status:'upcoming',home:'SUI',away:'CAN',date:'2026-06-24',time:'24 juin · 21h00',group:'B',stadium:'BC Place · Vancouver',md:3,probH:39.1,probD:30.9,probA:30},
-{id:'j3a10',status:'upcoming',home:'BIH',away:'QAT',date:'2026-06-24',time:'24 juin · 21h00',group:'B',stadium:'Lumen Field · Seattle',md:3,probH:67.7,probD:19,probA:13.3},
-];
-const ST={
-A:[{t:'MEX',w:2,l:0,d:0,gf:3,ga:0,pts:6},{t:'KOR',w:1,l:1,d:0,gf:2,ga:2,pts:3},{t:'CZE',w:0,l:1,d:1,gf:2,ga:3,pts:1},{t:'RSA',w:0,l:1,d:1,gf:1,ga:3,pts:1}],
-B:[{t:'CAN',w:1,l:0,d:1,gf:7,ga:1,pts:4},{t:'SUI',w:1,l:0,d:1,gf:5,ga:2,pts:4},{t:'BIH',w:0,l:1,d:1,gf:2,ga:5,pts:1},{t:'QAT',w:0,l:1,d:1,gf:1,ga:7,pts:1}],
-C:[{t:'BRA',w:1,l:0,d:1,gf:4,ga:1,pts:4},{t:'MAR',w:1,l:0,d:1,gf:2,ga:1,pts:4},{t:'SCO',w:1,l:1,d:0,gf:1,ga:1,pts:3},{t:'HTI',w:0,l:2,d:0,gf:0,ga:4,pts:0}],
-D:[{t:'USA',w:2,l:0,d:0,gf:7,ga:2,pts:6},{t:'AUS',w:1,l:1,d:0,gf:3,ga:3,pts:3},{t:'PAR',w:1,l:1,d:0,gf:2,ga:5,pts:3},{t:'TUR',w:0,l:2,d:0,gf:0,ga:2,pts:0}],
-E:[{t:'GER',w:2,l:0,d:0,gf:9,ga:2,pts:6},{t:'CIV',w:1,l:1,d:0,gf:2,ga:2,pts:3},{t:'ECU',w:0,l:1,d:1,gf:0,ga:1,pts:1},{t:'CUW',w:0,l:1,d:1,gf:1,ga:7,pts:1}],
-F:[{t:'SWE',w:1,l:0,d:1,gf:6,ga:3,pts:4},{t:'NED',w:0,l:0,d:2,gf:7,ga:7,pts:2},{t:'JPN',w:0,l:0,d:2,gf:6,ga:6,pts:2},{t:'TUN',w:0,l:2,d:0,gf:2,ga:5,pts:0}],
-G:[{t:'EGY',w:1,l:0,d:1,gf:4,ga:3,pts:4},{t:'IRN',w:0,l:0,d:2,gf:4,ga:4,pts:2},{t:'BEL',w:0,l:0,d:2,gf:1,ga:1,pts:2},{t:'NZL',w:0,l:1,d:1,gf:3,ga:4,pts:1}],
-H:[{t:'ESP',w:1,l:0,d:1,gf:4,ga:1,pts:4},{t:'URU',w:0,l:0,d:2,gf:3,ga:3,pts:2},{t:'CPV',w:0,l:0,d:2,gf:2,ga:4,pts:2},{t:'KSA',w:0,l:1,d:1,gf:2,ga:3,pts:1}],
-I:[{t:'NOR',w:1,l:0,d:0,gf:4,ga:1,pts:3},{t:'FRA',w:1,l:0,d:0,gf:3,ga:1,pts:3},{t:'SEN',w:0,l:1,d:0,gf:1,ga:3,pts:0},{t:'IRQ',w:0,l:1,d:0,gf:1,ga:4,pts:0}],
-J:[{t:'ARG',w:1,l:0,d:0,gf:2,ga:0,pts:3},{t:'AUT',w:1,l:0,d:0,gf:3,ga:1,pts:3},{t:'JOR',w:0,l:1,d:0,gf:0,ga:2,pts:0},{t:'DZA',w:0,l:1,d:0,gf:1,ga:3,pts:0}],
-K:[{t:'COL',w:1,l:0,d:0,gf:2,ga:0,pts:3},{t:'COD',w:0,l:0,d:1,gf:1,ga:1,pts:1},{t:'POR',w:0,l:0,d:1,gf:1,ga:1,pts:1},{t:'UZB',w:0,l:1,d:0,gf:0,ga:2,pts:0}],
-L:[{t:'ENG',w:1,l:0,d:0,gf:3,ga:0,pts:3},{t:'GHA',w:1,l:0,d:0,gf:2,ga:1,pts:3},{t:'PAN',w:0,l:1,d:0,gf:0,ga:3,pts:0},{t:'CRO',w:0,l:1,d:0,gf:1,ga:2,pts:0}]
-};
-const PL=[
-{name:'Haaland',team:'NOR',group:'I',pos:'Attaquant',age:25,goals:2,assists:2,minutes:180,flag:'🇳🇴'},
-{name:'Vinícius Jr.',team:'BRA',group:'C',pos:'Ailier',age:25,goals:3,assists:1,minutes:270,flag:'🇧🇷'},
-{name:'Salah',team:'EGY',group:'G',pos:'Ailier',age:34,goals:2,assists:1,minutes:270,flag:'🇪🇬'},
-{name:'Gakpo',team:'NED',group:'F',pos:'Ailier',age:25,goals:2,assists:1,minutes:180,flag:'🇳🇱'},
-{name:'Kamada',team:'JPN',group:'F',pos:'Milieu',age:27,goals:3,assists:1,minutes:180,flag:'🇯🇵'},
-{name:'David',team:'CAN',group:'B',pos:'Attaquant',age:24,goals:3,assists:1,minutes:180,flag:'🇨🇦'},
-{name:'Isak',team:'SWE',group:'F',pos:'Attaquant',age:26,goals:2,assists:1,minutes:270,flag:'🇸🇪'},
-{name:'Mbappé',team:'FRA',group:'I',pos:'Ailier',age:27,goals:2,assists:1,minutes:180,flag:'🇫🇷'},
-{name:'Pulisic',team:'USA',group:'D',pos:'Ailier',age:27,goals:2,assists:1,minutes:270,flag:'🇺🇸'},
-{name:'Saibari',team:'MAR',group:'C',pos:'Milieu',age:23,goals:2,assists:0,minutes:270,flag:'🇲🇦'},
-{name:'Embolo',team:'SUI',group:'B',pos:'Attaquant',age:27,goals:2,assists:0,minutes:180,flag:'🇨🇭'},
-{name:'Undav',team:'GER',group:'E',pos:'Attaquant',age:27,goals:2,assists:1,minutes:90,flag:'🇩🇪'},
-{name:'Havertz',team:'GER',group:'E',pos:'Milieu',age:25,goals:1,assists:1,minutes:270,flag:'🇩🇪'},
-{name:'Müller',team:'GER',group:'E',pos:'Milieu',age:36,goals:1,assists:2,minutes:195,flag:'🇩🇪'},
-{name:'Yamal',team:'ESP',group:'H',pos:'Ailier',age:17,goals:1,assists:1,minutes:180,flag:'🇪🇸'},
-{name:'Morata',team:'ESP',group:'H',pos:'Attaquant',age:32,goals:1,assists:1,minutes:180,flag:'🇪🇸'},
-{name:'Pedri',team:'ESP',group:'H',pos:'Milieu',age:22,goals:1,assists:1,minutes:180,flag:'🇪🇸'},
-{name:'Olmo',team:'ESP',group:'H',pos:'Milieu',age:26,goals:1,assists:1,minutes:176,flag:'🇪🇸'},
-{name:'Ødegaard',team:'NOR',group:'I',pos:'Milieu',age:27,goals:1,assists:2,minutes:180,flag:'🇳🇴'},
-{name:'Sörloth',team:'NOR',group:'I',pos:'Attaquant',age:28,goals:1,assists:1,minutes:180,flag:'🇳🇴'},
-{name:'Messi',team:'ARG',group:'J',pos:'Milieu',age:38,goals:1,assists:1,minutes:180,flag:'🇦🇷'},
-{name:'Trezeguet',team:'EGY',group:'G',pos:'Ailier',age:31,goals:1,assists:2,minutes:270,flag:'🇪🇬'},
-{name:'De Bruyne',team:'BEL',group:'G',pos:'Milieu',age:34,goals:1,assists:0,minutes:180,flag:'🇧🇪'},
-{name:'Saka',team:'ENG',group:'L',pos:'Ailier',age:24,goals:1,assists:1,minutes:180,flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
-{name:'Kane',team:'ENG',group:'L',pos:'Attaquant',age:32,goals:1,assists:1,minutes:180,flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
-{name:'Bellingham',team:'ENG',group:'L',pos:'Milieu',age:22,goals:1,assists:1,minutes:180,flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
-{name:'Kudus',team:'GHA',group:'L',pos:'Milieu',age:23,goals:1,assists:0,minutes:180,flag:'🇬🇭'},
-{name:'Ayew',team:'GHA',group:'L',pos:'Attaquant',age:31,goals:1,assists:1,minutes:180,flag:'🇬🇭'},
-{name:'Depay',team:'NED',group:'F',pos:'Attaquant',age:30,goals:1,assists:2,minutes:270,flag:'🇳🇱'},
-{name:'Gyökeres',team:'SWE',group:'F',pos:'Attaquant',age:26,goals:1,assists:1,minutes:270,flag:'🇸🇪'},
-{name:'Mitoma',team:'JPN',group:'F',pos:'Ailier',age:27,goals:1,assists:2,minutes:270,flag:'🇯🇵'},
-{name:'Ueda',team:'JPN',group:'F',pos:'Attaquant',age:26,goals:1,assists:1,minutes:240,flag:'🇯🇵'},
-{name:'Griezmann',team:'FRA',group:'I',pos:'Milieu',age:35,goals:1,assists:1,minutes:180,flag:'🇫🇷'},
-{name:'Baumgartner',team:'AUT',group:'J',pos:'Milieu',age:24,goals:1,assists:0,minutes:180,flag:'🇦🇹'},
-{name:'Sabitzer',team:'AUT',group:'J',pos:'Milieu',age:30,goals:1,assists:1,minutes:180,flag:'🇦🇹'},
-{name:'Gregoritsch',team:'AUT',group:'J',pos:'Attaquant',age:30,goals:1,assists:1,minutes:180,flag:'🇦🇹'},
-{name:'Díaz',team:'COL',group:'K',pos:'Ailier',age:27,goals:1,assists:0,minutes:180,flag:'🇨🇴'},
-{name:'Goodwin',team:'AUS',group:'D',pos:'Ailier',age:24,goals:1,assists:1,minutes:270,flag:'🇦🇺'},
-{name:'Rodrygo',team:'BRA',group:'C',pos:'Ailier',age:23,goals:1,assists:2,minutes:270,flag:'🇧🇷'},
-];
-const OD={
-winamax:[{home:'ARG',away:'AUT',time:'22/06·19h',stadium:'AT&T Stadium · Dallas',h:1.45,d:4.20,a:6.50},{home:'FRA',away:'IRQ',time:'22/06·23h',stadium:'Lincoln Financial · Philadelphia',h:1.12,d:7.50,a:18.0},{home:'NOR',away:'SEN',time:'23/06·02h',stadium:'MetLife Stadium · NY/NJ',h:2.20,d:3.30,a:3.10},{home:'JOR',away:'DZA',time:'23/06·05h',stadium:"Levi's Stadium · SF",h:5.10,d:3.60,a:1.65},{home:'POR',away:'UZB',time:'23/06·19h',stadium:'NRG Stadium · Houston',h:1.22,d:6.00,a:12.0},{home:'ENG',away:'GHA',time:'23/06·22h',stadium:'AT&T Stadium · Dallas',h:1.25,d:5.80,a:10.5},{home:'PAN',away:'CRO',time:'24/06·01h',stadium:'Philadelphia Stadium',h:4.80,d:3.70,a:1.70},{home:'COL',away:'COD',time:'24/06·04h',stadium:'Estadio Azteca · Mexico City',h:1.60,d:3.80,a:5.20}],
-betclic:[{home:'ARG',away:'AUT',time:'22/06·19h',stadium:'AT&T Stadium · Dallas',h:1.42,d:4.30,a:6.80},{home:'FRA',away:'IRQ',time:'22/06·23h',stadium:'Lincoln Financial · Philadelphia',h:1.10,d:7.80,a:20.0},{home:'NOR',away:'SEN',time:'23/06·02h',stadium:'MetLife Stadium · NY/NJ',h:2.25,d:3.25,a:3.05},{home:'JOR',away:'DZA',time:'23/06·05h',stadium:"Levi's Stadium · SF",h:5.20,d:3.55,a:1.62},{home:'POR',away:'UZB',time:'23/06·19h',stadium:'NRG Stadium · Houston',h:1.20,d:6.20,a:13.0},{home:'ENG',away:'GHA',time:'23/06·22h',stadium:'AT&T Stadium · Dallas',h:1.23,d:5.90,a:11.0},{home:'PAN',away:'CRO',time:'24/06·01h',stadium:'Philadelphia Stadium',h:4.75,d:3.65,a:1.68},{home:'COL',away:'COD',time:'24/06·04h',stadium:'Estadio Azteca · Mexico City',h:1.58,d:3.85,a:5.30}],
-pmu:[{home:'ARG',away:'AUT',time:'22/06·19h',stadium:'AT&T Stadium · Dallas',h:1.48,d:4.10,a:6.30},{home:'FRA',away:'IRQ',time:'22/06·23h',stadium:'Lincoln Financial · Philadelphia',h:1.14,d:7.20,a:17.0},{home:'NOR',away:'SEN',time:'23/06·02h',stadium:'MetLife Stadium · NY/NJ',h:2.18,d:3.35,a:3.15},{home:'JOR',away:'DZA',time:'23/06·05h',stadium:"Levi's Stadium · SF",h:5.05,d:3.65,a:1.68},{home:'POR',away:'UZB',time:'23/06·19h',stadium:'NRG Stadium · Houston',h:1.25,d:5.80,a:11.5},{home:'ENG',away:'GHA',time:'23/06·22h',stadium:'AT&T Stadium · Dallas',h:1.27,d:5.70,a:10.0},{home:'PAN',away:'CRO',time:'24/06·01h',stadium:'Philadelphia Stadium',h:4.90,d:3.60,a:1.72},{home:'COL',away:'COD',time:'24/06·04h',stadium:'Estadio Azteca · Mexico City',h:1.62,d:3.75,a:5.10}],
-unibet:[{home:'ARG',away:'AUT',time:'22/06·19h',stadium:'AT&T Stadium · Dallas',h:1.44,d:4.25,a:6.60},{home:'FRA',away:'IRQ',time:'22/06·23h',stadium:'Lincoln Financial · Philadelphia',h:1.11,d:7.60,a:19.0},{home:'NOR',away:'SEN',time:'23/06·02h',stadium:'MetLife Stadium · NY/NJ',h:2.22,d:3.28,a:3.08},{home:'JOR',away:'DZA',time:'23/06·05h',stadium:"Levi's Stadium · SF",h:5.15,d:3.58,a:1.64},{home:'POR',away:'UZB',time:'23/06·19h',stadium:'NRG Stadium · Houston',h:1.21,d:6.10,a:12.5},{home:'ENG',away:'GHA',time:'23/06·22h',stadium:'AT&T Stadium · Dallas',h:1.24,d:5.85,a:10.8},{home:'PAN',away:'CRO',time:'24/06·01h',stadium:'Philadelphia Stadium',h:4.85,d:3.68,a:1.69},{home:'COL',away:'COD',time:'24/06·04h',stadium:'Estadio Azteca · Mexico City',h:1.59,d:3.82,a:5.25}],
-betway:[{home:'ARG',away:'AUT',time:'22/06·19h',stadium:'AT&T Stadium · Dallas',h:1.40,d:4.35,a:7.00},{home:'FRA',away:'IRQ',time:'22/06·23h',stadium:'Lincoln Financial · Philadelphia',h:1.09,d:8.00,a:22.0},{home:'NOR',away:'SEN',time:'23/06·02h',stadium:'MetLife Stadium · NY/NJ',h:2.28,d:3.22,a:3.00},{home:'JOR',away:'DZA',time:'23/06·05h',stadium:"Levi's Stadium · SF",h:5.25,d:3.50,a:1.60},{home:'POR',away:'UZB',time:'23/06·19h',stadium:'NRG Stadium · Houston',h:1.18,d:6.40,a:14.0},{home:'ENG',away:'GHA',time:'23/06·22h',stadium:'AT&T Stadium · Dallas',h:1.22,d:6.00,a:11.5},{home:'PAN',away:'CRO',time:'24/06·01h',stadium:'Philadelphia Stadium',h:5.00,d:3.55,a:1.65},{home:'COL',away:'COD',time:'24/06·04h',stadium:'Estadio Azteca · Mexico City',h:1.55,d:3.90,a:5.50}]
-};
+let M=[],ST={},PL=[];
+const OD={};
 let VID=[],sF='all',gF='all',dF='all',scTab='goals',scGrp='all',bk='winamax',expId=null;
 function showTab(id,btn){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');if(btn)btn.classList.add('active')}
 function showCalTab(t,btn){document.getElementById('cal-upcoming').style.display=t==='upcoming'?'block':'none';document.getElementById('cal-bracket').style.display=t==='bracket'?'block':'none';document.querySelectorAll('.cal-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
@@ -900,7 +710,9 @@ function fDate(d,btn){dF=d;document.querySelectorAll('.date-btn').forEach(b=>b.c
 function fStat(f,btn){sF=f;btn.closest('.filter-bar').querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderS()}
 function fGrp(g,btn){gF=g;btn.closest('.filter-bar').querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderS()}
 /* SCORES */
+function loading(id,msg='Chargement des données…'){document.getElementById(id).innerHTML=`<div style="color:var(--text-3);text-align:center;padding:36px;font-family:var(--fm);font-size:12px;letter-spacing:.5px">${msg}</div>`}
 function renderS(){
+  if(!M.length){loading('scores-container');return}
   let f=M;
   if(sF!=='all')f=f.filter(m=>m.status===sF);
   if(gF!=='all')f=f.filter(m=>m.group===gF);
@@ -959,6 +771,7 @@ function ytID(url){if(!url)return null;const m=url.match(/(?:v=|youtu\.be\/|embe
 /* STANDINGS */
 function b3(){const t=Object.entries(ST).map(([g,ts])=>{const x=ts[2];return x?{...x,g,gd:x.gf-x.ga}:null}).filter(Boolean);t.sort((a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf);return t}
 function renderST(){
+  if(!Object.keys(ST).length){loading('standings-container');return}
   const b=b3(),bg=new Set(b.slice(0,8).map(t=>t.g));
   document.getElementById('standings-container').innerHTML=Object.entries(ST).map(([g,ts])=>{
     const pl=Math.max(...ts.map(t=>t.w+t.l+t.d)),i3=bg.has(g);
@@ -1000,6 +813,7 @@ function renderBr(){
 function showSTab(t,btn){scTab=t;document.querySelectorAll('.stab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderSC()}
 function fSGrp(g,btn){scGrp=g;btn.closest('.filter-bar').querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderSC()}
 function renderSC(){
+  if(!PL.length){loading('scorers-container');return}
   let d=[...PL];
   if(scGrp!=='all')d=d.filter(p=>p.group===scGrp);
   const mG=Math.max(...PL.map(p=>p.goals),1),mA=Math.max(...PL.map(p=>p.assists),1),mM=Math.max(...PL.map(p=>p.minutes),1);
@@ -1240,12 +1054,46 @@ function renderLiveModule(){
 }
 
 /* API FOOTBALL-DATA + RSS */
+function calcAge(dob){if(!dob)return'—';const born=new Date(dob),today=new Date();let age=today.getFullYear()-born.getFullYear();if(today.getMonth()<born.getMonth()||(today.getMonth()===born.getMonth()&&today.getDate()<born.getDate()))age--;return age}
 function transformMatch(m){
   const status=m.status==='FINISHED'?'final':(m.status==='IN_PLAY'||m.status==='PAUSED'||m.status==='LIVE')?'live':'upcoming';
   const utc=new Date(m.utcDate),tz='Europe/Paris';
   const day=utc.toLocaleDateString('fr-FR',{day:'numeric',month:'long',timeZone:tz});
   const hour=utc.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',timeZone:tz});
-  return{id:String(m.id),status,home:m.homeTeam.tla||m.homeTeam.shortName||'???',away:m.awayTeam.tla||m.awayTeam.shortName||'???',scoreH:status!=='upcoming'?(m.score.fullTime.home??0):null,scoreA:status!=='upcoming'?(m.score.fullTime.away??0):null,minute:m.minute||null,date:m.utcDate.slice(0,10),time:`${day} · ${hour}`,group:(m.group||'').replace('GROUP_',''),stadium:m.venue||'',md:m.matchday||1,scorers:[],stats:{possession:[50,50],shots:[0,0],shotsOT:[0,0],passes:[0,0],fouls:[0,0],corners:[0,0]}};
+  const homeTla=m.homeTeam.tla||m.homeTeam.shortName||'???';
+  const awayTla=m.awayTeam.tla||m.awayTeam.shortName||'???';
+  const scorers=(m.goals||[]).map(g=>({
+    t:g.team?.tla===homeTla?'home':'away',
+    name:g.scorer?.name||'?',
+    min:g.minute||(g.minute===0?0:'?'),
+    assist:g.assist?.name||null,
+  }));
+  return{id:String(m.id),status,home:homeTla,away:awayTla,scoreH:status!=='upcoming'?(m.score.fullTime.home??0):null,scoreA:status!=='upcoming'?(m.score.fullTime.away??0):null,minute:m.minute||null,date:m.utcDate.slice(0,10),time:`${day} · ${hour}`,group:(m.group||'').replace('GROUP_',''),stadium:m.venue||'',md:m.matchday||1,scorers,stats:{}};
+}
+function applyStandings(data){
+  if(!data.standings)return;
+  ST={};
+  data.standings.forEach(grp=>{
+    const letter=(grp.group||'').replace('GROUP_','');
+    if(!letter)return;
+    ST[letter]=grp.table.map(row=>({t:row.team.tla,w:row.won,d:row.draw,l:row.lost,gf:row.goalsFor,ga:row.goalsAgainst,pts:row.points}));
+  });
+  renderST();renderCal();
+}
+function applyScorers(data){
+  if(!data.scorers)return;
+  PL=data.scorers.map(s=>({
+    name:s.player.name,
+    team:s.team.tla,
+    group:M.find(m=>m.home===s.team.tla||m.away===s.team.tla)?.group||'?',
+    pos:s.player.position||'—',
+    age:calcAge(s.player.dateOfBirth),
+    goals:s.goals||0,
+    assists:s.assists||0,
+    minutes:(s.playedMatches||0)*90,
+    flag:fl(s.team.tla),
+  }));
+  renderSC();
 }
 let apiInitialized=false;
 async function loadScoresFromAPI(){
@@ -1255,25 +1103,23 @@ async function loadScoresFromAPI(){
     if(!res.ok)throw new Error('HTTP '+res.status);
     const data=await res.json();
     if(!data.matches?.length)throw new Error('no data');
-    // Remplacer M entièrement pour éviter les doublons
-    const apiMatches=data.matches.map(transformMatch);
-    // Conserver les données enrichies (scorers, stats, odds) depuis M statique
-    apiMatches.forEach(am=>{
-      const old=M.find(m=>m.home===am.home&&m.away===am.away&&m.date===am.date);
-      if(old){am.scorers=old.scorers||[];am.stats=old.stats||am.stats;am.probH=old.probH;am.probD=old.probD;am.probA=old.probA}
-    });
-    M.length=0;apiMatches.forEach(m=>M.push(m));
+    M.length=0;data.matches.map(transformMatch).forEach(m=>M.push(m));
     if(dot)dot.className='api-dot ok';if(lbl)lbl.textContent='API connectée';
-    // Mise à jour silencieuse : seul le module EN DIRECT se rafraîchit
-    // Les scores se mettront à jour à la prochaine interaction utilisateur
-    renderLiveModule();
-    // Si matchs en cours : mettre à jour les cartes individuellement sans tout re-rendre
-    M.filter(m=>m.status==='live').forEach(m=>{
-      const card=document.getElementById('w-'+m.id);
-      if(card){const sd=card.querySelector('.sdigits');if(sd)sd.innerHTML=`${m.scoreH}<span style="opacity:.35;margin:0 2px">–</span>${m.scoreA}`}
-    });
+    if(!apiInitialized){
+      apiInitialized=true;
+      renderS();renderLiveModule();buildDN();
+      // Charger classements et buteurs en parallèle
+      fetch('/api/standings').then(r=>r.json()).then(applyStandings).catch(()=>{});
+      fetch('/api/scorers').then(r=>r.json()).then(applyScorers).catch(()=>{});
+    } else {
+      renderLiveModule();
+      M.filter(m=>m.status==='live').forEach(m=>{
+        const card=document.getElementById('w-'+m.id);
+        if(card){const sd=card.querySelector('.sdigits');if(sd)sd.innerHTML=`${m.scoreH}<span style="opacity:.35;margin:0 2px">–</span>${m.scoreA}`}
+      });
+    }
   }catch(e){
-    if(dot)dot.className='api-dot err';if(lbl)lbl.textContent='Données statiques';
+    if(dot)dot.className='api-dot err';if(lbl)lbl.textContent='Données indisponibles · Clé API requise';
     console.warn('football-data indisponible:',e.message);
   }
 }
@@ -1378,7 +1224,7 @@ function buildT(){const items=M.filter(m=>m.status==='final').slice(-12).map(m=>
 function refreshTS(){const n=new Date();document.getElementById('lu').textContent=`MAJ ${n.getHours().toString().padStart(2,'0')}:${n.getMinutes().toString().padStart(2,'0')}`}
 function loadAdmin(){try{const d=localStorage.getItem('wc2026_public');if(d){const p=JSON.parse(d);if(p.videos?.length)VID=p.videos}}catch(e){}}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeM();closeNewsModal();if(document.getElementById('sp').classList.contains('open'))toggleSP()}});
-loadAdmin();buildT();buildDN();renderS();renderST();renderCal();renderSC();renderVL();renderO();refreshTS();renderLiveModule();renderNews();startNewsAutoPlay();loadScoresFromAPI();loadRSSNews();setInterval(loadScoresFromAPI,60000);setInterval(loadRSSNews,300000);
+loadAdmin();buildT();renderS();renderST();renderSC();renderLiveModule();renderVL();renderO();refreshTS();renderNews();startNewsAutoPlay();loadScoresFromAPI();loadRSSNews();setInterval(loadScoresFromAPI,60000);setInterval(loadRSSNews,300000);
 setInterval(refreshTS,60000);
 window.addEventListener('scroll',()=>{document.getElementById('nav-wrap').classList.toggle('scrolled',window.scrollY>60)},{passive:true});
 (()=>{const t=document.getElementById('news-track');if(!t)return;let sx=0;t.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});t.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)newsSlide(dx<0?1:-1)},{passive:true})})();
