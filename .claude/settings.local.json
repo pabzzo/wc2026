@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /var/folders -name \"*.png\" -newer /Users/paulclaire/Desktop/wc2026-main/index.html 2>/dev/null | head -5 *)",
+      "Bash(cp \"/Users/paulclaire/Desktop/2026_FIFA_World_Cup.svg.png\" \"/Users/paulclaire/Desktop/wc2026-main/wc2026-logo.png\" *)",
+      "Read(//Users/paulclaire/Downloads/**)",
+      "Bash(cp /Users/paulclaire/Downloads/index.html /Users/paulclaire/Desktop/wc2026-main/index.html && echo \"✓ Fichier original restauré \\(883 lignes\\)\")"
+    ]
+  }
+}

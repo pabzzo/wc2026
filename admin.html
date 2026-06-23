@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WC2026 — Back Office</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pitch: #0a0f0d; --pitch-2: #111713; --pitch-3: #161d19;
+  --surface: #1c2420; --surface-2: #232d28; --surface-3: #2a3530;
+  --border: rgba(255,255,255,0.07); --border-h: rgba(255,255,255,0.14); --border-act: rgba(255,255,255,0.22);
+  --crimson: #e8003a; --crimson-d: #b5002d; --crimson-l: rgba(232,0,58,0.12);
+  --gold: #f5c842; --gold-bg: rgba(245,200,66,0.1);
+  --green: #3ef07a; --green-bg: rgba(62,240,122,0.1);
+  --blue: #60a5fa; --blue-bg: rgba(96,165,250,0.1);
+  --text: #f0ede8; --text-2: #9aab9f; --text-3: #5a6b60;
+  --fd: 'Bebas Neue',sans-serif; --fb: 'Inter',sans-serif; --fm: 'JetBrains Mono',monospace;
+  --r: 8px; --r-lg: 14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:var(--fb);background:var(--pitch);color:var(--text);font-size:14px;line-height:1.6;overflow-x:hidden}
+
+/* ── LOGIN ── */
+#login-screen {
+  position:fixed;inset:0;z-index:1000;
+  background:var(--pitch);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+}
+.login-card {
+  width:100%;max-width:380px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:36px 32px;
+}
+.login-logo {
+  display:flex;align-items:center;gap:10px;margin-bottom:28px;
+}
+.login-badge {
+  width:38px;height:38px;background:var(--crimson);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.login-title { font-family:var(--fd);font-size:22px;letter-spacing:2px; }
+.login-title span { color:var(--crimson); }
+.login-sub { font-size:11px;color:var(--text-3);font-family:var(--fm);margin-top:2px; }
+.field { margin-bottom:14px; }
+.field label { display:block;font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;font-family:var(--fm);margin-bottom:6px; }
+.field input {
+  width:100%;background:var(--pitch-3);border:1px solid var(--border);
+  border-radius:var(--r);padding:10px 12px;color:var(--text);font-size:13px;
+  font-family:var(--fb);outline:none;transition:border-color .2s;
+}
+.field input:focus { border-color:var(--crimson); }
+.field input::placeholder { color:var(--text-3); }
+.btn-login {
+  width:100%;background:var(--crimson);color:white;border:none;
+  padding:11px;border-radius:var(--r);font-size:13px;font-weight:600;
+  cursor:pointer;transition:background .2s;margin-top:4px;letter-spacing:.3px;
+}
+.btn-login:hover{background:var(--crimson-d)}
+.login-error {
+  background:var(--crimson-l);border:1px solid rgba(232,0,58,.3);
+  border-radius:var(--r);padding:9px 12px;font-size:12px;color:#ff6b8a;
+  margin-bottom:14px;display:none;font-family:var(--fm);
+}
+.login-hint {
+  margin-top:16px;font-size:11px;color:var(--text-3);text-align:center;
+  font-family:var(--fm);padding:8px;background:var(--pitch-3);border-radius:var(--r);
+}
+
+/* ── LAYOUT ── */
+#app { display:none;height:100vh;display:none;flex-direction:column; }
+#app.visible { display:flex; }
+.topbar {
+  height:52px;background:var(--pitch-2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;flex-shrink:0;
+  position:sticky;top:0;z-index:100;
+}
+.topbar-brand { display:flex;align-items:center;gap:8px; }
+.topbar-badge { width:28px;height:28px;background:var(--crimson);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0; }
+.topbar-name { font-family:var(--fd);font-size:17px;letter-spacing:1.5px; }
+.topbar-name span { color:var(--crimson); }
+.topbar-sep { font-size:11px;color:var(--text-3);font-family:var(--fm); }
+.topbar-section { font-size:12px;color:var(--text-2);font-family:var(--fm); }
+.topbar-right { margin-left:auto;display:flex;align-items:center;gap:10px; }
+.topbar-user { font-size:11px;color:var(--text-3);font-family:var(--fm); }
+.btn-logout {
+  font-size:11px;padding:5px 12px;border-radius:20px;
+  border:1px solid var(--border);background:transparent;color:var(--text-3);
+  cursor:pointer;transition:all .15s;font-family:var(--fm);
+}
+.btn-logout:hover{border-color:var(--crimson);color:var(--crimson)}
+.save-toast {
+  position:fixed;bottom:24px;right:24px;z-index:9999;
+  background:var(--green);color:var(--pitch);
+  padding:10px 18px;border-radius:var(--r);font-size:12px;font-weight:600;
+  font-family:var(--fm);transform:translateY(60px);opacity:0;
+  transition:all .3s;pointer-events:none;
+}
+.save-toast.show{transform:translateY(0);opacity:1}
+
+.body-layout { display:flex;flex:1;overflow:hidden; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width:210px;flex-shrink:0;background:var(--pitch-2);
+  border-right:1px solid var(--border);
+  padding:16px 0;overflow-y:auto;
+}
+.sidebar-section { padding:0 12px;margin-bottom:4px; }
+.sidebar-label {
+  font-size:9px;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;
+  font-family:var(--fm);padding:10px 10px 4px;
+}
+.nav-item {
+  display:flex;align-items:center;gap:9px;
+  padding:9px 10px;border-radius:var(--r);
+  cursor:pointer;transition:background .15s,color .15s;
+  color:var(--text-3);font-size:13px;
+  margin-bottom:2px;user-select:none;
+}
+.nav-item:hover{background:var(--surface);color:var(--text-2)}
+.nav-item.active{background:var(--crimson-l);color:var(--text);border-left:2px solid var(--crimson);padding-left:8px}
+.nav-icon { font-size:16px;width:18px;text-align:center;flex-shrink:0; }
+.nav-badge {
+  margin-left:auto;background:var(--crimson);color:white;
+  font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;
+  font-family:var(--fm);
+}
+
+/* ── MAIN CONTENT ── */
+.content { flex:1;overflow-y:auto;padding:24px; }
+.panel { display:none; }
+.panel.active { display:block;animation:fadeUp .25s ease; }
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.panel-header { margin-bottom:22px; }
+.panel-header h1 { font-family:var(--fd);font-size:26px;letter-spacing:2px; }
+.panel-header p { font-size:12px;color:var(--text-3);margin-top:2px; }
+
+/* ── DASHBOARD STATS ── */
+.stats-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:24px; }
+.stat-card {
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:16px 18px;
+}
+.stat-label { font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;font-family:var(--fm);margin-bottom:6px; }
+.stat-value { font-family:var(--fd);font-size:32px;letter-spacing:1px; }
+.stat-value.red { color:var(--crimson); }
+.stat-value.gold { color:var(--gold); }
+.stat-value.green { color:var(--green); }
+.stat-value.blue { color:var(--blue); }
+.stat-sub { font-size:11px;color:var(--text-3);margin-top:3px;font-family:var(--fm); }
+
+.activity-list { background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden; }
+.activity-header { padding:12px 16px;border-bottom:1px solid var(--border);font-size:12px;font-weight:600;color:var(--text-2); }
+.activity-item {
+  display:flex;align-items:center;gap:10px;padding:11px 16px;
+  border-bottom:1px solid var(--border);font-size:12px;
+}
+.activity-item:last-child{border-bottom:none}
+.activity-dot { width:7px;height:7px;border-radius:50%;flex-shrink:0; }
+.activity-dot.red{background:var(--crimson)}
+.activity-dot.gold{background:var(--gold)}
+.activity-dot.green{background:var(--green)}
+.activity-dot.blue{background:var(--blue)}
+.activity-text { flex:1;color:var(--text-2); }
+.activity-time { font-family:var(--fm);font-size:10px;color:var(--text-3); }
+
+/* ── FORMS ── */
+.form-card {
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:24px;margin-bottom:16px;
+}
+.form-card-title { font-size:14px;font-weight:600;margin-bottom:18px;display:flex;align-items:center;gap:8px; }
+.form-card-title .icon { font-size:18px; }
+.form-grid { display:grid;gap:14px; }
+.form-grid.cols2 { grid-template-columns:1fr 1fr; }
+.form-grid.cols3 { grid-template-columns:1fr 1fr 1fr; }
+.form-field { display:flex;flex-direction:column;gap:5px; }
+.form-label { font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;font-family:var(--fm); }
+.form-input, .form-select, .form-textarea {
+  background:var(--pitch-3);border:1px solid var(--border);border-radius:var(--r);
+  padding:9px 12px;color:var(--text);font-size:13px;font-family:var(--fb);
+  outline:none;transition:border-color .2s;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--crimson)}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--text-3)}
+.form-select option{background:var(--pitch-3)}
+.form-textarea{resize:vertical;min-height:90px;line-height:1.6}
+.form-hint { font-size:11px;color:var(--text-3);font-family:var(--fm); }
+
+.form-actions { display:flex;gap:8px;margin-top:4px;align-items:center; }
+.btn-primary {
+  background:var(--crimson);color:white;border:none;padding:10px 20px;
+  border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;
+  transition:background .2s;display:flex;align-items:center;gap:6px;
+}
+.btn-primary:hover{background:var(--crimson-d)}
+.btn-secondary {
+  background:transparent;color:var(--text-2);border:1px solid var(--border);
+  padding:10px 16px;border-radius:var(--r);font-size:13px;cursor:pointer;
+  transition:border-color .2s;
+}
+.btn-secondary:hover{border-color:var(--border-h)}
+.btn-danger {
+  background:transparent;color:#ff6b8a;border:1px solid rgba(232,0,58,.3);
+  padding:7px 12px;border-radius:var(--r);font-size:12px;cursor:pointer;
+  transition:all .15s;
+}
+.btn-danger:hover{background:var(--crimson-l)}
+.btn-icon {
+  background:transparent;border:1px solid var(--border);color:var(--text-3);
+  width:32px;height:32px;border-radius:var(--r);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+  transition:all .15s;
+}
+.btn-icon:hover{border-color:var(--border-h);color:var(--text)}
+
+/* ── ITEMS LIST ── */
+.items-list { display:grid;gap:10px; }
+.item-row {
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:14px 16px;display:flex;align-items:center;gap:12px;
+  transition:border-color .2s;
+}
+.item-row:hover{border-color:var(--border-h)}
+.item-thumb {
+  width:60px;height:40px;background:var(--pitch-3);border-radius:6px;
+  overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.item-thumb img{width:100%;height:100%;object-fit:cover}
+.item-body{flex:1;min-width:0}
+.item-title{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-meta{font-size:11px;color:var(--text-3);font-family:var(--fm);margin-top:2px;display:flex;gap:10px;flex-wrap:wrap}
+.item-actions{display:flex;gap:6px;flex-shrink:0}
+.tag {
+  display:inline-block;font-size:10px;padding:2px 8px;border-radius:4px;
+  font-family:var(--fm);font-weight:600;
+}
+.tag.red{background:var(--crimson-l);color:var(--crimson)}
+.tag.gold{background:var(--gold-bg);color:var(--gold)}
+.tag.green{background:var(--green-bg);color:var(--green)}
+.tag.blue{background:var(--blue-bg);color:var(--blue)}
+.tag.gray{background:rgba(255,255,255,.06);color:var(--text-3)}
+
+/* ── IMAGE UPLOAD ── */
+.upload-zone {
+  border:2px dashed var(--border-h);border-radius:var(--r-lg);
+  padding:28px;text-align:center;cursor:pointer;transition:border-color .2s;
+  position:relative;overflow:hidden;
+}
+.upload-zone:hover{border-color:var(--crimson)}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.upload-icon{font-size:32px;margin-bottom:8px}
+.upload-label{font-size:13px;font-weight:500;color:var(--text-2);margin-bottom:4px}
+.upload-hint{font-size:11px;color:var(--text-3);font-family:var(--fm)}
+.upload-preview {
+  width:100%;max-height:200px;object-fit:cover;border-radius:var(--r);
+  margin-top:12px;display:none;
+}
+
+/* ── COLOR PICKER ── */
+.color-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.color-swatch {
+  width:28px;height:28px;border-radius:50%;cursor:pointer;
+  border:2px solid transparent;transition:transform .15s,border-color .15s;
+}
+.color-swatch:hover{transform:scale(1.15)}
+.color-swatch.selected{border-color:white;transform:scale(1.15)}
+.custom-color{display:flex;align-items:center;gap:6px}
+.custom-color input[type=color]{width:28px;height:28px;border:none;border-radius:50%;cursor:pointer;padding:0;background:none}
+
+/* ── SETTINGS ── */
+.settings-section{margin-bottom:24px}
+.settings-section-title{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;font-family:var(--fm);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.toggle-row:last-child{border-bottom:none}
+.toggle-label{font-size:13px;color:var(--text-2)}
+.toggle-sub{font-size:11px;color:var(--text-3);font-family:var(--fm);margin-top:1px}
+.toggle{
+  width:40px;height:22px;border-radius:11px;background:var(--surface-3);
+  position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;
+}
+.toggle.on{background:var(--crimson)}
+.toggle::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:16px;height:16px;border-radius:50%;background:white;
+  transition:transform .2s;
+}
+.toggle.on::after{transform:translateX(18px)}
+
+/* ── RICH TEXT ── */
+.rich-toolbar{display:flex;gap:4px;flex-wrap:wrap;padding:8px;background:var(--pitch-3);border:1px solid var(--border);border-bottom:none;border-radius:var(--r) var(--r) 0 0}
+.rich-btn{padding:4px 8px;border-radius:4px;border:none;background:transparent;color:var(--text-2);font-size:12px;cursor:pointer;font-family:var(--fm);transition:background .15s}
+.rich-btn:hover{background:var(--surface-2);color:var(--text)}
+.form-textarea.rich{border-radius:0 0 var(--r) var(--r)}
+
+/* ── PREVIEW LINK ── */
+.preview-link {
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;color:var(--text-3);font-family:var(--fm);
+  padding:6px 12px;border-radius:20px;border:1px solid var(--border);
+  text-decoration:none;transition:all .15s;cursor:pointer;
+}
+.preview-link:hover{border-color:var(--border-h);color:var(--text-2)}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:40px 20px;color:var(--text-3);font-size:13px}
+.empty .icon{font-size:36px;margin-bottom:10px}
+.divider{height:1px;background:var(--border);margin:20px 0}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--pitch)}
+::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:2px}
+::-webkit-scrollbar-thumb:hover{background:var(--border-h)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .form-grid.cols2,.form-grid.cols3{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-badge">⚽</div>
+      <div>
+        <div class="login-title">WC<span>2026</span></div>
+        <div class="login-sub">BACK OFFICE · ADMIN</div>
+      </div>
+    </div>
+    <div class="login-error" id="login-error">Identifiants incorrects. Réessayez.</div>
+    <div class="field">
+      <label>Identifiant</label>
+      <input type="text" id="login-user" placeholder="admin" autocomplete="username" />
+    </div>
+    <div class="field">
+      <label>Mot de passe</label>
+      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <button class="btn-login" onclick="doLogin()">Se connecter</button>
+    <div class="login-hint">🔑 Démo : admin / wc2026</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-badge">⚽</div>
+      <div class="topbar-name">WC<span>2026</span></div>
+    </div>
+    <div class="topbar-sep">/</div>
+    <div class="topbar-section" id="topbar-section">Tableau de bord</div>
+    <div class="topbar-right">
+      <span class="topbar-user" id="topbar-user">admin</span>
+      <a class="preview-link" onclick="openSite()" title="Voir le site public">🔗 Voir le site</a>
+      <button class="btn-logout" onclick="doLogout()">Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="body-layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-label">Navigation</div>
+      <div class="sidebar-section">
+        <div class="nav-item active" onclick="showPanel('dashboard',this)">
+          <span class="nav-icon">📊</span> Tableau de bord
+        </div>
+      </div>
+      <div class="sidebar-label">Contenu</div>
+      <div class="sidebar-section">
+        <div class="nav-item" onclick="showPanel('videos',this)">
+          <span class="nav-icon">🎬</span> Résumés vidéo
+          <span class="nav-badge" id="badge-videos">0</span>
+        </div>
+        <div class="nav-item" onclick="showPanel('articles',this)">
+          <span class="nav-icon">📝</span> Articles
+          <span class="nav-badge" id="badge-articles">0</span>
+        </div>
+        <div class="nav-item" onclick="showPanel('photos',this)">
+          <span class="nav-icon">🖼️</span> Photos & Bannières
+        </div>
+      </div>
+      <div class="sidebar-label">Site</div>
+      <div class="sidebar-section">
+        <div class="nav-item" onclick="showPanel('design',this)">
+          <span class="nav-icon">🎨</span> Design & Couleurs
+        </div>
+        <div class="nav-item" onclick="showPanel('settings',this)">
+          <span class="nav-icon">⚙️</span> Paramètres
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- ═══ DASHBOARD ═══ -->
+      <div class="panel active" id="panel-dashboard">
+        <div class="panel-header">
+          <h1>TABLEAU DE BORD</h1>
+          <p>Vue d'ensemble du site WC2026 · Mis à jour maintenant</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Résumés vidéo</div>
+            <div class="stat-value red" id="stat-videos">0</div>
+            <div class="stat-sub">publiés sur le site</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Articles</div>
+            <div class="stat-value gold" id="stat-articles">0</div>
+            <div class="stat-sub">rédigés</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Photos</div>
+            <div class="stat-value green" id="stat-photos">0</div>
+            <div class="stat-sub">uploadées</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Matchs couverts</div>
+            <div class="stat-value blue">20</div>
+            <div class="stat-sub">phase de groupes</div>
+          </div>
+        </div>
+        <div class="activity-list">
+          <div class="activity-header">Activité récente</div>
+          <div id="activity-feed">
+            <div class="activity-item">
+              <div class="activity-dot green"></div>
+              <div class="activity-text">Site WC2026 initialisé avec succès</div>
+              <div class="activity-time">Maintenant</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ VIDEOS ═══ -->
+      <div class="panel" id="panel-videos">
+        <div class="panel-header">
+          <h1>RÉSUMÉS VIDÉO</h1>
+          <p>Gérez les résumés YouTube intégrés par match</p>
+        </div>
+        <!-- FORM -->
+        <div class="form-card">
+          <div class="form-card-title"><span class="icon">➕</span> Ajouter un résumé</div>
+          <div class="form-grid cols2">
+            <div class="form-field">
+              <label class="form-label">Équipe domicile</label>
+              <input class="form-input" id="v-home" placeholder="ex : France" />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Équipe extérieure</label>
+              <input class="form-input" id="v-away" placeholder="ex : Irak" />
+            </div>
+          </div>
+          <div class="form-grid cols3" style="margin-top:12px">
+            <div class="form-field">
+              <label class="form-label">Score</label>
+              <input class="form-input" id="v-score" placeholder="3 - 1" />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Groupe</label>
+              <select class="form-select" id="v-group">
+                <option value="">Choisir…</option>
+                <option>Groupe A</option><option>Groupe B</option><option>Groupe C</option>
+                <option>Groupe D</option><option>Groupe E</option><option>Groupe F</option>
+                <option>Groupe G</option><option>Groupe H</option><option>Groupe I</option>
+                <option>Groupe J</option><option>Groupe K</option><option>Groupe L</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Date</label>
+              <input class="form-input" id="v-date" type="date" />
+            </div>
+          </div>
+          <div class="form-field" style="margin-top:12px">
+            <label class="form-label">Lien YouTube</label>
+            <input class="form-input" id="v-url" placeholder="https://www.youtube.com/watch?v=XXXXXXXXXXX" />
+            <span class="form-hint">Collez l'URL complète du résumé YouTube</span>
+          </div>
+          <div class="form-field" style="margin-top:12px">
+            <label class="form-label">Description courte</label>
+            <input class="form-input" id="v-desc" placeholder="ex : Hat-trick de Mbappé, France domine" />
+          </div>
+          <div class="form-actions" style="margin-top:16px">
+            <button class="btn-primary" onclick="addVideo()">💾 Enregistrer la vidéo</button>
+            <button class="btn-secondary" onclick="clearVideoForm()">Effacer</button>
+          </div>
+        </div>
+        <!-- LIST -->
+        <div class="form-card">
+          <div class="form-card-title"><span class="icon">📋</span> Vidéos publiées <span style="font-size:12px;color:var(--text-3);font-weight:400;margin-left:6px" id="video-count">(0)</span></div>
+          <div class="items-list" id="videos-list">
+            <div class="empty"><div class="icon">🎬</div>Aucune vidéo ajoutée pour l'instant.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ ARTICLES ═══ -->
+      <div class="panel" id="panel-articles">
+        <div class="panel-header">
+          <h1>ARTICLES</h1>
+          <p>Rédigez et publiez des articles sur le site</p>
+        </div>
+        <div class="form-card">
+          <div class="form-card-title"><span class="icon">✍️</span> Nouvel article</div>
+          <div class="form-grid" style="margin-bottom:12px">
+            <div class="form-field">
+              <label class="form-label">Titre de l'article</label>
+              <input class="form-input" id="a-title" placeholder="ex : France — Analyse tactique du match contre l'Irak" />
+            </div>
+          </div>
+          <div class="form-grid cols3" style="margin-bottom:12px">
+            <div class="form-field">
+              <label class="form-label">Catégorie</label>
+              <select class="form-select" id="a-cat">
+                <option>Analyse</option>
+                <option>Résumé</option>
+                <option>Interview</option>
+                <option>Pronostic</option>
+                <option>Tribune</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Équipe(s) concernée(s)</label>
+              <input class="form-input" id="a-teams" placeholder="ex : France, Irak" />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Statut</label>
+              <select class="form-select" id="a-status">
+                <option value="draft">Brouillon</option>
+                <option value="published">Publié</option>
+              </select>
+            </div>
+          </div>
+          <!-- Image article -->
+          <div class="form-field" style="margin-bottom:12px">
+            <label class="form-label">Image à la une</label>
+            <div class="upload-zone" onclick="document.getElementById('a-img-input').click()">
+              <input type="file" id="a-img-input" accept="image/*" style="display:none" onchange="previewArticleImg(this)" />
+              <div class="upload-icon">🖼️</div>
+              <div class="upload-label">Cliquez pour choisir une image</div>
+              <div class="upload-hint">JPG, PNG, WEBP — max 5 MB</div>
+              <img id="a-img-preview" class="upload-preview" />
+            </div>
+          </div>
+          <!-- Rich text -->
+          <div class="form-field">
+            <label class="form-label">Contenu de l'article</label>
+            <div class="rich-toolbar">
+              <button class="rich-btn" onclick="fmt('bold')" title="Gras"><b>B</b></button>
+              <button class="rich-btn" onclick="fmt('italic')" title="Italique"><i>I</i></button>
+              <button class="rich-btn" onclick="fmt('underline')" title="Souligné"><u>U</u></button>
+              <button class="rich-btn" onclick="fmtH()" title="Titre">H2</button>
+              <button class="rich-btn" onclick="fmtQuote()" title="Citation">❝</button>
+              <button class="rich-btn" onclick="fmtLink()" title="Lien">🔗</button>
+              <button class="rich-btn" onclick="fmtList()" title="Liste">• Liste</button>
+            </div>
+            <div class="form-textarea rich" id="a-content" contenteditable="true"
+              style="min-height:180px;padding:12px;background:var(--pitch-3);border:1px solid var(--border);border-radius:0 0 var(--r) var(--r);outline:none;color:var(--text);font-size:13px;line-height:1.7"
+              data-placeholder="Rédigez votre article ici…">
+            </div>
+          </div>
+          <div class="form-actions" style="margin-top:16px">
+            <button class="btn-primary" onclick="saveArticle()">💾 Enregistrer l'article</button>
+            <button class="btn-secondary" onclick="clearArticleForm()">Effacer</button>
+          </div>
+        </div>
+        <!-- LIST -->
+        <div class="form-card">
+          <div class="form-card-title"><span class="icon">📋</span> Articles enregistrés <span style="font-size:12px;color:var(--text-3);font-weight:400;margin-left:6px" id="article-count">(0)</span></div>
+          <div class="items-list" id="articles-list">
+            <div class="empty"><div class="icon">📝</div>Aucun article rédigé pour l'instant.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ PHOTOS ═══ -->
+      <div class="panel" id="panel-photos">
+        <div class="panel-header">
+          <h1>PHOTOS & BANNIÈRES</h1>
+          <p>Personnalisez l'apparence du site avec vos propres images</p>
+        </div>
+        <!-- Hero banner -->
+        <div class="form-card">
+          <div class="form-card-title"><span class="icon">🏟️</span> Bannière principale (Hero)</div>
+          <div class="upload-zone" onclick="document.getElementById('hero-input').click()">
+            <input type="file" id="hero-input" accept="image/*" style="display:none" onchange="uploadHero(this)" />
+            <img id="hero-preview" class="upload-preview" />
+            <div id="hero-placeholder">
+              <div class="upload-icon">🏟️</div>
+              <div class="upload-label">Bannière d'en-tête du site</div>
+              <div class="upload-hint">Recommandé : 1400×400px · JPG/PNG/WEBP</div>
+            </div>
+          </div>
+          <div class="form-actions" style="margin-top:12px">
+            <button class="btn-primary" onclick="saveSiteImages('hero')">💾 Appliquer la bannière</button>
+            <button class="btn-secondary" onclick="resetHero()">Réinitialiser</button>
+          </div>
+        </div>
+        <!-- Logo / Favicon -->
+        <div class="form-card">
+          <div class="form-card-title"><span class="icon">🏆</span> Logo du site</div>
+          <div class="upload-zone" onclick="document.getElementById('logo-input').click()" style="padding:16px">
+            <input type="file" id="logo-input" accept="image/*" style="display:none" onchange="uploadLogo(this)" />
+            <img id="logo-preview" class="upload-preview" style="max-height:80px" />
+            <div id="logo-placeholder">
+              <div class="upload-icon">🏆</div>
+              <div class="upload-label">Logo affiché dans le header</div>
+              <div class="upload-hint">PNG transparent recommandé · 200×60px</div>
+            </div>
+          </div>
+          <div class="form-actions" style="margin-top:12px">
+            <button class="btn-primary" onclick="saveSiteImages('logo')">💾 Appliquer le logo</button>
+            <button class="btn-secondary" onclick="resetLogo()">Réinitialiser</button>
+          </div>
+        </div>
+        <!-- Photo gallery -->
+        <div class="form-card">
+          <div class="form-card-title"><span class="icon">📸</span> Galerie de photos <span style="font-size:12px;color:var(--text-3);font-weight:400;margin-left:6px" id="photo-count">(0)</span></div>
+          <div class="upload-zone" onclick="document.getElementById('gallery-input').click()">
+            <input type="file" id="gallery-input" accept="image/*" multiple style="display:none" onchange="uploadGallery(this)" />
+            <div class="upload-icon">📸</div>
+            <div class="upload-label">Ajouter des photos à la galerie</div>
+            <div class="upload-hint">Sélection multiple possible · JPG/PNG/WEBP</div>
+          </div>
+          <div id="gallery-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:14px"></div>
+        </div>
+      </div>
+
+      <!-- ═══ DESIGN ═══ -->
+      <div class="panel" id="panel-design">
+        <div class="panel-header">
+          <h1>DESIGN & COULEURS</h1>
+          <p>Personnalisez la palette de couleurs du site</p>
+        </div>
+        <div class="form-card">
+          <div class="form-card-title"><span class="icon">🎨</span> Couleur principale (accent)</div>
+          <div class="form-field">
+            <label class="form-label">Choisir une couleur d'accent</label>
+            <div class="color-row" id="accent-swatches">
+              <div class="color-swatch selected" style="background:#e8003a" data-color="#e8003a" onclick="selectAccent('#e8003a',this)" title="Rouge crimson (défaut)"></div>
+              <div class="color-swatch" style="background:#2563eb" data-color="#2563eb" onclick="selectAccent('#2563eb',this)" title="Bleu royal"></div>
+              <div class="color-swatch" style="background:#16a34a" data-color="#16a34a" onclick="selectAccent('#16a34a',this)" title="Vert"></div>
+              <div class="color-swatch" style="background:#d97706" data-color="#d97706" onclick="selectAccent('#d97706',this)" title="Orange ambre"></div>
+              <div class="color-swatch" style="background:#7c3aed" data-color="#7c3aed" onclick="selectAccent('#7c3aed',this)" title="Violet"></div>
+              <div class="color-swatch" style="background:#0891b2" data-color="#0891b2" onclick="selectAccent('#0891b2',this)" title="Cyan"></div>
+              <div class="color-swatch" style="background:#be185d" data-color="#be185d" onclick="selectAccent('#be185d',this)" title="Rose"></div>
+              <div class="custom-color">
+                <input type="color" id="custom-accent" value="#e8003a" oninput="selectAccent(this.value,null)" title="Couleur personnalisée" />
+                <span style="font-size:11px;color:var(--text-3)">Perso</span>
+              </div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="form-field">
+            <label class="form-label">Thème de fond</label>
+            <div style="display:flex;gap:10px;margin-top:6px;flex-wrap:wrap">
+              <div onclick="selectTheme('dark',this)" class="theme-btn selected" style="padding:10px 16px;border-radius:var(--r);border:2px solid var(--crimson);background:var(--pitch);color:var(--text);font-size:12px;cursor:pointer;font-family:var(--fm)">🌑 Sombre (défaut)</div>
+              <div onclick="selectTheme('darker',this)" class="theme-btn" style="padding:10px 16px;border-radius:var(--r);border:1px solid var(--border);background:#050807;color:var(--text-2);font-size:12px;cursor:pointer;font-family:var(--fm)">⬛ Ultra sombre</div>
+              <div onclick="selectTheme('slate',this)" class="theme-btn" style="padding:10px 16px;border-radius:var(--r);border:1px solid var(--border);background:#0f172a;color:var(--text-2);font-size:12px;cursor:pointer;font-family:var(--fm)">🌊 Ardoise bleue</div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="form-field">
+            <label class="form-label">Police d'affichage des scores</label>
+            <div style="display:flex;gap:10px;margin-top:6px;flex-wrap:wrap">
+              <div onclick="selectFont('bebas',this)" class="font-btn selected" style="padding:10px 16px;border-radius:var(--r);border:2px solid var(--crimson);background:var(--surface);color:var(--text);font-size:12px;cursor:pointer;font-family:'Bebas Neue'">BEBAS NEUE (défaut)</div>
+              <div onclick="selectFont('mono',this)" class="font-btn" style="padding:10px 16px;border-radius:var(--r);border:1px solid var(--border);background:var(--surface);color:var(--text-2);font-size:12px;cursor:pointer;font-family:monospace">MONOSPACE</div>
+              <div onclick="selectFont('inter',this)" class="font-btn" style="padding:10px 16px;border-radius:var(--r);border:1px solid var(--border);background:var(--surface);color:var(--text-2);font-size:12px;cursor:pointer;font-family:'Inter';font-weight:600">INTER BOLD</div>
+            </div>
+          </div>
+          <div class="form-actions" style="margin-top:20px">
+            <button class="btn-primary" onclick="saveDesign()">💾 Appliquer le design</button>
+            <button class="btn-secondary" onclick="resetDesign()">Réinitialiser</button>
+          </div>
+          <!-- Live preview -->
+          <div class="divider"></div>
+          <div style="font-size:11px;color:var(--text-3);font-family:var(--fm);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Aperçu en temps réel</div>
+          <div id="design-preview" style="background:var(--pitch-3);border-radius:var(--r-lg);padding:16px;border:1px solid var(--border)">
+            <div style="font-size:10px;color:var(--text-3);font-family:var(--fm);margin-bottom:8px">Carte de match — aperçu</div>
+            <div style="background:var(--surface);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--border)">
+              <div style="font-size:13px;font-weight:600">🇫🇷 France</div>
+              <div id="preview-score" style="font-family:'Bebas Neue';font-size:28px;letter-spacing:3px;color:#e8003a">3 – 1</div>
+              <div style="font-size:13px;font-weight:600">Irak 🇮🇶</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ SETTINGS ═══ -->
+      <div class="panel" id="panel-settings">
+        <div class="panel-header">
+          <h1>PARAMÈTRES</h1>
+          <p>Configuration générale du site et du back office</p>
+        </div>
+        <div class="form-card">
+          <div class="form-card-title"><span class="icon">🌐</span> Informations du site</div>
+          <div class="form-grid" style="gap:12px">
+            <div class="form-field">
+              <label class="form-label">Titre du site</label>
+              <input class="form-input" id="s-title" value="FIFA World Cup 2026 — Live Dashboard" />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Sous-titre / slogan</label>
+              <input class="form-input" id="s-subtitle" value="USA · CAN · MEX · Phase de groupes" />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Fuseau horaire affiché</label>
+              <select class="form-select" id="s-tz">
+                <option value="Europe/Paris" selected>Europe/Paris (CEST UTC+2)</option>
+                <option value="America/New_York">America/New_York (EDT UTC-4)</option>
+                <option value="America/Los_Angeles">America/Los_Angeles (PDT UTC-7)</option>
+                <option value="UTC">UTC</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions" style="margin-top:14px">
+            <button class="btn-primary" onclick="saveSettings()">💾 Enregistrer</button>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-card-title"><span class="icon">🔧</span> Fonctionnalités du site</div>
+          <div class="settings-section">
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Ticker de scores</div>
+                <div class="toggle-sub">Bandeau défilant en haut du site</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on')" id="t-ticker"></div>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Cotes de paris</div>
+                <div class="toggle-sub">Afficher l'onglet cotes &amp; paris</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on')" id="t-odds"></div>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Confettis au chargement</div>
+                <div class="toggle-sub">Animation de confettis à l'ouverture</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on')" id="t-confetti"></div>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Probabilités de victoire</div>
+                <div class="toggle-sub">Barres de proba sous les matchs à venir</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on')" id="t-proba"></div>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Section Articles</div>
+                <div class="toggle-sub">Afficher un onglet articles sur le site</div>
+              </div>
+              <div class="toggle" onclick="this.classList.toggle('on')" id="t-articles"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-card-title"><span class="icon">🔑</span> Sécurité du back office</div>
+          <div class="form-grid cols2">
+            <div class="form-field">
+              <label class="form-label">Nouveau mot de passe</label>
+              <input class="form-input" type="password" id="s-newpass" placeholder="Nouveau mot de passe" />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Confirmer</label>
+              <input class="form-input" type="password" id="s-confirm" placeholder="Répéter le mot de passe" />
+            </div>
+          </div>
+          <div class="form-actions" style="margin-top:12px">
+            <button class="btn-primary" onclick="changePassword()">🔒 Changer le mot de passe</button>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-card-title"><span class="icon">💾</span> Export / Import des données</div>
+          <p style="font-size:12px;color:var(--text-3);margin-bottom:14px">Sauvegardez toutes vos données (vidéos, articles, photos, réglages) en un fichier JSON.</p>
+          <div class="form-actions">
+            <button class="btn-primary" onclick="exportData()">⬇️ Exporter les données</button>
+            <button class="btn-secondary" onclick="document.getElementById('import-input').click()">⬆️ Importer</button>
+            <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(this)" />
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /body-layout -->
+</div><!-- /app -->
+
+<div class="save-toast" id="save-toast">✅ Enregistré avec succès</div>
+
+<script>
+/* ══════════════════════════════════════════
+   STATE — persisted in localStorage
+══════════════════════════════════════════ */
+const STORAGE_KEY = 'wc2026_admin';
+let STATE = {
+  auth: { user: 'admin', pass: 'wc2026' },
+  videos: [],
+  articles: [],
+  photos: [],
+  hero: null,
+  logo: null,
+  design: { accent: '#e8003a', theme: 'dark', font: 'bebas' },
+  settings: {
+    title: 'FIFA World Cup 2026 — Live Dashboard',
+    subtitle: 'USA · CAN · MEX · Phase de groupes',
+    tz: 'Europe/Paris',
+    ticker: true, odds: true, confetti: true, proba: true, articles: false,
+  },
+  activity: [{ dot: 'green', text: 'Site WC2026 initialisé avec succès', time: fmtNow() }],
+};
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE)); } catch(e) {}
+}
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) STATE = { ...STATE, ...JSON.parse(raw) };
+  } catch(e) {}
+}
+
+function fmtNow() {
+  return new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+}
+
+function addActivity(dot, text) {
+  STATE.activity.unshift({ dot, text, time: fmtNow() });
+  if (STATE.activity.length > 20) STATE.activity.pop();
+  renderActivity();
+  saveState();
+}
+
+/* ══════════════════════════════════════════
+   AUTH
+══════════════════════════════════════════ */
+function doLogin() {
+  const u = document.getElementById('login-user').value.trim();
+  const p = document.getElementById('login-pass').value;
+  const err = document.getElementById('login-error');
+  if (u === STATE.auth.user && p === STATE.auth.pass) {
+    err.style.display = 'none';
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    document.getElementById('topbar-user').textContent = u;
+    refreshAll();
+  } else {
+    err.style.display = 'block';
+    document.getElementById('login-pass').value = '';
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('login-screen').style.display !== 'none') doLogin();
+});
+function doLogout() {
+  document.getElementById('login-screen').style.display = '';
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('login-pass').value = '';
+}
+function changePassword() {
+  const np = document.getElementById('s-newpass').value;
+  const nc = document.getElementById('s-confirm').value;
+  if (!np) return;
+  if (np !== nc) { showToast('❌ Les mots de passe ne correspondent pas'); return; }
+  STATE.auth.pass = np;
+  saveState();
+  document.getElementById('s-newpass').value = '';
+  document.getElementById('s-confirm').value = '';
+  showToast('🔒 Mot de passe mis à jour');
+}
+
+/* ══════════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════════ */
+const SECTION_NAMES = {
+  dashboard: 'Tableau de bord', videos: 'Résumés vidéo',
+  articles: 'Articles', photos: 'Photos & Bannières',
+  design: 'Design & Couleurs', settings: 'Paramètres',
+};
+function showPanel(id, navEl) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  if (navEl) navEl.classList.add('active');
+  document.getElementById('topbar-section').textContent = SECTION_NAMES[id] || id;
+}
+
+/* ══════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════ */
+function showToast(msg = '✅ Enregistré avec succès') {
+  const t = document.getElementById('save-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+/* ══════════════════════════════════════════
+   DASHBOARD
+══════════════════════════════════════════ */
+function refreshStats() {
+  document.getElementById('stat-videos').textContent = STATE.videos.length;
+  document.getElementById('stat-articles').textContent = STATE.articles.length;
+  document.getElementById('stat-photos').textContent = STATE.photos.length;
+  document.getElementById('badge-videos').textContent = STATE.videos.length;
+  document.getElementById('badge-articles').textContent = STATE.articles.length;
+}
+function renderActivity() {
+  const feed = document.getElementById('activity-feed');
+  feed.innerHTML = STATE.activity.slice(0, 10).map(a => `
+    <div class="activity-item">
+      <div class="activity-dot ${a.dot}"></div>
+      <div class="activity-text">${a.text}</div>
+      <div class="activity-time">${a.time}</div>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════════
+   VIDEOS
+══════════════════════════════════════════ */
+function addVideo() {
+  const home = document.getElementById('v-home').value.trim();
+  const away = document.getElementById('v-away').value.trim();
+  if (!home || !away) { showToast('❌ Renseignez les deux équipes'); return; }
+  const v = {
+    id: 'v' + Date.now(),
+    home, away,
+    score: document.getElementById('v-score').value || '?-?',
+    group: document.getElementById('v-group').value || '',
+    date: document.getElementById('v-date').value || '',
+    url: document.getElementById('v-url').value.trim(),
+    desc: document.getElementById('v-desc').value.trim() || 'Résumé du match',
+    createdAt: fmtNow(),
+  };
+  STATE.videos.unshift(v);
+  saveState();
+  renderVideosList();
+  refreshStats();
+  clearVideoForm();
+  addActivity('red', `Résumé vidéo ajouté : ${home} vs ${away}`);
+  showToast();
+}
+function clearVideoForm() {
+  ['v-home','v-away','v-score','v-url','v-desc'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('v-group').value = '';
+  document.getElementById('v-date').value = '';
+}
+function deleteVideo(id) {
+  STATE.videos = STATE.videos.filter(v => v.id !== id);
+  saveState(); renderVideosList(); refreshStats();
+  addActivity('gray', 'Résumé vidéo supprimé');
+  showToast('🗑️ Supprimé');
+}
+function renderVideosList() {
+  const el = document.getElementById('videos-list');
+  document.getElementById('video-count').textContent = `(${STATE.videos.length})`;
+  if (!STATE.videos.length) {
+    el.innerHTML = '<div class="empty"><div class="icon">🎬</div>Aucune vidéo ajoutée pour l\'instant.</div>';
+    return;
+  }
+  el.innerHTML = STATE.videos.map(v => {
+    const ytId = extractYTId(v.url);
+    const thumb = ytId
+      ? `<img src="https://img.youtube.com/vi/${ytId}/mqdefault.jpg" style="width:100%;height:100%;object-fit:cover" loading="lazy">`
+      : '🎬';
+    const dateStr = v.date ? new Date(v.date).toLocaleDateString('fr-FR', {day:'numeric',month:'short'}) : '—';
+    return `
+      <div class="item-row">
+        <div class="item-thumb">${thumb}</div>
+        <div class="item-body">
+          <div class="item-title">${v.home} vs ${v.away} <span class="tag red" style="margin-left:6px">${v.score}</span></div>
+          <div class="item-meta">
+            ${v.group ? `<span>${v.group}</span>` : ''}
+            <span>${dateStr}</span>
+            ${v.url ? `<span style="color:var(--green)">▶ YouTube lié</span>` : `<span style="color:var(--crimson)">⚠ Pas de lien</span>`}
+            <span style="color:var(--text-3)">${v.desc}</span>
+          </div>
+        </div>
+        <div class="item-actions">
+          ${v.url ? `<button class="btn-icon" onclick="window.open('${v.url}','_blank')" title="Voir la vidéo">▶</button>` : ''}
+          <button class="btn-danger" onclick="deleteVideo('${v.id}')">🗑</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+function extractYTId(url) {
+  if (!url) return null;
+  const m = url.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+/* ══════════════════════════════════════════
+   ARTICLES
+══════════════════════════════════════════ */
+let articleImgData = null;
+function previewArticleImg(input) {
+  if (!input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    articleImgData = e.target.result;
+    const img = document.getElementById('a-img-preview');
+    img.src = e.target.result;
+    img.style.display = 'block';
+    document.getElementById('a-img-input').closest('.upload-zone').querySelector('.upload-icon').style.display='none';
+    document.getElementById('a-img-input').closest('.upload-zone').querySelector('.upload-label').style.display='none';
+    document.getElementById('a-img-input').closest('.upload-zone').querySelector('.upload-hint').style.display='none';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+function saveArticle() {
+  const title = document.getElementById('a-title').value.trim();
+  if (!title) { showToast('❌ Ajoutez un titre'); return; }
+  const content = document.getElementById('a-content').innerHTML.trim();
+  const a = {
+    id: 'a' + Date.now(),
+    title,
+    cat: document.getElementById('a-cat').value,
+    teams: document.getElementById('a-teams').value.trim(),
+    status: document.getElementById('a-status').value,
+    content,
+    img: articleImgData,
+    createdAt: new Date().toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' }),
+  };
+  STATE.articles.unshift(a);
+  saveState(); renderArticlesList(); refreshStats();
+  addActivity('gold', `Article "${title}" ${a.status === 'published' ? 'publié' : 'en brouillon'}`);
+  clearArticleForm();
+  showToast();
+}
+function clearArticleForm() {
+  document.getElementById('a-title').value = '';
+  document.getElementById('a-teams').value = '';
+  document.getElementById('a-content').innerHTML = '';
+  document.getElementById('a-status').value = 'draft';
+  articleImgData = null;
+  const img = document.getElementById('a-img-preview');
+  img.style.display = 'none'; img.src = '';
+}
+function deleteArticle(id) {
+  STATE.articles = STATE.articles.filter(a => a.id !== id);
+  saveState(); renderArticlesList(); refreshStats();
+  addActivity('gray', 'Article supprimé');
+  showToast('🗑️ Supprimé');
+}
+function renderArticlesList() {
+  const el = document.getElementById('articles-list');
+  document.getElementById('article-count').textContent = `(${STATE.articles.length})`;
+  if (!STATE.articles.length) {
+    el.innerHTML = '<div class="empty"><div class="icon">📝</div>Aucun article rédigé pour l\'instant.</div>';
+    return;
+  }
+  el.innerHTML = STATE.articles.map(a => `
+    <div class="item-row">
+      <div class="item-thumb">${a.img ? `<img src="${a.img}" style="width:100%;height:100%;object-fit:cover">` : '📝'}</div>
+      <div class="item-body">
+        <div class="item-title">${a.title}</div>
+        <div class="item-meta">
+          <span class="tag ${a.status==='published'?'green':'gray'}">${a.status==='published'?'Publié':'Brouillon'}</span>
+          <span class="tag blue">${a.cat}</span>
+          ${a.teams ? `<span>${a.teams}</span>` : ''}
+          <span>${a.createdAt}</span>
+        </div>
+      </div>
+      <div class="item-actions">
+        <button class="btn-danger" onclick="deleteArticle('${a.id}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════════
+   RICH TEXT TOOLBAR
+══════════════════════════════════════════ */
+function fmt(cmd) { document.getElementById('a-content').focus(); document.execCommand(cmd, false, null); }
+function fmtH() { document.getElementById('a-content').focus(); document.execCommand('formatBlock', false, 'h2'); }
+function fmtQuote() { document.getElementById('a-content').focus(); document.execCommand('formatBlock', false, 'blockquote'); }
+function fmtList() { document.getElementById('a-content').focus(); document.execCommand('insertUnorderedList', false, null); }
+function fmtLink() {
+  const url = prompt('URL du lien :'); if (!url) return;
+  document.getElementById('a-content').focus();
+  document.execCommand('createLink', false, url);
+}
+
+/* ══════════════════════════════════════════
+   PHOTOS
+══════════════════════════════════════════ */
+function uploadHero(input) {
+  if (!input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    STATE.hero = e.target.result;
+    const img = document.getElementById('hero-preview');
+    img.src = e.target.result; img.style.display = 'block';
+    document.getElementById('hero-placeholder').style.display = 'none';
+    saveState();
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+function saveSiteImages(type) { addActivity('green', `${type === 'hero' ? 'Bannière' : 'Logo'} mis à jour`); showToast(); }
+function resetHero() {
+  STATE.hero = null; saveState();
+  document.getElementById('hero-preview').style.display = 'none';
+  document.getElementById('hero-preview').src = '';
+  document.getElementById('hero-placeholder').style.display = '';
+  showToast('🔄 Réinitialisé');
+}
+function uploadLogo(input) {
+  if (!input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    STATE.logo = e.target.result;
+    const img = document.getElementById('logo-preview');
+    img.src = e.target.result; img.style.display = 'block';
+    document.getElementById('logo-placeholder').style.display = 'none';
+    saveState();
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+function resetLogo() {
+  STATE.logo = null; saveState();
+  document.getElementById('logo-preview').style.display = 'none';
+  document.getElementById('logo-placeholder').style.display = '';
+  showToast('🔄 Réinitialisé');
+}
+function uploadGallery(input) {
+  const files = Array.from(input.files);
+  let loaded = 0;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      STATE.photos.push({ id: 'p' + Date.now() + loaded, src: e.target.result, name: file.name });
+      loaded++;
+      if (loaded === files.length) { saveState(); renderGallery(); refreshStats(); addActivity('green', `${files.length} photo(s) ajoutée(s)`); showToast(); }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function deletePhoto(id) {
+  STATE.photos = STATE.photos.filter(p => p.id !== id);
+  saveState(); renderGallery(); refreshStats();
+}
+function renderGallery() {
+  const grid = document.getElementById('gallery-grid');
+  document.getElementById('photo-count').textContent = `(${STATE.photos.length})`;
+  grid.innerHTML = STATE.photos.map(p => `
+    <div style="position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:1;background:var(--pitch-3)">
+      <img src="${p.src}" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+      <button onclick="deletePhoto('${p.id}')"
+        style="position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.7);border:none;color:white;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center">✕</button>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════════
+   DESIGN
+══════════════════════════════════════════ */
+function selectAccent(color, swatch) {
+  STATE.design.accent = color;
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+  if (swatch) swatch.classList.add('selected');
+  document.getElementById('preview-score').style.color = color;
+  document.getElementById('custom-accent').value = color;
+}
+function selectTheme(theme, el) {
+  STATE.design.theme = theme;
+  document.querySelectorAll('.theme-btn').forEach(b => {
+    b.style.borderWidth='1px'; b.style.borderColor='var(--border)';
+  });
+  el.style.borderWidth = '2px';
+  el.style.borderColor = STATE.design.accent;
+}
+function selectFont(font, el) {
+  STATE.design.font = font;
+  document.querySelectorAll('.font-btn').forEach(b => {
+    b.style.borderWidth='1px'; b.style.borderColor='var(--border)';
+  });
+  el.style.borderWidth = '2px';
+  el.style.borderColor = STATE.design.accent;
+  const fontMap = { bebas: "'Bebas Neue'", mono: 'monospace', inter: "'Inter'" };
+  document.getElementById('preview-score').style.fontFamily = fontMap[font];
+}
+function saveDesign() { saveState(); addActivity('blue', `Design mis à jour — accent ${STATE.design.accent}`); showToast(); }
+function resetDesign() {
+  STATE.design = { accent: '#e8003a', theme: 'dark', font: 'bebas' };
+  saveState(); showToast('🔄 Design réinitialisé');
+  document.getElementById('preview-score').style.color = '#e8003a';
+  document.getElementById('preview-score').style.fontFamily = "'Bebas Neue'";
+  document.getElementById('custom-accent').value = '#e8003a';
+  document.querySelectorAll('.color-swatch').forEach((s,i) => s.classList.toggle('selected', i===0));
+}
+
+/* ══════════════════════════════════════════
+   SETTINGS
+══════════════════════════════════════════ */
+function saveSettings() {
+  STATE.settings.title = document.getElementById('s-title').value;
+  STATE.settings.subtitle = document.getElementById('s-subtitle').value;
+  STATE.settings.tz = document.getElementById('s-tz').value;
+  STATE.settings.ticker = document.getElementById('t-ticker').classList.contains('on');
+  STATE.settings.odds = document.getElementById('t-odds').classList.contains('on');
+  STATE.settings.confetti = document.getElementById('t-confetti').classList.contains('on');
+  STATE.settings.proba = document.getElementById('t-proba').classList.contains('on');
+  STATE.settings.articles = document.getElementById('t-articles').classList.contains('on');
+  saveState();
+  addActivity('blue', 'Paramètres du site mis à jour');
+  showToast();
+}
+
+/* ══════════════════════════════════════════
+   EXPORT / IMPORT
+══════════════════════════════════════════ */
+function exportData() {
+  const data = JSON.stringify(STATE, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `wc2026-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click(); URL.revokeObjectURL(url);
+  showToast('⬇️ Export téléchargé');
+}
+function importData(input) {
+  if (!input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      STATE = { ...STATE, ...imported };
+      saveState(); refreshAll();
+      showToast('⬆️ Import réussi');
+      addActivity('gold', 'Données importées depuis un fichier de sauvegarde');
+    } catch(err) { showToast('❌ Fichier invalide'); }
+  };
+  reader.readAsText(input.files[0]);
+}
+
+/* ══════════════════════════════════════════
+   OPEN SITE
+══════════════════════════════════════════ */
+function openSite() {
+  // Export current STATE to main site via localStorage
+  localStorage.setItem('wc2026_public', JSON.stringify({
+    videos: STATE.videos,
+    articles: STATE.articles,
+    design: STATE.design,
+    settings: STATE.settings,
+    hero: STATE.hero,
+    logo: STATE.logo,
+    photos: STATE.photos,
+  }));
+  showToast('🔗 Données synchronisées avec le site public');
+}
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+function refreshAll() {
+  renderVideosList();
+  renderArticlesList();
+  renderGallery();
+  renderActivity();
+  refreshStats();
+  // Restore hero/logo previews
+  if (STATE.hero) {
+    document.getElementById('hero-preview').src = STATE.hero;
+    document.getElementById('hero-preview').style.display = 'block';
+    document.getElementById('hero-placeholder').style.display = 'none';
+  }
+  if (STATE.logo) {
+    document.getElementById('logo-preview').src = STATE.logo;
+    document.getElementById('logo-preview').style.display = 'block';
+    document.getElementById('logo-placeholder').style.display = 'none';
+  }
+  // Restore settings toggles
+  const s = STATE.settings;
+  ['ticker','odds','confetti','proba','articles'].forEach(k => {
+    const el = document.getElementById('t-'+k);
+    if (el) el.classList.toggle('on', !!s[k]);
+  });
+  document.getElementById('s-title').value = s.title || '';
+  document.getElementById('s-subtitle').value = s.subtitle || '';
+  // Restore design
+  document.getElementById('preview-score').style.color = STATE.design.accent;
+  document.getElementById('custom-accent').value = STATE.design.accent;
+}
+
+loadState();
+// Auto-login check not needed for demo — just show login screen
+refreshAll();
+</script>
+</body>
+</html>
