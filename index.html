@@ -404,6 +404,9 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .nm-title{font-family:var(--fd);font-size:22px;letter-spacing:1px;line-height:1.3;margin-bottom:10px}
 .nm-meta{font-size:10px;color:var(--text-3);font-family:var(--fm);margin-bottom:14px}
 .nm-text{font-size:13px;color:var(--text-2);line-height:1.7}
+.nm-read-btn{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:10px 20px;background:var(--crimson);color:#fff;border-radius:6px;font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.5px;text-decoration:none;transition:opacity .2s}
+.nm-read-btn:hover{opacity:.85}
+.nm-img-loading{width:100%;aspect-ratio:16/8;background:var(--pitch-3);display:flex;align-items:center;justify-content:center;font-size:11px;font-family:var(--fm);color:var(--text-3)}
 
 /* === FOOTER === */
 .site-footer{background:var(--pitch-2);border-top:1px solid var(--border);margin-top:48px}
@@ -502,8 +505,13 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 <div class="news-modal-bg" id="news-modal-bg">
   <div class="news-modal">
     <div class="news-modal-hdr"><div class="nm-tag" id="nm-tag">ACTUALITÉ</div><div class="nm-close" onclick="closeNewsModal()">✕</div></div>
-    <img id="nm-img" class="news-modal-img" src="" alt="" style="display:none">
-    <div class="news-modal-body"><div class="nm-title" id="nm-title"></div><div class="nm-meta" id="nm-meta"></div><div class="nm-text" id="nm-text"></div></div>
+    <div id="nm-img-wrap"></div>
+    <div class="news-modal-body">
+      <div class="nm-title" id="nm-title"></div>
+      <div class="nm-meta" id="nm-meta"></div>
+      <div class="nm-text" id="nm-text"></div>
+      <a id="nm-read-btn" class="nm-read-btn" href="#" target="_blank" rel="noopener" style="display:none">Lire l'article complet →</a>
+    </div>
   </div>
 </div>
 <div class="main">
@@ -1169,8 +1177,20 @@ function openNewsModal(id){
   document.getElementById('nm-title').textContent=n.title;
   document.getElementById('nm-meta').textContent=n.date+(n.tag?' · '+n.tag:'');
   document.getElementById('nm-text').textContent=n.text||'';
-  const img=document.getElementById('nm-img');
-  if(n.img){img.src=n.img;img.style.display='block'}else{img.style.display='none'}
+  // Image
+  const wrap=document.getElementById('nm-img-wrap');
+  if(n.img){
+    wrap.innerHTML=`<img class="news-modal-img" src="${n.img}" alt="" onerror="this.parentElement.innerHTML=''">`;
+  } else if(n.url){
+    wrap.innerHTML='<div class="nm-img-loading">Chargement image…</div>';
+    fetch(`/api/article-img?url=${encodeURIComponent(n.url)}`).then(r=>r.json()).then(d=>{
+      if(d.img)wrap.innerHTML=`<img class="news-modal-img" src="${d.img}" alt="" onerror="this.parentElement.innerHTML=''">`;
+      else wrap.innerHTML='';
+    }).catch(()=>{wrap.innerHTML=''});
+  } else { wrap.innerHTML=''; }
+  // Bouton lire
+  const btn=document.getElementById('nm-read-btn');
+  if(n.url){btn.href=n.url;btn.style.display='inline-flex'}else{btn.style.display='none'}
   document.getElementById('news-modal-bg').classList.add('open');document.body.style.overflow='hidden';
 }
 function closeNewsModal(){document.getElementById('news-modal-bg').classList.remove('open');document.body.style.overflow=''}
