@@ -338,7 +338,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .lsi-badge.soon{background:rgba(21,101,192,.2);color:#6db0ff;animation:tbadge 2s ease-in-out infinite}
 @keyframes tbadge{0%,100%{opacity:1}50%{opacity:.5}}
 .lsi-teams-row{display:flex;align-items:center;justify-content:space-between;gap:4px}
-.lsi-team-name{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;font-family:var(--fd);letter-spacing:.7px;color:var(--text);flex:1}
+.lsi-team-name{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;font-family:var(--fd);letter-spacing:.7px;color:var(--text);flex:1;min-width:0}
+.lsi-team-name span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lsi-team-name.right{flex-direction:row-reverse;text-align:right}
 .lsi-score-box{font-family:var(--fd);font-size:21px;letter-spacing:2px;text-align:center;min-width:46px;flex-shrink:0}
 .lsi-score-box.fin{color:var(--text)}
@@ -350,6 +351,40 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .lmf-btn{font-size:10px;color:var(--crimson);cursor:pointer;font-family:var(--fm);background:none;border:none;padding:0;text-decoration:underline;text-underline-offset:2px}
 
 /* === NEWS SLIDER === */
+/* VIDEO BANNER */
+.vb-wrap{width:100%;overflow:hidden;max-height:600px;transition:max-height 1s cubic-bezier(0.77,0,0.18,1)}
+.vb-wrap.collapsed{max-height:0}
+.video-banner{position:relative;width:100%;height:clamp(220px,44vh,500px);background:#000;overflow:hidden}
+.vb-collapsing .video-banner{animation:tvCollapse .75s cubic-bezier(.4,0,1,1) forwards}
+.vb-expanding .video-banner{animation:tvExpand .65s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes tvCollapse{
+  0%{transform:scaleY(1) scaleX(1);filter:brightness(1);opacity:1}
+  30%{transform:scaleY(.12) scaleX(1);filter:brightness(5);opacity:1}
+  55%{transform:scaleY(.04) scaleX(.85);filter:brightness(10) blur(2px);opacity:1}
+  75%{transform:scaleY(.01) scaleX(.5);filter:brightness(16) blur(5px);opacity:.8}
+  100%{transform:scaleY(0) scaleX(.2);filter:brightness(0);opacity:0}
+}
+@keyframes tvExpand{
+  0%{transform:scaleY(0) scaleX(.2);filter:brightness(0);opacity:0}
+  20%{transform:scaleY(.04) scaleX(1);filter:brightness(12) blur(3px);opacity:1}
+  45%{transform:scaleY(1.06) scaleX(1);filter:brightness(2.5)}
+  70%{transform:scaleY(.97);filter:brightness(1.2)}
+  100%{transform:scaleY(1) scaleX(1);filter:brightness(1);opacity:1}
+}
+.vb-iframe-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:max(100%,calc(100vh * 16 / 9));aspect-ratio:16/9;pointer-events:none}
+.vb-iframe-wrap iframe{width:100%;height:100%;border:none}
+.vb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,14,26,.88) 0%,rgba(5,14,26,.15) 55%,transparent 100%);display:flex;align-items:flex-end;justify-content:space-between;padding:clamp(14px,3vw,28px) clamp(16px,4vw,40px);pointer-events:none}
+.vb-brand{pointer-events:none}
+.vb-title{font-family:var(--fd);font-size:clamp(18px,3.5vw,46px);font-weight:700;letter-spacing:3px;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.6);line-height:1.1}
+.vb-title span{color:var(--gold)}
+.vb-subtitle{font-family:var(--fm);font-size:clamp(9px,1.2vw,12px);letter-spacing:2.5px;color:rgba(255,255,255,.6);margin-top:6px;text-transform:uppercase}
+.vb-close-btn{pointer-events:all;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;padding:9px 18px;border-radius:30px;font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:1.5px;cursor:pointer;display:flex;align-items:center;gap:7px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:background .2s,transform .25s,box-shadow .2s;text-transform:uppercase}
+.vb-close-btn:hover{background:rgba(255,255,255,.2);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.vb-close-btn .vb-arrow{font-size:14px;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.vb-close-btn:hover .vb-arrow{transform:translateY(-3px)}
+.vb-reopen{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(0);background:linear-gradient(135deg,var(--crimson),#1e7fd4);color:#fff;padding:11px 24px;border-radius:30px;font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:1.5px;cursor:pointer;z-index:500;box-shadow:0 4px 28px rgba(21,101,192,.55),0 0 0 1px rgba(255,255,255,.08);display:none;align-items:center;gap:9px;text-transform:uppercase;animation:vbPillIn .55s cubic-bezier(.22,1,.36,1) forwards}
+.vb-reopen.show{display:flex}
+@keyframes vbPillIn{from{opacity:0;transform:translateX(-50%) translateY(16px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 .news-slider-wrap{background:linear-gradient(180deg,var(--pitch-2) 0%,var(--pitch-3) 100%);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
 .news-slider-inner{max-width:1400px;margin:0 auto;padding:14px 24px 18px}
 .news-slider-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
@@ -469,6 +504,24 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <button class="nav-tab" onclick="showTab('odds',this)"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Cotes</button>
   </div>
 </div>
+<!-- VIDEO BANNER -->
+<div class="vb-wrap" id="vb-wrap">
+  <div class="video-banner">
+    <div class="vb-iframe-wrap">
+      <iframe src="https://www.youtube.com/embed/sM8lJcIu09M?autoplay=1&mute=1&loop=1&playlist=sM8lJcIu09M&controls=0&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <div class="vb-overlay">
+      <div class="vb-brand">
+        <div class="vb-title">FIFA WORLD CUP <span>2026</span></div>
+        <div class="vb-subtitle">USA · Canada · Mexique &nbsp;·&nbsp; 11 juin – 19 juillet</div>
+      </div>
+      <button class="vb-close-btn" onclick="collapseVB()">
+        <span class="vb-arrow">↑</span> Réduire
+      </button>
+    </div>
+  </div>
+</div>
+<div class="vb-reopen" id="vb-reopen" onclick="expandVB()">▶ &nbsp;Intro FIFA</div>
 <!-- SLIDER ACTUS -->
 <div class="news-slider-wrap">
   <div class="news-slider-inner">
@@ -1222,6 +1275,25 @@ async function loadRSSNews(){
 function buildT(){const items=M.filter(m=>m.status==='final').slice(-12).map(m=>`${fl(m.home)} ${tn(m.home)} ${m.scoreH}–${m.scoreA} ${tn(m.away)} ${fl(m.away)} · J${m.md} Grp ${m.group}`).concat(M.filter(m=>m.status==='upcoming').slice(0,5).map(m=>`⏱ ${tn(m.home)} vs ${tn(m.away)} · ${m.time.split('·')[1]?.trim()||''}`));document.getElementById('ticker-inner').innerHTML=[...items,...items].map(i=>`<span class="ticker-item">${i}</span>`).join('')}
 /* INIT */
 function refreshTS(){const n=new Date();document.getElementById('lu').textContent=`MAJ ${n.getHours().toString().padStart(2,'0')}:${n.getMinutes().toString().padStart(2,'0')}`}
+/* VIDEO BANNER */
+function collapseVB(){
+  const wrap=document.getElementById('vb-wrap');
+  const pill=document.getElementById('vb-reopen');
+  wrap.classList.add('vb-collapsing');
+  setTimeout(()=>{
+    wrap.classList.add('collapsed');
+    wrap.classList.remove('vb-collapsing');
+    pill.classList.add('show');
+  },750);
+}
+function expandVB(){
+  const wrap=document.getElementById('vb-wrap');
+  const pill=document.getElementById('vb-reopen');
+  pill.classList.remove('show');
+  wrap.classList.remove('collapsed');
+  wrap.classList.add('vb-expanding');
+  setTimeout(()=>wrap.classList.remove('vb-expanding'),700);
+}
 function loadAdmin(){try{const d=localStorage.getItem('wc2026_public');if(d){const p=JSON.parse(d);if(p.videos?.length)VID=p.videos}}catch(e){}}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeM();closeNewsModal();if(document.getElementById('sp').classList.contains('open'))toggleSP()}});
 loadAdmin();buildT();renderS();renderST();renderSC();renderLiveModule();renderVL();renderO();refreshTS();renderNews();startNewsAutoPlay();loadScoresFromAPI();loadRSSNews();setInterval(loadScoresFromAPI,60000);setInterval(loadRSSNews,300000);
