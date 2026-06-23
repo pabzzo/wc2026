@@ -1244,16 +1244,14 @@ async function loadScoresFromAPI(){
     });
     M.length=0;apiMatches.forEach(m=>M.push(m));
     if(dot)dot.className='api-dot ok';if(lbl)lbl.textContent='API connectée';
-    if(!apiInitialized){
-      // Premier chargement : tout re-rendre
-      apiInitialized=true;
-      renderS();renderST();renderCal();buildDN();
-    } else {
-      // Poll suivants : uniquement le module live + scores si match en cours
-      const hasLive=M.some(m=>m.status==='live');
-      if(hasLive)renderS();
-    }
+    // Mise à jour silencieuse : seul le module EN DIRECT se rafraîchit
+    // Les scores se mettront à jour à la prochaine interaction utilisateur
     renderLiveModule();
+    // Si matchs en cours : mettre à jour les cartes individuellement sans tout re-rendre
+    M.filter(m=>m.status==='live').forEach(m=>{
+      const card=document.getElementById('w-'+m.id);
+      if(card){const sd=card.querySelector('.sdigits');if(sd)sd.innerHTML=`${m.scoreH}<span style="opacity:.35;margin:0 2px">–</span>${m.scoreA}`}
+    });
   }catch(e){
     if(dot)dot.className='api-dot err';if(lbl)lbl.textContent='Données statiques';
     console.warn('football-data indisponible:',e.message);
