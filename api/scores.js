@@ -12,8 +12,9 @@ export default async function handler(req, res) {
       }
     );
     const data = await response.json();
-    res.status(200).json(data);
+    // Pass through full response including errors for debugging
+    res.status(response.status).json({ ...data, _status: response.status, _keyPresent: !!process.env.FOOTBALL_DATA_KEY });
   } catch (error) {
-    res.status(500).json({ error: 'Erreur API scores' });
+    res.status(500).json({ error: error.message });
   }
 }
