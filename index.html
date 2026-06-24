@@ -75,7 +75,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .sbadge.upcoming{background:rgba(21,101,192,.18);color:var(--crimson)}
 .mtime{font-size:10px;color:var(--text-3);margin-top:2px;font-family:var(--fm)}
 .mstadium{font-size:9px;color:var(--text-3);margin-top:1px;font-family:var(--fm);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:88px}
-.team-side{display:flex;align-items:center;gap:7px}
+.team-side{display:flex;align-items:center;gap:7px;min-width:0;overflow:hidden}
 .team-side.away{flex-direction:row-reverse}
 .tflag{font-size:20px;line-height:1;flex-shrink:0}
 .tname{font-size:13px;font-weight:600;font-family:var(--fd);letter-spacing:.8px}
@@ -646,8 +646,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 </footer>
 <div class="yt-modal-bg" id="ytbg"><div class="yt-modal"><div class="yt-mh"><div class="yt-mt" id="ytmt">Résumé</div><div class="yt-cl" onclick="closeM()">✕</div></div><div id="ytmb"></div></div></div>
 <script>
-const FL={BRA:'🇧🇷',HTI:'🇭🇹',TUR:'🇹🇷',PAR:'🇵🇾',NED:'🇳🇱',SWE:'🇸🇪',GER:'🇩🇪',CIV:'🇨🇮',ECU:'🇪🇨',CUW:'🇨🇼',TUN:'🇹🇳',JPN:'🇯🇵',ESP:'🇪🇸',KSA:'🇸🇦',BEL:'🇧🇪',IRN:'🇮🇷',URU:'🇺🇾',CPV:'🇨🇻',NZL:'🇳🇿',EGY:'🇪🇬',ARG:'🇦🇷',AUT:'🇦🇹',FRA:'🇫🇷',IRQ:'🇮🇶',NOR:'🇳🇴',SEN:'🇸🇳',JOR:'🇯🇴',DZA:'🇩🇿',POR:'🇵🇹',UZB:'🇺🇿',ENG:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',GHA:'🇬🇭',PAN:'🇵🇦',CRO:'🇭🇷',COL:'🇨🇴',COD:'🇨🇩',SUI:'🇨🇭',CAN:'🇨🇦',BIH:'🇧🇦',QAT:'🇶🇦',MEX:'🇲🇽',KOR:'🇰🇷',CZE:'🇨🇿',RSA:'🇿🇦',USA:'🇺🇸',AUS:'🇦🇺',MAR:'🇲🇦',SCO:'🏴󠁧󠁢󠁳󠁣󠁴󠁿'};
-const NM={BRA:'Brésil',HTI:'Haïti',TUR:'Turquie',PAR:'Paraguay',NED:'Pays-Bas',SWE:'Suède',GER:'Allemagne',CIV:"Côte d'Ivoire",ECU:'Équateur',CUW:'Curaçao',TUN:'Tunisie',JPN:'Japon',ESP:'Espagne',KSA:'Arabie Saoud.',BEL:'Belgique',IRN:'Iran',URU:'Uruguay',CPV:'Cap-Vert',NZL:'Nvl-Zélande',EGY:'Égypte',ARG:'Argentine',AUT:'Autriche',FRA:'France',IRQ:'Irak',NOR:'Norvège',SEN:'Sénégal',JOR:'Jordanie',DZA:'Algérie',POR:'Portugal',UZB:'Ouzbékistan',ENG:'Angleterre',GHA:'Ghana',PAN:'Panama',CRO:'Croatie',COL:'Colombie',COD:'RD Congo',SUI:'Suisse',CAN:'Canada',BIH:'Bosnie',QAT:'Qatar',MEX:'Mexique',KOR:'Corée du Sud',CZE:'Tchéquie',RSA:'Afrique du Sud',USA:'États-Unis',AUS:'Australie',MAR:'Maroc',SCO:'Écosse'};
+const FL={BRA:'🇧🇷',HTI:'🇭🇹',TUR:'🇹🇷',PAR:'🇵🇾',NED:'🇳🇱',SWE:'🇸🇪',GER:'🇩🇪',CIV:'🇨🇮',ECU:'🇪🇨',CUW:'🇨🇼',TUN:'🇹🇳',JPN:'🇯🇵',ESP:'🇪🇸',KSA:'🇸🇦',BEL:'🇧🇪',IRN:'🇮🇷',URU:'🇺🇾',CPV:'🇨🇻',NZL:'🇳🇿',EGY:'🇪🇬',ARG:'🇦🇷',AUT:'🇦🇹',FRA:'🇫🇷',IRQ:'🇮🇶',NOR:'🇳🇴',SEN:'🇸🇳',JOR:'🇯🇴',DZA:'🇩🇿',ALG:'🇩🇿',POR:'🇵🇹',UZB:'🇺🇿',ENG:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',GHA:'🇬🇭',PAN:'🇵🇦',CRO:'🇭🇷',COL:'🇨🇴',COD:'🇨🇩',SUI:'🇨🇭',CAN:'🇨🇦',BIH:'🇧🇦',QAT:'🇶🇦',MEX:'🇲🇽',KOR:'🇰🇷',CZE:'🇨🇿',RSA:'🇿🇦',USA:'🇺🇸',AUS:'🇦🇺',MAR:'🇲🇦',SCO:'🏴󠁧󠁢󠁳󠁣󠁴󠁿'};
+const NM={BRA:'Brésil',HTI:'Haïti',TUR:'Turquie',PAR:'Paraguay',NED:'Pays-Bas',SWE:'Suède',GER:'Allemagne',CIV:"Côte d'Ivoire",ECU:'Équateur',CUW:'Curaçao',TUN:'Tunisie',JPN:'Japon',ESP:'Espagne',KSA:'Arabie Saoud.',BEL:'Belgique',IRN:'Iran',URU:'Uruguay',CPV:'Cap-Vert',NZL:'Nvl-Zélande',EGY:'Égypte',ARG:'Argentine',AUT:'Autriche',FRA:'France',IRQ:'Irak',NOR:'Norvège',SEN:'Sénégal',JOR:'Jordanie',DZA:'Algérie',ALG:'Algérie',POR:'Portugal',UZB:'Ouzbékistan',ENG:'Angleterre',GHA:'Ghana',PAN:'Panama',CRO:'Croatie',COL:'Colombie',COD:'RD Congo',SUI:'Suisse',CAN:'Canada',BIH:'Bosnie',QAT:'Qatar',MEX:'Mexique',KOR:'Corée du Sud',CZE:'Tchéquie',RSA:'Afrique du Sud',USA:'États-Unis',AUS:'Australie',MAR:'Maroc',SCO:'Écosse'};
 const fl=a=>FL[a]||'🏳',tn=a=>NM[a]||a;
 let M=[],ST={},PL=[];
 const OD={};
@@ -668,18 +668,29 @@ function fStat(f,btn){sF=f;btn.closest('.filter-bar').querySelectorAll('.fbtn').
 function fGrp(g,btn){gF=g;btn.closest('.filter-bar').querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderS()}
 /* SCORES */
 function loading(id,msg='Chargement des données…'){document.getElementById(id).innerHTML=`<div style="color:var(--text-3);text-align:center;padding:36px;font-family:var(--fm);font-size:12px;letter-spacing:.5px">${msg}</div>`}
+const STAGE_LABELS={'GROUP_STAGE':'Phase de groupes','LAST_32':'Huitièmes de finale','LAST_16':'Seizièmes de finale','QUARTER_FINALS':'Quarts de finale','SEMI_FINALS':'Demi-finales','THIRD_PLACE':'Match pour la 3e place','FINAL':'FINALE'};
 function renderS(){
   if(!M.length){loading('scores-container');return}
-  let f=M;
+  let f=M.filter(m=>m.home!=='???' && m.away!=='???');
   if(sF!=='all')f=f.filter(m=>m.status===sF);
   if(gF!=='all')f=f.filter(m=>m.group===gF);
   if(dF!=='all')f=f.filter(m=>m.date===dF);
   document.getElementById('mc').textContent=f.length;
   if(!f.length){document.getElementById('scores-container').innerHTML='<div style="color:var(--text-3);text-align:center;padding:28px;font-family:var(--fm);font-size:12px">Aucun match pour ce filtre</div>';return}
-  const byMd={};f.forEach(m=>{if(!byMd[m.md])byMd[m.md]=[];byMd[m.md].push(m)});
-  document.getElementById('scores-container').innerHTML=Object.entries(byMd).sort((a,b)=>+b[0]-+a[0]).map(([md,ms])=>{
+  const byMd={};f.forEach(m=>{const key=m.stage==='GROUP_STAGE'?'J'+m.md:m.stage;if(!byMd[key])byMd[key]=[];byMd[key].push(m)});
+  document.getElementById('scores-container').innerHTML=Object.entries(byMd).sort((a,b)=>{
+    const aIsGS=a[0].startsWith('GROUP_')||a[0].startsWith('J');
+    const bIsGS=b[0].startsWith('GROUP_')||b[0].startsWith('J');
+    if(aIsGS&&bIsGS)return +b[0].replace(/\D/g,'')-+a[0].replace(/\D/g,'');
+    if(aIsGS)return 1;if(bIsGS)return -1;
+    const order=['FINAL','THIRD_PLACE','SEMI_FINALS','QUARTER_FINALS','LAST_16','LAST_32'];
+    return order.indexOf(a[0])-order.indexOf(b[0]);
+  }).map(([key,ms])=>{
+    const isGS=key.startsWith('GROUP_')||key.startsWith('J');
+    const mdNum=isGS?key.replace(/\D/g,''):'';
+    const label=isGS?`<span class="md-badge">J${mdNum}</span>Journée ${mdNum}`:`<span class="md-badge" style="background:var(--gold);color:#000">${STAGE_LABELS[key]||key}</span>`;
     const byDay={};ms.sort((a,b)=>b.date.localeCompare(a.date)).forEach(m=>{const k=m.time.split('·')[0].trim();if(!byDay[k])byDay[k]=[];byDay[k].push(m)});
-    return`<div class="md-label"><span class="md-badge">J${md}</span>Journée ${md}</div>${Object.entries(byDay).map(([day,dms])=>`<div class="day-label">${day}</div>${dms.map(renderMW).join('')}`).join('')}`;
+    return`<div class="md-label">${label}</div>${Object.entries(byDay).map(([day,dms])=>`<div class="day-label">${day}</div>${dms.map(renderMW).join('')}`).join('')}`;
   }).join('');
 }
 function renderMW(m){
@@ -1009,7 +1020,7 @@ function transformMatch(m){
     min:g.minute||(g.minute===0?0:'?'),
     assist:g.assist?.name||null,
   }));
-  return{id:String(m.id),status,home:homeTla,away:awayTla,scoreH:status!=='upcoming'?(m.score.fullTime.home??0):null,scoreA:status!=='upcoming'?(m.score.fullTime.away??0):null,minute:m.minute||null,date:m.utcDate.slice(0,10),time:`${day} · ${hour}`,group:(m.group||'').replace('GROUP_',''),stadium:m.venue||'',md:m.matchday||1,scorers,stats:{}};
+  return{id:String(m.id),status,home:homeTla,away:awayTla,scoreH:status!=='upcoming'?(m.score.fullTime.home??0):null,scoreA:status!=='upcoming'?(m.score.fullTime.away??0):null,minute:m.minute||null,date:m.utcDate.slice(0,10),time:`${day} · ${hour}`,group:(m.group||'').replace('GROUP_',''),stadium:m.venue||'',md:m.matchday||1,stage:m.stage||'GROUP_STAGE',scorers,stats:{}};
 }
 function renderLiveModule(){
   const sidebar=document.querySelector('.live-sidebar');
@@ -1028,7 +1039,6 @@ function renderLiveModule(){
   }
   let html='';
   if(liveMatches.length){
-    if(sidebar)sidebar.classList.remove('hidden');
     html+=liveMatches.map(m=>lsiRow(m,' lsi-live',
       `<span class="lsi-badge live">🔴 ${m.minute?m.minute+"' ":''} EN VIE</span>`,
       `<div class="lsi-score-box live">${m.scoreH??0}–${m.scoreA??0}</div>`
@@ -1039,7 +1049,6 @@ function renderLiveModule(){
       `<div class="lsi-score-box fin">${m.scoreH}–${m.scoreA}</div>`
     )).join('');
   } else {
-    if(sidebar)sidebar.classList.add('hidden');
     const all=[...upcoming,...recent];
     if(!all.length){document.getElementById('live-scores-list').innerHTML='<div class="live-empty">Aucun match disponible</div>';return}
     html=all.map((m,i)=>{
