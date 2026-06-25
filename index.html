@@ -60,6 +60,10 @@ html.light .bs-item-title{color:rgba(10,22,40,.75)}
 html.light .bs-ticker{background:#dde4ee}
 html.light .bs-ticker-inner{color:rgba(10,22,40,.45)}
 /* THEME TOGGLE */
+.notif-nav-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(62,240,122,.12);border:1px solid rgba(62,240,122,.3);color:var(--glive);border-radius:20px;padding:5px 11px;font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.04em;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.notif-nav-btn:hover{background:rgba(62,240,122,.22);border-color:rgba(62,240,122,.6)}
+.notif-nav-btn.active{background:var(--glive);color:#07101c;border-color:var(--glive)}
+.notif-nav-btn.active:hover{opacity:.85}
 .theme-toggle{margin-left:auto;padding:6px 12px;background:none;border:1px solid var(--border);border-radius:20px;cursor:pointer;font-size:11px;color:var(--text-2);font-family:var(--fm);display:flex;align-items:center;gap:5px;transition:all .2s;flex-shrink:0}
 .theme-toggle:hover{border-color:var(--border-h);color:var(--text)}
 /* COUNTDOWN */
@@ -598,7 +602,10 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <button class="nav-tab" onclick="showTab('odds',this)"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Cotes</button>
     <button class="nav-tab" onclick="showTab('pronos',this)"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Pronos</button>
     <button class="nav-tab" onclick="showTab('bracket',this)"><svg viewBox="0 0 24 24"><path d="M8 6h8M8 12h5M8 18h3"/><path d="M3 6h1M3 12h1M3 18h1"/></svg>Bracket</button>
-    <button class="theme-toggle" id="notif-btn" onclick="toggleNotif()" title="Notifications buts">🔔</button>
+    <button class="notif-nav-btn" id="notif-btn" onclick="openNotifModal()">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span id="notif-btn-label">Alertes buts</span>
+    </button>
     <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">🌙 Nuit</button>
   </div>
 </div>
@@ -759,6 +766,19 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <h3>🌍 TON ÉQUIPE</h3>
     <p>Choisis l'équipe que tu suis — son prochain match s'affiche en haut des Scores</p>
     <div class="fav-grid" id="fav-grid"></div>
+  </div>
+</div>
+<!-- NOTIF MODAL -->
+<div class="fav-modal-overlay" id="notif-modal" style="display:none" onclick="if(event.target===this)closeNotifModal()">
+  <div class="fav-modal" style="max-width:380px;text-align:center">
+    <div id="notif-modal-icon" style="font-size:40px;margin-bottom:12px">🔔</div>
+    <h3 id="notif-modal-title" style="margin-bottom:8px">ALERTES BUTS</h3>
+    <p id="notif-modal-desc" style="margin-bottom:20px;line-height:1.7">Reçois une notification sur ton appareil à chaque but marqué pendant la Coupe du Monde — même quand cet onglet est en arrière-plan.<br><span style="color:var(--text-3)">Délai estimé : moins d'une minute.</span></p>
+    <button id="notif-modal-cta" class="bk-share-btn" style="width:100%;justify-content:center;font-size:13px;padding:12px" onclick="notifModalAction()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Activer les notifications
+    </button>
+    <button onclick="closeNotifModal()" style="margin-top:10px;background:none;border:none;color:var(--text-3);font-family:var(--fm);font-size:11px;cursor:pointer;padding:6px">Fermer</button>
   </div>
 </div>
 <!-- STICKY SEARCH FAB -->
@@ -1459,14 +1479,48 @@ function renderPronos(){
 /* ===== TIMELINE BUTS (score change detection) ===== */
 let GOAL_LOG=[],PREV_SCORES={};
 let NOTIF_ON=localStorage.getItem('wc_notif')==='1';
-function updateNotifBtn(){const b=document.getElementById('notif-btn');if(!b)return;b.textContent=NOTIF_ON?'🔔':'🔕';b.style.opacity=NOTIF_ON?'1':'.5';b.title=NOTIF_ON?'Notifications buts activées':'Notifications buts désactivées'}
-async function toggleNotif(){
-  if(NOTIF_ON){NOTIF_ON=false;localStorage.setItem('wc_notif','0');updateNotifBtn();return}
-  if(!('Notification' in window)){alert('Ton navigateur ne supporte pas les notifications.');return}
+function updateNotifBtn(){
+  const b=document.getElementById('notif-btn');
+  const l=document.getElementById('notif-btn-label');
+  if(!b)return;
+  if(NOTIF_ON){b.classList.add('active');if(l)l.textContent='Alertes activées';}
+  else{b.classList.remove('active');if(l)l.textContent='Alertes buts';}
+}
+function openNotifModal(){
+  const m=document.getElementById('notif-modal');
+  const cta=document.getElementById('notif-modal-cta');
+  const desc=document.getElementById('notif-modal-desc');
+  const icon=document.getElementById('notif-modal-icon');
+  if(!m)return;
+  if(NOTIF_ON){
+    icon.textContent='✅';
+    desc.innerHTML='Les alertes buts sont <strong style="color:var(--glive)">activées</strong> — tu recevras une notification à chaque but, même quand cet onglet est en arrière-plan.';
+    cta.innerHTML='🔕 Désactiver les alertes';
+    cta.style.background='var(--surface-2)';cta.style.color='var(--text-2)';cta.style.border='1px solid var(--border-h)';
+  } else {
+    icon.textContent='🔔';
+    desc.innerHTML='Reçois une notification sur ton appareil à chaque but marqué pendant la Coupe du Monde — même quand cet onglet est en arrière-plan.<br><span style="color:var(--text-3)">Délai estimé : moins d\'une minute.</span>';
+    cta.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Activer les notifications';
+    cta.style.background='';cta.style.color='';cta.style.border='';
+  }
+  m.style.display='flex';
+}
+function closeNotifModal(){document.getElementById('notif-modal').style.display='none';}
+async function notifModalAction(){
+  if(NOTIF_ON){
+    NOTIF_ON=false;localStorage.setItem('wc_notif','0');updateNotifBtn();closeNotifModal();return;
+  }
+  if(!('Notification' in window)){
+    document.getElementById('notif-modal-desc').innerHTML='<span style="color:#ef4444">Ton navigateur ne supporte pas les notifications push.</span>';return;
+  }
   const perm=Notification.permission==='granted'?'granted':await Notification.requestPermission();
-  if(perm==='granted'){NOTIF_ON=true;localStorage.setItem('wc_notif','1');new Notification('⚽ WC 2026',{body:'Notifications activées — tu seras alerté à chaque but !',icon:'/favicon.ico'});}
-  else{NOTIF_ON=false;localStorage.setItem('wc_notif','0');}
-  updateNotifBtn();
+  if(perm==='granted'){
+    NOTIF_ON=true;localStorage.setItem('wc_notif','1');
+    new Notification('⚽ WC 2026 — Alertes activées',{body:'Tu seras notifié à chaque but. Bonne Coupe du Monde !',icon:'/favicon.ico'});
+    updateNotifBtn();closeNotifModal();
+  } else {
+    document.getElementById('notif-modal-desc').innerHTML='<span style="color:#ef4444">Permission refusée. Autorise les notifications dans les paramètres de ton navigateur.</span>';
+  }
 }
 function sendGoalNotif(team,score,matchLabel){
   if(!NOTIF_ON||Notification.permission!=='granted')return;
