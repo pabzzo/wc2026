@@ -1142,7 +1142,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeM();if(documen
 loadAdmin();buildT();renderS();renderST();renderSC();renderLiveModule();renderVL();renderO();refreshTS();loadScoresFromAPI();setInterval(loadScoresFromAPI,60000);
 setInterval(refreshTS,60000);
 window.addEventListener('scroll',()=>{document.getElementById('nav-wrap').classList.toggle('scrolled',window.scrollY>60)},{passive:true});
-setTimeout(lC,850);
 const sk=localStorage.getItem('odds_api_key');
 if(sk){document.getElementById('oak').value=sk;document.getElementById('oab').innerHTML=`<div>✅</div><div><strong style="color:var(--gold)">Clé API active</strong> — ${sk.slice(0,8)}••••••</div>`}
 </script></body></html>
