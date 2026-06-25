@@ -1388,7 +1388,10 @@ function renderPronos(){
   const fin=M.filter(m=>m.status==='final'&&PRONOS[m.id]);
   const total=fin.reduce((s,m)=>{const p=calcPts(PRONOS[m.id],{h:m.scoreH,a:m.scoreA});return s+(p||0)},0);
   const tot=document.getElementById('prono-total');const totV=document.getElementById('prono-total-val');const totD=document.getElementById('prono-total-detail');
-  if(fin.length){if(tot)tot.style.display='flex';if(totV)totV.textContent=total;if(totD)totD.textContent=`sur ${fin.length} résultat${fin.length>1?'s':''} connu${fin.length>1?'s':''}`}
+  const hasAny=Object.keys(PRONOS).length>0;
+  if(tot)tot.style.display=hasAny?'flex':'none';
+  if(totV)totV.textContent=total;
+  if(totD)totD.textContent=fin.length?`sur ${fin.length} résultat${fin.length>1?'s':''} connu${fin.length>1?'s':''}`:`${Object.keys(PRONOS).length} prono${Object.keys(PRONOS).length>1?'s':''} en attente`;
   const upEl=document.getElementById('pronos-upcoming');
   if(upEl){
     if(!up.length){upEl.innerHTML='<div style="color:var(--text-3);text-align:center;padding:28px;font-family:var(--fm);font-size:12px">Aucun match à venir</div>';return}
