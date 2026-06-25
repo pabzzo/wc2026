@@ -66,7 +66,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .md-badge{background:var(--crimson);color:white;padding:2px 8px;border-radius:4px;font-size:10px;font-family:var(--fm)}
 .md-label::after{content:'';flex:1;height:1px;background:var(--border)}
 .match-wrap{margin-bottom:7px}
-.match-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:13px 16px;display:grid;grid-template-columns:90px 1fr auto 1fr 24px;align-items:center;gap:9px;cursor:pointer;transition:border-color .2s,background .2s;position:relative;user-select:none}
+.match-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:13px 16px;display:grid;grid-template-columns:90px 1fr minmax(64px,120px) 1fr 24px;align-items:center;gap:9px;cursor:pointer;transition:border-color .2s,background .2s;position:relative;user-select:none}
 .match-card:hover{border-color:var(--border-h);background:var(--surface-2)}
 .match-card.upcoming{border-left:3px solid var(--crimson)}
 .match-card.expanded{border-color:var(--border-h);background:var(--surface-2);border-radius:var(--rl) var(--rl) 0 0;border-bottom-color:transparent}
