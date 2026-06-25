@@ -66,8 +66,34 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .md-badge{background:var(--crimson);color:white;padding:2px 8px;border-radius:4px;font-size:10px;font-family:var(--fm)}
 .md-label::after{content:'';flex:1;height:1px;background:var(--border)}
 .match-wrap{margin-bottom:7px;min-width:0;overflow:hidden}
-.yt-playlist-wrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--rl);overflow:hidden;background:#000}
+.yt-playlist-wrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000}
 .yt-playlist-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+/* BROADCAST STUDIO */
+.section-videos{background:transparent!important;padding:0!important}
+.bs-studio{background:#07080f;border-radius:var(--rl);overflow:hidden;border:1px solid rgba(255,255,255,.07);box-shadow:0 8px 48px rgba(0,0,0,.6)}
+.bs-header{display:flex;align-items:center;gap:12px;padding:14px 20px;background:linear-gradient(90deg,#10111c 0%,#0e0f1d 100%);border-bottom:1px solid rgba(255,255,255,.06)}
+.bs-on-air{display:flex;align-items:center;gap:6px;background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.4);border-radius:4px;padding:3px 10px;font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:.12em;color:#ef4444}
+.bs-dot{width:7px;height:7px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px #ef4444;animation:bspulse 1.2s ease-in-out infinite}
+@keyframes bspulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+.bs-title{flex:1;font-family:var(--fm);font-size:13px;font-weight:800;letter-spacing:.18em;color:#fff}
+.bs-badge{font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.06em}
+.bs-meta{display:flex;align-items:center;gap:0;padding:12px 20px;background:#09090f;border-bottom:1px solid rgba(255,255,255,.05)}
+.bs-stat{display:flex;flex-direction:column;align-items:center;padding:0 20px}
+.bs-stat-val{font-family:var(--fm);font-size:22px;font-weight:800;color:#fff;line-height:1}
+.bs-stat-lbl{font-family:var(--fm);font-size:9px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.35);margin-top:2px;text-transform:uppercase}
+.bs-sep{width:1px;height:32px;background:rgba(255,255,255,.08)}
+.bs-player-wrap{position:relative;padding:20px;background:radial-gradient(ellipse at center,#0f1022 0%,#07080f 70%)}
+.bs-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(99,102,241,.08) 0%,transparent 70%);pointer-events:none}
+.bs-corner{position:absolute;width:18px;height:18px;z-index:2;pointer-events:none}
+.bs-corner-tl{top:20px;left:20px;border-top:2px solid rgba(99,102,241,.6);border-left:2px solid rgba(99,102,241,.6);border-radius:4px 0 0 0}
+.bs-corner-tr{top:20px;right:20px;border-top:2px solid rgba(99,102,241,.6);border-right:2px solid rgba(99,102,241,.6);border-radius:0 4px 0 0}
+.bs-corner-bl{bottom:20px;left:20px;border-bottom:2px solid rgba(99,102,241,.6);border-left:2px solid rgba(99,102,241,.6);border-radius:0 0 0 4px}
+.bs-corner-br{bottom:20px;right:20px;border-bottom:2px solid rgba(99,102,241,.6);border-right:2px solid rgba(99,102,241,.6);border-radius:0 0 4px 0}
+.bs-ticker{display:flex;align-items:center;overflow:hidden;background:#0c0d18;border-top:1px solid rgba(255,255,255,.05);height:32px}
+.bs-ticker-label{flex-shrink:0;font-family:var(--fm);font-size:9px;font-weight:800;letter-spacing:.14em;color:#fff;background:var(--crimson);padding:0 12px;height:100%;display:flex;align-items:center}
+.bs-ticker-track{flex:1;overflow:hidden;position:relative}
+.bs-ticker-inner{display:inline-block;white-space:nowrap;font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.55);letter-spacing:.05em;animation:bsticker 30s linear infinite;padding-left:100%}
+@keyframes bsticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .match-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:13px 16px;display:grid;grid-template-columns:90px 1fr minmax(64px,120px) 1fr 24px;align-items:center;gap:9px;cursor:pointer;transition:border-color .2s,background .2s;position:relative;user-select:none}
 .match-card:hover{border-color:var(--border-h);background:var(--surface-2)}
 .match-card.upcoming{border-left:3px solid var(--crimson)}
@@ -536,10 +562,36 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     </div>
     <div id="scorers-container"></div>
   </section>
-  <section id="videos" class="section">
-    <div class="section-header"><h2>RÉSUMÉS VIDÉO</h2><p>Playlist officielle FIFA World Cup 2026</p></div>
-    <div class="yt-playlist-wrap">
-      <iframe src="https://www.youtube.com/embed/m9XH9TmZhqg?list=PLYTrSce4LemRNjnWWkdPnU9GG44dMAKnZ&rel=0&modestbranding=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+  <section id="videos" class="section section-videos">
+    <div class="bs-studio">
+      <div class="bs-header">
+        <div class="bs-on-air"><span class="bs-dot"></span>ON AIR</div>
+        <div class="bs-title">RÉSUMÉS OFFICIELS</div>
+        <div class="bs-badge">FIFA World Cup 2026™</div>
+      </div>
+      <div class="bs-meta">
+        <div class="bs-stat"><span class="bs-stat-val">64</span><span class="bs-stat-lbl">Matchs</span></div>
+        <div class="bs-sep"></div>
+        <div class="bs-stat"><span class="bs-stat-val">48</span><span class="bs-stat-lbl">Nations</span></div>
+        <div class="bs-sep"></div>
+        <div class="bs-stat"><span class="bs-stat-val" id="bs-goals-val">—</span><span class="bs-stat-lbl">Buts</span></div>
+        <div class="bs-sep"></div>
+        <div class="bs-stat"><span class="bs-stat-val" id="bs-finished-val">—</span><span class="bs-stat-lbl">Terminés</span></div>
+      </div>
+      <div class="bs-player-wrap">
+        <div class="bs-glow"></div>
+        <div class="yt-playlist-wrap">
+          <iframe src="https://www.youtube.com/embed/m9XH9TmZhqg?list=PLYTrSce4LemRNjnWWkdPnU9GG44dMAKnZ&rel=0&modestbranding=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        </div>
+        <div class="bs-corner bs-corner-tl"></div>
+        <div class="bs-corner bs-corner-tr"></div>
+        <div class="bs-corner bs-corner-bl"></div>
+        <div class="bs-corner bs-corner-br"></div>
+      </div>
+      <div class="bs-ticker">
+        <div class="bs-ticker-label">COMPÉTITION</div>
+        <div class="bs-ticker-track"><div class="bs-ticker-inner" id="bs-ticker-inner">FIFA World Cup 2026 · USA · Canada · Mexique · Groupe A — Groupe L · Phase de groupes en cours · Huitièmes de finale · Quarts · Demi-finales · Finale le 19 juillet 2026 · MetLife Stadium · New Jersey · FIFA World Cup 2026 · USA · Canada · Mexique ·&nbsp;</div></div>
+      </div>
     </div>
   </section>
   <section id="odds" class="section">
@@ -1047,6 +1099,8 @@ function renderLiveModule(){
   }
   document.getElementById('live-scores-list').innerHTML=html;
   const lc=document.getElementById('live-count');if(lc)lc.textContent=M.length+' matchs';
+  const bsF=document.getElementById('bs-finished-val');if(bsF)bsF.textContent=M.filter(m=>m.status==='final').length;
+  const bsG=document.getElementById('bs-goals-val');if(bsG)bsG.textContent=M.reduce((s,m)=>s+(m.scoreH||0)+(m.scoreA||0),0)||'—';
   const now=new Date();
   document.getElementById('live-update-time').textContent=`MAJ ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
 }
