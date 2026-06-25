@@ -1080,6 +1080,19 @@ function applyScorers(data){
   buildSI();
   renderSC();
 }
+function applyTeams(data){
+  if(!data.teams?.length)return;
+  const pmap=new Map();
+  PL.forEach(p=>pmap.set(p.name,p));
+  data.teams.forEach(t=>{
+    const tla=t.tla;
+    (t.squad||[]).forEach(p=>{
+      if(!pmap.has(p.name))pmap.set(p.name,{name:p.name,team:tla,flag:fl(tla)});
+    });
+  });
+  PL=[...pmap.values()];
+  buildSI();
+}
 let apiInitialized=false;
 async function loadScoresFromAPI(){
   const dot=document.getElementById('api-dot'),lbl=document.getElementById('api-label');
@@ -1095,6 +1108,7 @@ async function loadScoresFromAPI(){
       buildSI();renderS();renderLiveModule();buildDN();
       fetch('/api/standings').then(r=>r.json()).then(applyStandings).catch(()=>{});
       fetch('/api/scorers').then(r=>r.json()).then(applyScorers).catch(()=>{});
+      fetch('/api/teams').then(r=>r.json()).then(applyTeams).catch(()=>{});
     } else {
       renderLiveModule();
       M.filter(m=>m.status==='live').forEach(m=>{
