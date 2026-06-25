@@ -456,7 +456,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 <div class="vb-wrap" id="vb-wrap">
   <div class="video-banner">
     <div class="vb-iframe-wrap">
-      <iframe src="https://www.youtube.com/embed/sM8lJcIu09M?autoplay=1&mute=1&loop=1&playlist=sM8lJcIu09M&controls=0&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <iframe id="vb-iframe" src="https://www.youtube.com/embed/sM8lJcIu09M?autoplay=1&mute=1&loop=1&playlist=sM8lJcIu09M&controls=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=https://wc2026-kowm.vercel.app" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
     <div class="vb-overlay">
       <a class="vb-yt-cta" href="https://www.youtube.com/watch?v=m9XH9TmZhqg&amp;list=PLYTrSce4LemRNjnWWkdPnU9GG44dMAKnZ" target="_blank" rel="noopener">
@@ -1142,6 +1142,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeM();if(documen
 loadAdmin();buildT();renderS();renderST();renderSC();renderLiveModule();renderVL();renderO();refreshTS();loadScoresFromAPI();setInterval(loadScoresFromAPI,60000);
 setInterval(refreshTS,60000);
 window.addEventListener('scroll',()=>{document.getElementById('nav-wrap').classList.toggle('scrolled',window.scrollY>60)},{passive:true});
+window.addEventListener('message',e=>{try{const d=JSON.parse(e.data);if(d.event==='onError'&&(d.info===150||d.info===153||d.info===101))collapseVB()}catch(ignore){}});
 const sk=localStorage.getItem('odds_api_key');
 if(sk){document.getElementById('oak').value=sk;document.getElementById('oab').innerHTML=`<div>✅</div><div><strong style="color:var(--gold)">Clé API active</strong> — ${sk.slice(0,8)}••••••</div>`}
 </script></body></html>
