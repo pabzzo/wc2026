@@ -598,6 +598,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <button class="nav-tab" onclick="showTab('odds',this)"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Cotes</button>
     <button class="nav-tab" onclick="showTab('pronos',this)"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Pronos</button>
     <button class="nav-tab" onclick="showTab('bracket',this)"><svg viewBox="0 0 24 24"><path d="M8 6h8M8 12h5M8 18h3"/><path d="M3 6h1M3 12h1M3 18h1"/></svg>Bracket</button>
+    <button class="theme-toggle" id="notif-btn" onclick="toggleNotif()" title="Notifications buts">🔔</button>
     <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">🌙 Nuit</button>
   </div>
 </div>
@@ -1457,7 +1458,21 @@ function renderPronos(){
 }
 /* ===== TIMELINE BUTS (score change detection) ===== */
 let GOAL_LOG=[],PREV_SCORES={};
-function trackScoreChanges(){M.filter(m=>m.status==='live'||m.status==='final').forEach(m=>{const key=m.id,prev=PREV_SCORES[key];if(prev){const dH=(m.scoreH||0)-(prev.h||0),dA=(m.scoreA||0)-(prev.a||0);if(dH>0)for(let i=0;i<dH;i++)GOAL_LOG.unshift({t:Date.now(),team:m.home,score:`${m.scoreH}-${m.scoreA}`});if(dA>0)for(let i=0;i<dA;i++)GOAL_LOG.unshift({t:Date.now(),team:m.away,score:`${m.scoreH}-${m.scoreA}`});}PREV_SCORES[key]={h:m.scoreH||0,a:m.scoreA||0}})}
+let NOTIF_ON=localStorage.getItem('wc_notif')==='1';
+function updateNotifBtn(){const b=document.getElementById('notif-btn');if(!b)return;b.textContent=NOTIF_ON?'🔔':'🔕';b.style.opacity=NOTIF_ON?'1':'.5';b.title=NOTIF_ON?'Notifications buts activées':'Notifications buts désactivées'}
+async function toggleNotif(){
+  if(NOTIF_ON){NOTIF_ON=false;localStorage.setItem('wc_notif','0');updateNotifBtn();return}
+  if(!('Notification' in window)){alert('Ton navigateur ne supporte pas les notifications.');return}
+  const perm=Notification.permission==='granted'?'granted':await Notification.requestPermission();
+  if(perm==='granted'){NOTIF_ON=true;localStorage.setItem('wc_notif','1');new Notification('⚽ WC 2026',{body:'Notifications activées — tu seras alerté à chaque but !',icon:'/favicon.ico'});}
+  else{NOTIF_ON=false;localStorage.setItem('wc_notif','0');}
+  updateNotifBtn();
+}
+function sendGoalNotif(team,score,matchLabel){
+  if(!NOTIF_ON||Notification.permission!=='granted')return;
+  new Notification(`⚽ BUT — ${fl(team)} ${tn(team)}`,{body:`${matchLabel} · ${score}`,icon:'/favicon.ico',tag:`goal-${team}-${score}`});
+}
+function trackScoreChanges(){M.filter(m=>m.status==='live'||m.status==='final').forEach(m=>{const key=m.id,prev=PREV_SCORES[key];if(prev){const dH=(m.scoreH||0)-(prev.h||0),dA=(m.scoreA||0)-(prev.a||0);const label=`${fl(m.home)} ${m.home} ${m.scoreH}–${m.scoreA} ${m.away} ${fl(m.away)}`;if(dH>0)for(let i=0;i<dH;i++){GOAL_LOG.unshift({t:Date.now(),team:m.home,score:`${m.scoreH}-${m.scoreA}`});sendGoalNotif(m.home,`${m.scoreH}–${m.scoreA}`,label);}if(dA>0)for(let i=0;i<dA;i++){GOAL_LOG.unshift({t:Date.now(),team:m.away,score:`${m.scoreH}-${m.scoreA}`});sendGoalNotif(m.away,`${m.scoreH}–${m.scoreA}`,label);}}PREV_SCORES[key]={h:m.scoreH||0,a:m.scoreA||0}})}
 function renderGoalTimeline(){const el=document.getElementById('goal-timeline');if(!el)return;if(!GOAL_LOG.length){el.style.display='none';return}el.style.display='block';el.innerHTML=`<div style="font-family:var(--fm);font-size:9px;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;padding:8px 14px 4px;border-bottom:1px solid var(--border)">⚽ Buts (session)</div><div class="goal-timeline">${GOAL_LOG.slice(0,10).map(g=>{const ago=Math.floor((Date.now()-g.t)/60000);return`<div class="goal-event"><span class="goal-min">${ago===0?'<1m':`${ago}m`}</span><span class="goal-dot"></span><span class="goal-desc">${fl(g.team)} ${tn(g.team)} · ${g.score}</span></div>`}).join('')}</div>`}
 /* ===== BRACKET ===== */
 let BKPICKS = JSON.parse(localStorage.getItem('wc_bracket') || '{}');
@@ -1613,7 +1628,7 @@ function loadBracketFromUrl() {
   }
 }
 
-loadAdmin();initTheme();buildT();renderS();renderST();renderSC();renderLiveModule();renderVL();renderO();refreshTS();loadBracketFromUrl();initRoute();if(FAV){renderFavBanner();updateCountdowns()}else{setTimeout(openFavModal,1500)}loadScoresFromAPI();setInterval(loadScoresFromAPI,60000);
+loadAdmin();initTheme();updateNotifBtn();buildT();renderS();renderST();renderSC();renderLiveModule();renderVL();renderO();refreshTS();loadBracketFromUrl();initRoute();if(FAV){renderFavBanner();updateCountdowns()}else{setTimeout(openFavModal,1500)}loadScoresFromAPI();setInterval(loadScoresFromAPI,60000);
 setInterval(refreshTS,60000);
 window.addEventListener('scroll',()=>{document.getElementById('nav-wrap').classList.toggle('scrolled',window.scrollY>60)},{passive:true});
 window.addEventListener('message',e=>{try{const d=JSON.parse(e.data);if(d.event==='onError'&&(d.info===150||d.info===153||d.info===101))collapseVB()}catch(ignore){}});
