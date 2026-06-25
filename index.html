@@ -507,7 +507,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div class="vb-overlay">
       <button class="vb-yt-cta" onclick="showTab('videos',document.querySelectorAll('.nav-tab')[4]);document.querySelector('.main')?.scrollIntoView({behavior:'smooth'})">
         <svg class="vb-yt-svg" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
-        Résumés de matchs
+        La Coupe du Monde en vidéos
       </button>
       <button class="vb-close-btn" onclick="collapseVB()">
         <span class="vb-arrow">↑</span> Réduire
@@ -584,21 +584,11 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div class="bs-studio">
       <div class="bs-header">
         <div class="bs-on-air"><span class="bs-dot"></span>ON AIR</div>
-        <div class="bs-title">RÉSUMÉS OFFICIELS</div>
+        <div class="bs-title">LA COUPE DU MONDE EN VIDÉOS</div>
         <div class="bs-badge">FIFA World Cup 2026™</div>
-      </div>
-      <div class="bs-meta">
-        <div class="bs-stat"><span class="bs-stat-val">64</span><span class="bs-stat-lbl">Matchs</span></div>
-        <div class="bs-sep"></div>
-        <div class="bs-stat"><span class="bs-stat-val">48</span><span class="bs-stat-lbl">Nations</span></div>
-        <div class="bs-sep"></div>
-        <div class="bs-stat"><span class="bs-stat-val" id="bs-goals-val">—</span><span class="bs-stat-lbl">Buts</span></div>
-        <div class="bs-sep"></div>
-        <div class="bs-stat"><span class="bs-stat-val" id="bs-finished-val">—</span><span class="bs-stat-lbl">Terminés</span></div>
       </div>
       <div class="bs-content">
         <div class="bs-player-wrap">
-          <div class="bs-glow"></div>
           <div class="yt-playlist-wrap">
             <iframe id="bs-iframe" src="https://www.youtube.com/embed/m9XH9TmZhqg?list=PLYTrSce4LemRNjnWWkdPnU9GG44dMAKnZ&rel=0&modestbranding=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
           </div>
@@ -818,11 +808,25 @@ function loadYTPlaylist(){
         </div>
       </div>`;
     }).join('');
+    setTimeout(syncSidebarHeight,100);
   }).catch(()=>{
     const list=document.getElementById('bs-sidebar-list');
     if(list)list.innerHTML='<div class="bs-sidebar-loading">Playlist indisponible</div>';
   });
 }
+function syncSidebarHeight(){
+  const pw=document.querySelector('.bs-player-wrap');
+  const sb=document.getElementById('bs-sidebar');
+  if(!pw||!sb)return;
+  const hdr=sb.querySelector('.bs-sidebar-hdr');
+  sb.style.maxHeight=pw.offsetHeight+'px';
+  const list=document.getElementById('bs-sidebar-list');
+  if(list)list.style.maxHeight=(pw.offsetHeight-(hdr?hdr.offsetHeight:32))+'px';
+}
+if(typeof ResizeObserver!=='undefined'){
+  new ResizeObserver(syncSidebarHeight).observe(document.querySelector('.bs-player-wrap')||document.body);
+}
+window.addEventListener('resize',syncSidebarHeight);
 function playYT(vid,el){
   const iframe=document.getElementById('bs-iframe');
   if(iframe)iframe.src=`https://www.youtube.com/embed/${vid}?list=PLYTrSce4LemRNjnWWkdPnU9GG44dMAKnZ&autoplay=1&rel=0&modestbranding=1`;
