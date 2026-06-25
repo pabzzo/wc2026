@@ -786,13 +786,8 @@ function renderSC(){
   document.getElementById('scorers-container').innerHTML=`<table class="rank-table"><thead><tr><th style="width:40px">#</th><th>Joueur</th><th class="right">${hd}</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 /* VIDEOS */
-function toggleVF(){const f=document.getElementById('vform');f.style.display=f.style.display==='none'?'block':'none'}
-function saveV(){
-  const h=document.getElementById('vfh').value.trim(),a=document.getElementById('vfa').value.trim();if(!h||!a)return;
-  const mid=M.find(m=>(m.home===h.toUpperCase()||tn(m.home).toLowerCase()===h.toLowerCase())&&(m.away===a.toUpperCase()||tn(m.away).toLowerCase()===a.toLowerCase()))?.id||null;
-  VID.unshift({id:'v'+Date.now(),home:h,away:a,score:document.getElementById('vfs').value||'?',group:document.getElementById('vfg').value||'',date:document.getElementById('vfd').value||'',url:document.getElementById('vfu').value.trim(),desc:document.getElementById('vfdesc').value.trim()||'Résumé',matchId:mid});
-  renderVL();toggleVF();['vfh','vfa','vfs','vfd','vfu','vfdesc'].forEach(id=>document.getElementById(id).value='');document.getElementById('vfg').value='';renderS();
-}
+function toggleVF(){}
+function saveV(){}
 function renderVL(){
   const g=document.getElementById('vgrid');
   if(!g)return;
