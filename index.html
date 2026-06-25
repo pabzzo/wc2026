@@ -6,6 +6,44 @@
 <title>FIFA World Cup 2026 — Live Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
+/* BRACKET */
+.bk-wrap{overflow-x:auto;padding:4px 0 16px}
+.bk-grid{display:flex;gap:0;height:740px;min-width:max-content;padding:0 4px}
+.bk-col{display:flex;flex-direction:column;justify-content:space-around;width:154px;position:relative;flex-shrink:0}
+.bk-col-hdr{font-family:var(--fm);font-size:8px;letter-spacing:.12em;color:var(--text-3);text-align:center;padding:0 4px 6px;white-space:nowrap;text-transform:uppercase}
+.bk-sep{width:22px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-around;position:relative}
+.bk-conn{display:flex;flex-direction:column;justify-content:center;align-items:center;flex:1}
+.bk-slot{padding:2px 4px;position:relative}
+/* Right connector line from each match */
+.bk-slot::after{content:'';position:absolute;right:-5px;top:50%;width:5px;height:1px;background:var(--border-h)}
+.bk-match{display:flex;flex-direction:column;gap:2px}
+.bk-team{height:28px;display:flex;align-items:center;gap:5px;padding:0 7px;cursor:pointer;border:1px solid var(--border);border-radius:4px;background:var(--surface);transition:border-color .15s,background .15s,opacity .15s;font-size:11px;font-weight:500;position:relative;overflow:hidden}
+.bk-team:hover:not(.tbd-t):not(.winner){border-color:var(--border-h);background:var(--surface-2)}
+.bk-team.winner{background:var(--crimson);border-color:var(--crimson);color:#fff}
+.bk-team.loser{opacity:.35}
+.bk-team.tbd-t{cursor:default;color:var(--text-3);font-size:10px;font-style:italic;font-family:var(--fm)}
+.bk-tf{font-size:13px;flex-shrink:0}
+.bk-tn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+.bk-vs{height:3px;display:flex;align-items:center}
+.bk-vs::before{content:'';flex:1;height:1px;background:var(--border)}
+/* Connector in sep column */
+.bk-sep-top{flex:1;border-right:1px solid var(--border-h);border-top:1px solid var(--border-h);margin-top:14px}
+.bk-sep-mid{width:10px;height:1px;background:var(--border-h);align-self:center}
+.bk-sep-bot{flex:1;border-right:1px solid var(--border-h);border-bottom:1px solid var(--border-h);margin-bottom:14px}
+/* Champion display */
+.bk-champion{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;padding:8px}
+.bk-champ-flag{font-size:40px;line-height:1}
+.bk-champ-name{font-family:var(--fd);font-size:18px;letter-spacing:1px;color:var(--gold);text-align:center}
+.bk-champ-label{font-family:var(--fm);font-size:9px;color:var(--text-3);letter-spacing:.1em}
+/* Share button */
+.bk-share-bar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.bk-share-btn{display:inline-flex;align-items:center;gap:6px;background:var(--crimson);color:white;border:none;padding:8px 16px;border-radius:20px;font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.05em;cursor:pointer;transition:opacity .2s}
+.bk-share-btn:hover{opacity:.85}
+.bk-reset-btn{background:transparent;border:1px solid var(--border);color:var(--text-2);padding:7px 14px;border-radius:20px;font-family:var(--fm);font-size:11px;cursor:pointer;transition:all .15s}
+.bk-reset-btn:hover{border-color:var(--border-h);color:var(--text)}
+.bk-share-url{flex:1;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:7px 10px;font-family:var(--fm);font-size:10px;color:var(--text-2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:text;display:none}
+.bk-copied{font-family:var(--fm);font-size:10px;color:var(--glive);display:none}
+.bk-stage-info{font-family:var(--fm);font-size:9px;color:var(--text-3);letter-spacing:.05em;margin-bottom:8px}
 :root{--pitch:#07101c;--pitch-2:#0c1826;--pitch-3:#102033;--surface:#152b45;--surface-2:#1c3558;--border:rgba(255,255,255,.08);--border-h:rgba(255,255,255,.2);--crimson:#1565c0;--gold:#f5c842;--text:#eef5ff;--text-2:#7aaed4;--text-3:#3a6080;--glive:#3ef07a;--fd:'Bebas Neue',sans-serif;--fb:'Inter',sans-serif;--fm:'JetBrains Mono',monospace;--r:8px;--rl:14px}
 html.light{--pitch:#eef3fa;--pitch-2:#e4ecf7;--pitch-3:#d8e4f2;--surface:#ffffff;--surface-2:#f4f7fd;--border:rgba(0,0,0,.08);--border-h:rgba(0,0,0,.18);--gold:#b5900a;--text:#0a1628;--text-2:#2a5b8a;--text-3:#6080a0;--glive:#00963c}
 html.light body{background:var(--pitch)}
@@ -559,6 +597,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <button class="nav-tab" onclick="showTab('videos',this)"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>Vidéos</button>
     <button class="nav-tab" onclick="showTab('odds',this)"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Cotes</button>
     <button class="nav-tab" onclick="showTab('pronos',this)"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Pronos</button>
+    <button class="nav-tab" onclick="showTab('bracket',this)"><svg viewBox="0 0 24 24"><path d="M8 6h8M8 12h5M8 18h3"/><path d="M3 6h1M3 12h1M3 18h1"/></svg>Bracket</button>
     <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">🌙 Nuit</button>
   </div>
 </div>
@@ -698,6 +737,20 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div id="pronos-upcoming"></div>
     <div id="pronos-past" style="margin-top:20px"></div>
   </section>
+  <section id="bracket" class="section">
+    <div class="section-header"><h2>BRACKET INTERACTIF</h2><p>Équipes auto-remplies depuis les classements · Cliquez sur une équipe pour la qualifier · Partagez votre bracket</p></div>
+    <div class="bk-share-bar">
+      <button class="bk-share-btn" onclick="shareBracket()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Partager mon bracket
+      </button>
+      <button class="bk-reset-btn" onclick="resetBracket()">↺ Réinitialiser</button>
+      <span class="bk-share-url" id="bk-url"></span>
+      <span class="bk-copied" id="bk-copied">✓ Copié !</span>
+    </div>
+    <div class="bk-stage-info" id="bk-stage-info"></div>
+    <div class="bk-wrap"><div class="bk-grid" id="bk-grid"></div></div>
+  </section>
 </div>
 <!-- FAV MODAL -->
 <div class="fav-modal-overlay" id="fav-modal" style="display:none" onclick="if(event.target===this&&FAV)closeFavModal()">
@@ -785,7 +838,7 @@ const fl=a=>FL[a]||'🏳',tn=a=>NM[a]||a;
 let M=[],ST={},PL=[];
 const OD={};
 let VID=[],sF='final',gF='all',dF='all',scTab='goals',scGrp='all',bk='winamax',expId=null;
-const TABS=['scores','standings','calendar','scorers','videos','odds','pronos'];
+const TABS=['scores','standings','calendar','scorers','videos','odds','pronos','bracket'];
 function showTab(id,btn,pushState=true){
   if(!TABS.includes(id))id='scores';
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -796,6 +849,7 @@ function showTab(id,btn,pushState=true){
   if(pushState&&location.hash!=='#'+id)history.pushState({tab:id},'','#'+id);
   if(id==='videos'&&!YTP.length)loadYTPlaylist();
   if(id==='pronos')renderPronos();
+  if(id==='bracket')renderBracket();
 }
 window.addEventListener('popstate',e=>{
   const id=(e.state?.tab)||location.hash.replace('#','')||'scores';
@@ -1284,6 +1338,7 @@ function applyStandings(data){
     ST[letter]=grp.table.map(row=>({t:row.team.tla,w:row.won,d:row.draw,l:row.lost,gf:row.goalsFor,ga:row.goalsAgainst,pts:row.points}));
   });
   renderST();renderCal();
+  if(document.getElementById('bracket')?.classList.contains('active'))renderBracket();
 }
 function applyScorers(data){
   if(!data.scorers)return;
@@ -1404,7 +1459,161 @@ function renderPronos(){
 let GOAL_LOG=[],PREV_SCORES={};
 function trackScoreChanges(){M.filter(m=>m.status==='live'||m.status==='final').forEach(m=>{const key=m.id,prev=PREV_SCORES[key];if(prev){const dH=(m.scoreH||0)-(prev.h||0),dA=(m.scoreA||0)-(prev.a||0);if(dH>0)for(let i=0;i<dH;i++)GOAL_LOG.unshift({t:Date.now(),team:m.home,score:`${m.scoreH}-${m.scoreA}`});if(dA>0)for(let i=0;i<dA;i++)GOAL_LOG.unshift({t:Date.now(),team:m.away,score:`${m.scoreH}-${m.scoreA}`});}PREV_SCORES[key]={h:m.scoreH||0,a:m.scoreA||0}})}
 function renderGoalTimeline(){const el=document.getElementById('goal-timeline');if(!el)return;if(!GOAL_LOG.length){el.style.display='none';return}el.style.display='block';el.innerHTML=`<div style="font-family:var(--fm);font-size:9px;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;padding:8px 14px 4px;border-bottom:1px solid var(--border)">⚽ Buts (session)</div><div class="goal-timeline">${GOAL_LOG.slice(0,10).map(g=>{const ago=Math.floor((Date.now()-g.t)/60000);return`<div class="goal-event"><span class="goal-min">${ago===0?'<1m':`${ago}m`}</span><span class="goal-dot"></span><span class="goal-desc">${fl(g.team)} ${tn(g.team)} · ${g.score}</span></div>`}).join('')}</div>`}
-loadAdmin();initTheme();buildT();renderS();renderST();renderSC();renderLiveModule();renderVL();renderO();refreshTS();initRoute();if(FAV){renderFavBanner();updateCountdowns()}else{setTimeout(openFavModal,1500)}loadScoresFromAPI();setInterval(loadScoresFromAPI,60000);
+/* ===== BRACKET ===== */
+let BKPICKS = JSON.parse(localStorage.getItem('wc_bracket') || '{}');
+
+const BKD = {
+  m73:{r:0,src:null}, m74:{r:0,src:null}, m75:{r:0,src:null}, m76:{r:0,src:null},
+  m77:{r:0,src:null}, m78:{r:0,src:null}, m79:{r:0,src:null}, m80:{r:0,src:null},
+  m81:{r:0,src:null}, m82:{r:0,src:null}, m83:{r:0,src:null}, m84:{r:0,src:null},
+  m85:{r:0,src:null}, m86:{r:0,src:null}, m87:{r:0,src:null}, m88:{r:0,src:null},
+  m89:{r:1,src:['m74','m77']}, m90:{r:1,src:['m73','m75']},
+  m91:{r:1,src:['m76','m78']}, m92:{r:1,src:['m79','m80']},
+  m93:{r:1,src:['m83','m84']}, m94:{r:1,src:['m81','m82']},
+  m95:{r:1,src:['m86','m88']}, m96:{r:1,src:['m85','m87']},
+  m97:{r:2,src:['m90','m89']}, m99:{r:2,src:['m91','m92']},
+  m98:{r:2,src:['m93','m94']}, m100:{r:2,src:['m95','m96']},
+  m101:{r:3,src:['m97','m99']}, m102:{r:3,src:['m98','m100']},
+  m104:{r:4,src:['m101','m102']},
+};
+
+const BK_COLS = [
+  {label:'32ES DE FINALE', ids:['m73','m75','m74','m77','m76','m78','m79','m80','m83','m84','m81','m82','m86','m88','m85','m87']},
+  {label:'8ES DE FINALE',  ids:['m90','m89','m91','m92','m93','m94','m95','m96']},
+  {label:'QUARTS DE FINALE', ids:['m97','m99','m98','m100']},
+  {label:'DEMI-FINALES',   ids:['m101','m102']},
+  {label:'🏆 FINALE',      ids:['m104']},
+];
+
+function bkTeams(id) {
+  const d = BKD[id];
+  if (!d) return [null, null];
+  if (d.src) return [BKPICKS[d.src[0]] || null, BKPICKS[d.src[1]] || null];
+  const Lk = {};
+  Object.entries(ST).forEach(([g, t]) => { Lk[g] = [t[0]?.t, t[1]?.t, t[2]?.t]; });
+  const best3g = (groups) => { const gs = groups.split(''); return b3().find(t => gs.includes(t.g))?.t || null; };
+  const R32teams = {
+    m73:[Lk['A']?.[1], Lk['B']?.[1]], m74:[Lk['E']?.[0], best3g('ABCDF')],
+    m75:[Lk['F']?.[0], Lk['C']?.[1]], m76:[Lk['C']?.[0], Lk['F']?.[1]],
+    m77:[Lk['I']?.[0], best3g('CDFGH')], m78:[Lk['E']?.[1], Lk['I']?.[1]],
+    m79:[Lk['A']?.[0], best3g('CEFHI')], m80:[Lk['L']?.[0], best3g('EHIJK')],
+    m81:[Lk['D']?.[0], best3g('BEFIJ')], m82:[Lk['G']?.[0], best3g('AEHIJ')],
+    m83:[Lk['K']?.[1], Lk['L']?.[1]], m84:[Lk['H']?.[0], Lk['J']?.[1]],
+    m85:[Lk['B']?.[0], best3g('EFGIJ')], m86:[Lk['J']?.[0], Lk['H']?.[1]],
+    m87:[Lk['K']?.[0], best3g('DEIJL')], m88:[Lk['D']?.[1], Lk['G']?.[1]],
+  };
+  return R32teams[id] || [null, null];
+}
+
+function bkTeamHtml(tla, mid, isWinner, hasAnyPick) {
+  if (!tla) return `<div class="bk-team tbd-t"><span class="bk-tn">À déterminer</span></div>`;
+  const loser = hasAnyPick && !isWinner;
+  return `<div class="bk-team${isWinner?' winner':''}${loser?' loser':''}" onclick="bkPick('${mid}','${tla}')">
+    <span class="bk-tf">${fl(tla)}</span><span class="bk-tn">${tn(tla)}</span>
+  </div>`;
+}
+
+function bkMatchHtml(id) {
+  const [tA, tB] = bkTeams(id);
+  const pick = BKPICKS[id];
+  const hasPick = !!pick;
+  return `<div class="bk-slot" id="bks-${id}">
+    <div class="bk-match">
+      ${bkTeamHtml(tA, id, hasPick && pick === tA, hasPick)}
+      <div class="bk-vs"></div>
+      ${bkTeamHtml(tB, id, hasPick && pick === tB, hasPick)}
+    </div>
+  </div>`;
+}
+
+function bkSepHtml(n) {
+  let h = '';
+  for (let i = 0; i < n; i++) {
+    h += `<div style="flex:1;display:flex;flex-direction:column">
+      <div class="bk-sep-top"></div>
+      <div class="bk-sep-mid"></div>
+      <div class="bk-sep-bot"></div>
+    </div>`;
+  }
+  return `<div class="bk-sep">${h}</div>`;
+}
+
+function renderBracket() {
+  const grid = document.getElementById('bk-grid');
+  if (!grid) return;
+  const champion = BKPICKS['m104'];
+  let html = '';
+  BK_COLS.forEach((col, ci) => {
+    html += `<div class="bk-col"><div class="bk-col-hdr">${col.label}</div>`;
+    col.ids.forEach(id => { html += bkMatchHtml(id); });
+    html += '</div>';
+    if (ci < BK_COLS.length - 1) {
+      const nConnectors = BK_COLS[ci + 1].ids.length;
+      html += bkSepHtml(nConnectors);
+    }
+  });
+  html += `<div class="bk-col" style="width:100px"><div class="bk-col-hdr">CHAMPION</div>
+    <div style="display:flex;flex-direction:column;justify-content:center;height:100%;padding:8px 4px;align-items:center;gap:6px">
+      ${champion
+        ? `<div style="font-size:36px">${fl(champion)}</div><div style="font-family:var(--fd);font-size:16px;color:var(--gold);text-align:center;letter-spacing:1px">${tn(champion)}</div><div style="font-family:var(--fm);font-size:9px;color:var(--text-3)">🏆 CHAMPION</div>`
+        : `<div style="font-size:28px;opacity:.3">🏆</div><div style="font-family:var(--fm);font-size:10px;color:var(--text-3);text-align:center">Complète ton bracket</div>`}
+    </div>
+  </div>`;
+  grid.innerHTML = html;
+  const total = Object.keys(BKD).length;
+  const done = Object.keys(BKPICKS).length;
+  const info = document.getElementById('bk-stage-info');
+  if (info) info.textContent = done ? `${done} / ${total} qualifications choisies` : 'Cliquez sur une équipe pour la qualifier au tour suivant';
+}
+
+function bkPick(mid, tla) {
+  BKPICKS[mid] = tla;
+  function getDownstream(id, visited = new Set()) {
+    if (visited.has(id)) return;
+    visited.add(id);
+    Object.entries(BKD).forEach(([k, v]) => {
+      if (v.src?.includes(id)) { delete BKPICKS[k]; getDownstream(k, visited); }
+    });
+  }
+  getDownstream(mid);
+  BKPICKS[mid] = tla;
+  localStorage.setItem('wc_bracket', JSON.stringify(BKPICKS));
+  renderBracket();
+}
+
+function resetBracket() {
+  BKPICKS = {};
+  localStorage.removeItem('wc_bracket');
+  document.getElementById('bk-url').style.display = 'none';
+  document.getElementById('bk-copied').style.display = 'none';
+  renderBracket();
+}
+
+function shareBracket() {
+  const encoded = btoa(JSON.stringify(BKPICKS));
+  const url = `${location.origin}/#bracket?b=${encoded}`;
+  const urlEl = document.getElementById('bk-url');
+  const copiedEl = document.getElementById('bk-copied');
+  urlEl.textContent = url;
+  urlEl.style.display = 'block';
+  navigator.clipboard.writeText(url).then(() => {
+    copiedEl.style.display = 'inline';
+    setTimeout(() => { copiedEl.style.display = 'none'; }, 2500);
+  }).catch(() => {});
+}
+
+function loadBracketFromUrl() {
+  const hash = location.hash;
+  const m = hash.match(/[?&]b=([^&]+)/);
+  if (m) {
+    try {
+      BKPICKS = JSON.parse(atob(m[1]));
+      localStorage.setItem('wc_bracket', JSON.stringify(BKPICKS));
+    } catch(e) {}
+  }
+}
+
+loadAdmin();initTheme();buildT();renderS();renderST();renderSC();renderLiveModule();renderVL();renderO();refreshTS();loadBracketFromUrl();initRoute();if(FAV){renderFavBanner();updateCountdowns()}else{setTimeout(openFavModal,1500)}loadScoresFromAPI();setInterval(loadScoresFromAPI,60000);
 setInterval(refreshTS,60000);
 window.addEventListener('scroll',()=>{document.getElementById('nav-wrap').classList.toggle('scrolled',window.scrollY>60)},{passive:true});
 window.addEventListener('message',e=>{try{const d=JSON.parse(e.data);if(d.event==='onError'&&(d.info===150||d.info===153||d.info===101))collapseVB()}catch(ignore){}});
