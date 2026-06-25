@@ -66,6 +66,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .md-badge{background:var(--crimson);color:white;padding:2px 8px;border-radius:4px;font-size:10px;font-family:var(--fm)}
 .md-label::after{content:'';flex:1;height:1px;background:var(--border)}
 .match-wrap{margin-bottom:7px;min-width:0;overflow:hidden}
+.yt-playlist-wrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--rl);overflow:hidden;background:#000}
+.yt-playlist-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
 .match-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:13px 16px;display:grid;grid-template-columns:90px 1fr minmax(64px,120px) 1fr 24px;align-items:center;gap:9px;cursor:pointer;transition:border-color .2s,background .2s;position:relative;user-select:none}
 .match-card:hover{border-color:var(--border-h);background:var(--surface-2)}
 .match-card.upcoming{border-left:3px solid var(--crimson)}
@@ -459,10 +461,10 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
       <iframe id="vb-iframe" src="https://www.youtube.com/embed/sM8lJcIu09M?autoplay=1&mute=1&loop=1&playlist=sM8lJcIu09M&controls=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=https://wc2026-kowm.vercel.app" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
     <div class="vb-overlay">
-      <a class="vb-yt-cta" href="https://www.youtube.com/watch?v=m9XH9TmZhqg&amp;list=PLYTrSce4LemRNjnWWkdPnU9GG44dMAKnZ" target="_blank" rel="noopener">
+      <button class="vb-yt-cta" onclick="showTab('videos',document.querySelectorAll('.nav-tab')[4]);document.querySelector('.main')?.scrollIntoView({behavior:'smooth'})">
         <svg class="vb-yt-svg" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
-        Voir les résumés vidéo
-      </a>
+        Résumés de matchs
+      </button>
       <button class="vb-close-btn" onclick="collapseVB()">
         <span class="vb-arrow">↑</span> Réduire
       </button>
@@ -475,13 +477,13 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   <section id="scores" class="section active">
     <div class="live-layout">
       <div>
-        <div class="section-header"><h2>SCORES EN DIRECT</h2><p>Tous les matchs depuis le 11 juin · Cliquez sur un résultat pour buteurs + stats + vidéo · <span id="mc">0</span> matchs</p></div>
+        <div class="section-header"><h2>SCORES</h2><p>Tous les matchs depuis le 11 juin · Cliquez sur un résultat pour buteurs + stats + vidéo · <span id="mc">0</span> matchs</p></div>
         <div class="filter-bar">
           <span class="flabel">Statut :</span>
-          <button class="fbtn active" onclick="fStat('all',this)">Tous</button>
-          <button class="fbtn" onclick="fStat('final',this)">Terminés</button>
+          <button class="fbtn active" onclick="fStat('final',this)">Terminés</button>
           <button class="fbtn" onclick="fStat('upcoming',this)">À venir</button>
           <button class="fbtn" onclick="fStat('live',this)">En cours</button>
+          <button class="fbtn" onclick="fStat('all',this)">Tous</button>
         </div>
         <div class="filter-bar">
           <span class="flabel">Groupe :</span>
@@ -496,7 +498,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
           <div class="live-module-hdr">
             <div class="live-badge"><span class="live-pulse"></span>EN DIRECT</div>
             <div class="live-hdr-title">SCORES</div>
-            <div class="live-hdr-count" id="live-count">—</div>
           </div>
           <div class="live-scores-list" id="live-scores-list"><div class="live-empty">Chargement…</div></div>
           <div class="api-bar"><div class="api-dot" id="api-dot"></div><span id="api-label">Connexion…</span></div>
@@ -536,28 +537,10 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div id="scorers-container"></div>
   </section>
   <section id="videos" class="section">
-    <div class="section-header" style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
-      <div><h2>RÉSUMÉS VIDÉO</h2><p>Ajoutez des liens YouTube par match</p></div>
-      <button class="btn-addv" onclick="toggleVF()">＋ Ajouter</button>
+    <div class="section-header"><h2>RÉSUMÉS VIDÉO</h2><p>Playlist officielle FIFA World Cup 2026</p></div>
+    <div class="yt-playlist-wrap">
+      <iframe src="https://www.youtube.com/embed/m9XH9TmZhqg?list=PLYTrSce4LemRNjnWWkdPnU9GG44dMAKnZ&rel=0&modestbranding=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
     </div>
-    <div id="vform" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:16px;margin-bottom:16px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
-        <input id="vfh" placeholder="Équipe domicile" class="akinput" style="min-width:0">
-        <input id="vfa" placeholder="Équipe extérieure" class="akinput" style="min-width:0">
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
-        <input id="vfs" placeholder="Score (3-1)" class="akinput" style="min-width:0">
-        <input id="vfd" placeholder="Date (22 juin)" class="akinput" style="min-width:0">
-        <select id="vfg" class="akinput" style="min-width:0"><option value="">Groupe…</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option><option>J</option><option>K</option><option>L</option></select>
-      </div>
-      <input id="vfu" placeholder="Lien YouTube" class="akinput" style="width:100%;margin-bottom:8px">
-      <input id="vfdesc" placeholder="Description courte" class="akinput" style="width:100%;margin-bottom:10px">
-      <div style="display:flex;gap:7px">
-        <button onclick="saveV()" class="btn-addv">Enregistrer</button>
-        <button onclick="toggleVF()" style="background:transparent;color:var(--text-2);border:1px solid var(--border);padding:7px 12px;border-radius:var(--r);font-size:12px;cursor:pointer">Annuler</button>
-      </div>
-    </div>
-    <div class="vgrid" id="vgrid"></div>
   </section>
   <section id="odds" class="section">
     <div class="section-header"><h2>COTES & PARIS SPORTIFS</h2><p>Prochains matchs avec stades · Cotes comparées</p></div>
@@ -651,7 +634,7 @@ const NM={BRA:'Brésil',HTI:'Haïti',TUR:'Turquie',PAR:'Paraguay',NED:'Pays-Bas'
 const fl=a=>FL[a]||'🏳',tn=a=>NM[a]||a;
 let M=[],ST={},PL=[];
 const OD={};
-let VID=[],sF='all',gF='all',dF='all',scTab='goals',scGrp='all',bk='winamax',expId=null;
+let VID=[],sF='final',gF='all',dF='all',scTab='goals',scGrp='all',bk='winamax',expId=null;
 function showTab(id,btn){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');if(btn)btn.classList.add('active')}
 function showCalTab(t,btn){document.getElementById('cal-upcoming').style.display=t==='upcoming'?'block':'none';document.getElementById('cal-bracket').style.display=t==='bracket'?'block':'none';document.querySelectorAll('.cal-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
 function getOd(m){return(OD[bk]||[]).find(o=>o.home===m.home&&o.away===m.away)||null}
@@ -828,10 +811,17 @@ function setBK(btn,bk2){bk=bk2;document.querySelectorAll('.bk-btn').forEach(b=>b
 function renderO(){document.getElementById('oc').innerHTML=(OD[bk]||[]).map(m=>`<div class="ocard"><div class="ocard-hdr"><div class="omatch-name">${fl(m.home)} ${tn(m.home)} <span style="color:var(--text-3);font-size:10px;font-family:var(--fm)">vs</span> ${tn(m.away)} ${fl(m.away)}</div><div class="ometa"><div class="otime">⏱ ${m.time}</div><div class="ostadium">🏟️ ${m.stadium}</div></div></div><div class="orow"><div class="obtn" onclick="this.classList.toggle('sel')"><div class="otype">1 — ${tn(m.home)}</div><div class="oval">${m.h.toFixed(2)}</div><div class="oteam">Victoire dom.</div></div><div class="obtn" onclick="this.classList.toggle('sel')"><div class="otype">N — Nul</div><div class="oval">${m.d.toFixed(2)}</div><div class="oteam">Match nul</div></div><div class="obtn" onclick="this.classList.toggle('sel')"><div class="otype">2 — ${tn(m.away)}</div><div class="oval">${m.a.toFixed(2)}</div><div class="oteam">Victoire ext.</div></div></div></div>`).join('')}
 function saveOK(){const k=document.getElementById('oak').value.trim();if(!k)return;localStorage.setItem('odds_api_key',k);document.getElementById('oab').innerHTML=`<div>✅</div><div><strong style="color:var(--gold)">Clé API active</strong> — ${k.slice(0,8)}••••••</div>`}
 /* STICKY SEARCH */
-const SI=[
-  ...Object.keys(NM).map(abbr=>({type:'team',abbr,name:tn(abbr),flag:fl(abbr),keys:[abbr.toLowerCase(),tn(abbr).toLowerCase()]})),
-  ...PL.map(p=>({type:'player',name:p.name,team:p.team,flag:fl(p.team),keys:[p.name.toLowerCase(),...p.name.toLowerCase().split(' ')]}))
-];
+let SI=[];
+function buildSI(){
+  const pmap=new Map();
+  PL.forEach(p=>pmap.set(p.name,p));
+  M.forEach(m=>(m.scorers||[]).forEach(s=>{if(!pmap.has(s.name))pmap.set(s.name,{name:s.name,team:m.home,flag:fl(m.home)})}));
+  SI=[
+    ...Object.keys(NM).map(abbr=>({type:'team',abbr,name:tn(abbr),flag:fl(abbr),keys:[abbr.toLowerCase(),tn(abbr).toLowerCase()]})),
+    ...[...pmap.values()].map(p=>({type:'player',name:p.name,team:p.team,flag:fl(p.team),keys:[p.name.toLowerCase(),...p.name.toLowerCase().split(' ')]}))
+  ];
+}
+buildSI();
 function toggleSP(){const panel=document.getElementById('sp'),btn=document.getElementById('fab');const open=panel.classList.toggle('open');btn.classList.toggle('open',open);if(open)setTimeout(()=>document.getElementById('spi').focus(),220)}
 let spT=null;
 function spInput(q){clearTimeout(spT);document.getElementById('spcl').style.display=q?'block':'none';document.getElementById('spq').style.display=q?'none':'flex';if(!q.trim()){hideSugg();document.getElementById('spr').innerHTML='';return}spT=setTimeout(()=>{showSugg(q);if(q.length>=2)spSearch(q)},280)}
@@ -1087,6 +1077,7 @@ function applyScorers(data){
     minutes:(s.playedMatches||0)*90,
     flag:fl(s.team.tla),
   }));
+  buildSI();
   renderSC();
 }
 let apiInitialized=false;
@@ -1101,7 +1092,7 @@ async function loadScoresFromAPI(){
     if(dot)dot.className='api-dot ok';if(lbl)lbl.textContent='API connectée';
     if(!apiInitialized){
       apiInitialized=true;
-      renderS();renderLiveModule();buildDN();
+      buildSI();renderS();renderLiveModule();buildDN();
       fetch('/api/standings').then(r=>r.json()).then(applyStandings).catch(()=>{});
       fetch('/api/scorers').then(r=>r.json()).then(applyScorers).catch(()=>{});
     } else {
