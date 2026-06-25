@@ -42,6 +42,37 @@
 .bk-reset-btn{background:transparent;border:1px solid var(--border);color:var(--text-2);padding:7px 14px;border-radius:20px;font-family:var(--fm);font-size:11px;cursor:pointer;transition:all .15s}
 .bk-reset-btn:hover{border-color:var(--border-h);color:var(--text)}
 .bk-share-url{flex:1;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:7px 10px;font-family:var(--fm);font-size:10px;color:var(--text-2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:text;display:none}
+.bk-round-tabs{display:none;gap:5px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.bk-round-tabs::-webkit-scrollbar{display:none}
+.bk-rtab{flex-shrink:0;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-2);font-size:11px;font-family:var(--fm);cursor:pointer;transition:all .15s;white-space:nowrap}
+.bk-rtab.active{background:var(--crimson);color:white;border-color:var(--crimson)}
+.bk-mobile-rounds{display:none}
+.bk-mobile-round{display:none}
+.bk-mobile-round.active{display:block}
+.bk-mobile-match{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);margin-bottom:8px;overflow:hidden}
+.bk-mobile-team{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;transition:background .15s}
+.bk-mobile-team:hover:not(.tbd-t){background:var(--surface-2)}
+.bk-mobile-team.winner{background:rgba(21,101,192,.15);border-left:3px solid var(--crimson)}
+.bk-mobile-team.loser{opacity:.4}
+.bk-mobile-team.tbd-t{cursor:default;color:var(--text-3);font-size:12px;font-style:italic}
+.bk-mobile-flag{font-size:20px}
+.bk-mobile-name{flex:1;font-size:13px;font-weight:600;font-family:var(--fd);letter-spacing:.5px}
+.bk-mobile-check{font-size:14px;color:var(--crimson);margin-left:auto}
+.bk-mobile-div{height:1px;background:var(--border);margin:0 14px}
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:700;background:var(--pitch-2);border-top:1px solid var(--border);padding:6px 0 env(safe-area-inset-bottom,8px);backdrop-filter:blur(12px)}
+.bottom-nav{grid-template-columns:repeat(5,1fr)}
+.bnav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0;background:none;border:none;color:var(--text-3);cursor:pointer;font-family:var(--fm);font-size:9px;letter-spacing:.04em;transition:color .15s;flex:1}
+.bnav-btn svg{stroke:currentColor;transition:stroke .15s}
+.bnav-btn.active{color:var(--crimson)}
+.bnav-btn.active svg{stroke:var(--crimson)}
+.more-menu{display:none;position:fixed;inset:0;z-index:1500}
+.more-menu.open{display:block}
+.more-menu-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6)}
+.more-menu-sheet{position:absolute;bottom:0;left:0;right:0;background:var(--pitch-2);border-radius:16px 16px 0 0;padding:16px 14px;border-top:1px solid var(--border)}
+.more-menu-title{font-family:var(--fm);font-size:9px;color:var(--text-3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;padding:0 4px}
+.more-menu-item{display:flex;align-items:center;gap:12px;width:100%;padding:13px 6px;background:none;border:none;color:var(--text);font-size:14px;font-family:var(--fb);cursor:pointer;border-radius:8px;transition:background .15s}
+.more-menu-item:hover{background:var(--surface-2)}
+.more-menu-item svg{stroke:var(--text-2);flex-shrink:0}
 .bk-copied{font-family:var(--fm);font-size:10px;color:var(--glive);display:none}
 .bk-stage-info{font-family:var(--fm);font-size:9px;color:var(--text-3);letter-spacing:.05em;margin-bottom:8px}
 :root{--pitch:#07101c;--pitch-2:#0c1826;--pitch-3:#102033;--surface:#152b45;--surface-2:#1c3558;--border:rgba(255,255,255,.08);--border-h:rgba(255,255,255,.2);--crimson:#1565c0;--gold:#f5c842;--text:#eef5ff;--text-2:#7aaed4;--text-3:#3a6080;--glive:#3ef07a;--fd:'Bebas Neue',sans-serif;--fb:'Inter',sans-serif;--fm:'JetBrains Mono',monospace;--r:8px;--rl:14px}
@@ -456,6 +487,46 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 #cc{position:fixed;inset:0;pointer-events:none;z-index:9998;display:none}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--pitch)}::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:2px}
 @media(max-width:680px){.match-card{grid-template-columns:70px 1fr 58px 1fr 18px;padding:10px 11px;gap:6px}.sdigits{font-size:21px}.tname{font-size:11px}.dgrid{grid-template-columns:1fr}.bgrid{grid-template-columns:1fr}.cal-row{grid-template-columns:65px 1fr auto 1fr;gap:6px}.cal-odds-col{display:none}.sp{width:calc(100vw - 32px)}#search-fab{bottom:16px;right:16px}}
+@media(max-width:480px){
+  .main{padding:10px 10px;padding-bottom:72px}
+  .section-header h2{font-size:18px;letter-spacing:1px}
+  .hero-inner{padding:8px 12px 0;gap:10px;flex-wrap:nowrap}
+  .hero-logo-img{height:40px}
+  .hero-title{font-size:20px;letter-spacing:1px}
+  .hero-sub{display:none}
+  .match-card{grid-template-columns:1fr auto 1fr;grid-template-rows:auto auto;gap:6px 8px;padding:10px 10px}
+  .match-card>div:first-child{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center}
+  .mstadium{display:none}
+  .team-side,.team-side.away{flex-direction:column;align-items:center;gap:3px;text-align:center}
+  .team-side div[style]{text-align:center!important}
+  .tflag{font-size:22px}
+  .tname{font-size:10px;letter-spacing:.3px}
+  .tabbr{display:none}
+  .earrow{display:none}
+  .sdigits{font-size:22px;letter-spacing:2px}
+  .cal-row{grid-template-columns:60px 1fr auto 1fr;gap:5px;padding:10px 10px}
+  .cal-odds-col{display:none}
+  .cal-team{font-size:11px;gap:4px}
+  .live-layout{gap:12px}
+  .filter-bar{gap:4px}
+  .fbtn{font-size:10px;padding:4px 9px}
+  .date-nav{gap:4px}
+  .ggroups{grid-template-columns:1fr}
+  .section-header p{display:none}
+  .bottom-nav{display:grid}
+  .theme-toggle,.notif-nav-btn{display:none}
+  #notif-btn-label{display:none}
+  .bk-round-tabs{display:flex}
+  .bk-mobile-rounds{display:block}
+  .bk-wrap{display:none}
+  .bk-share-bar{flex-wrap:wrap;gap:6px}
+  .bk-share-url{display:none!important}
+  .rank-table td{padding:9px 10px;font-size:12px}
+  .rank-table th{padding:7px 10px}
+  .rank-val{font-size:18px}
+  .rank-avatar{width:28px;height:28px}
+  .rank-num{font-size:16px}
+}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 
 /* === LIVE LAYOUT === */
@@ -757,7 +828,9 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
       <span class="bk-copied" id="bk-copied">✓ Copié !</span>
     </div>
     <div class="bk-stage-info" id="bk-stage-info"></div>
-    <div class="bk-wrap"><div class="bk-grid" id="bk-grid"></div></div>
+    <div class="bk-round-tabs" id="bk-round-tabs"></div>
+  <div class="bk-mobile-rounds" id="bk-mobile-rounds"></div>
+  <div class="bk-wrap"><div class="bk-grid" id="bk-grid"></div></div>
   </section>
 </div>
 <!-- FAV MODAL -->
@@ -860,8 +933,26 @@ let M=[],ST={},PL=[];
 const OD={};
 let VID=[],sF='final',gF='all',dF='all',scTab='goals',scGrp='all',bk='winamax',expId=null;
 const TABS=['scores','standings','calendar','scorers','videos','odds','pronos','bracket'];
+function updateBottomNav(tab){
+  document.querySelectorAll('.bnav-btn[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  const moreTabIds=['scorers','videos','odds','pronos'];
+  const moreBtn=document.getElementById('bnav-more');
+  if(moreBtn)moreBtn.classList.toggle('active',moreTabIds.includes(tab));
+}
+function toggleMoreMenu(){
+  const m=document.getElementById('more-menu');
+  if(!m)return;
+  m.classList.toggle('open');
+}
+let BK_ACTIVE_ROUND = 0;
+function switchBkRound(i) {
+  BK_ACTIVE_ROUND = i;
+  document.querySelectorAll('.bk-mobile-round').forEach((el,idx)=>el.classList.toggle('active',idx===i));
+  document.querySelectorAll('.bk-rtab').forEach((el,idx)=>el.classList.toggle('active',idx===i));
+}
 function showTab(id,btn,pushState=true){
   if(!TABS.includes(id))id='scores';
+  if(window.innerWidth<=480)updateBottomNav(id);
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -1629,6 +1720,48 @@ function renderBracket() {
     </div>
   </div>`;
   grid.innerHTML = html;
+  // Mobile bracket rendering
+  const mobileEl = document.getElementById('bk-mobile-rounds');
+  const tabsEl = document.getElementById('bk-round-tabs');
+  if(mobileEl && tabsEl) {
+    const roundLabels = ['16ES DE FINALE','HUITIÈMES','QUARTS DE FINALE','DEMI-FINALES','🏆 FINALE'];
+    tabsEl.innerHTML = roundLabels.map((l,i) => `<button class="bk-rtab${i===0?' active':''}" onclick="switchBkRound(${i})">${l}</button>`).join('');
+    mobileEl.innerHTML = BK_COLS.map((col,ci) => {
+      const pairs = [];
+      for(let i=0;i<col.ids.length;i+=2) {
+        const ids = col.ids.slice(i, i+2);
+        pairs.push(ids);
+      }
+      const matchesHtml = pairs.map(pair => {
+        if(pair.length===1) {
+          const id=pair[0];
+          const [tA,tB]=bkTeams(id);
+          const pick=BKPICKS[id];
+          const hasPick=!!pick;
+          const teamHtml=(tla,side)=>{
+            if(!tla)return`<div class="bk-mobile-team tbd-t"><span class="bk-mobile-name">À déterminer</span></div>`;
+            const isW=hasPick&&pick===tla;
+            const isL=hasPick&&pick!==tla;
+            return`<div class="bk-mobile-team${isW?' winner':''}${isL?' loser':''}" onclick="bkPick('${id}','${tla}')"><span class="bk-mobile-flag">${fl(tla)}</span><span class="bk-mobile-name">${tn(tla)}</span>${isW?'<span class="bk-mobile-check">✓</span>':''}</div>`;
+          };
+          return`<div class="bk-mobile-match">${teamHtml(tA,'a')}<div class="bk-mobile-div"></div>${teamHtml(tB,'b')}</div>`;
+        }
+        return pair.map(id=>{
+          const [tA,tB]=bkTeams(id);
+          const pick=BKPICKS[id];
+          const hasPick=!!pick;
+          const teamHtml=(tla)=>{
+            if(!tla)return`<div class="bk-mobile-team tbd-t"><span class="bk-mobile-name">À déterminer</span></div>`;
+            const isW=hasPick&&pick===tla;
+            const isL=hasPick&&pick!==tla;
+            return`<div class="bk-mobile-team${isW?' winner':''}${isL?' loser':''}" onclick="bkPick('${id}','${tla}')"><span class="bk-mobile-flag">${fl(tla)}</span><span class="bk-mobile-name">${tn(tla)}</span>${isW?'<span class="bk-mobile-check">✓</span>':''}</div>`;
+          };
+          return`<div class="bk-mobile-match">${teamHtml(tA)}<div class="bk-mobile-div"></div>${teamHtml(tB)}</div>`;
+        }).join('');
+      }).join('');
+      return`<div class="bk-mobile-round${ci===0?' active':''}" id="bkmr-${ci}">${matchesHtml}</div>`;
+    }).join('');
+  }
   const total = Object.keys(BKD).length;
   const done = Object.keys(BKPICKS).length;
   const info = document.getElementById('bk-stage-info');
@@ -1688,4 +1821,59 @@ window.addEventListener('scroll',()=>{document.getElementById('nav-wrap').classL
 window.addEventListener('message',e=>{try{const d=JSON.parse(e.data);if(d.event==='onError'&&(d.info===150||d.info===153||d.info===101))collapseVB()}catch(ignore){}});
 const sk=localStorage.getItem('odds_api_key');
 if(sk){document.getElementById('oak').value=sk;document.getElementById('oab').innerHTML=`<div>✅</div><div><strong style="color:var(--gold)">Clé API active</strong> — ${sk.slice(0,8)}••••••</div>`}
-</script></body></html>
+</script>
+<nav class="bottom-nav" id="bottom-nav">
+  <button class="bnav-btn" data-tab="scores" onclick="showTab('scores',null);updateBottomNav('scores')">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+    <span>Scores</span>
+  </button>
+  <button class="bnav-btn" data-tab="standings" onclick="showTab('standings',null);updateBottomNav('standings')">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    <span>Classmt.</span>
+  </button>
+  <button class="bnav-btn" data-tab="calendar" onclick="showTab('calendar',null);updateBottomNav('calendar')">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <span>Calendrier</span>
+  </button>
+  <button class="bnav-btn" data-tab="bracket" onclick="showTab('bracket',null);updateBottomNav('bracket')">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 6h8M8 12h5M8 18h3"/><path d="M3 6h1M3 12h1M3 18h1"/></svg>
+    <span>Bracket</span>
+  </button>
+  <button class="bnav-btn" id="bnav-more" onclick="toggleMoreMenu()">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="19" r="1.5" fill="currentColor"/></svg>
+    <span>Plus</span>
+  </button>
+</nav>
+
+<div class="more-menu" id="more-menu">
+  <div class="more-menu-backdrop" onclick="toggleMoreMenu()"></div>
+  <div class="more-menu-sheet">
+    <div class="more-menu-title">Navigation</div>
+    <button class="more-menu-item" onclick="showTab('scorers',null);updateBottomNav('scorers');toggleMoreMenu()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Buteurs
+    </button>
+    <button class="more-menu-item" onclick="showTab('videos',null);updateBottomNav('videos');toggleMoreMenu()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Vidéos
+    </button>
+    <button class="more-menu-item" onclick="showTab('odds',null);updateBottomNav('odds');toggleMoreMenu()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg>
+      Cotes
+    </button>
+    <button class="more-menu-item" onclick="showTab('pronos',null);updateBottomNav('pronos');toggleMoreMenu()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Pronos
+    </button>
+    <div style="height:1px;background:var(--border);margin:8px 0"></div>
+    <button class="more-menu-item" onclick="openNotifModal();toggleMoreMenu()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Alertes buts
+    </button>
+    <button class="more-menu-item" onclick="toggleTheme();toggleMoreMenu()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      Thème
+    </button>
+  </div>
+</div>
+</body></html>
