@@ -82,13 +82,31 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .bs-stat-val{font-family:var(--fm);font-size:22px;font-weight:800;color:#fff;line-height:1}
 .bs-stat-lbl{font-family:var(--fm);font-size:9px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.35);margin-top:2px;text-transform:uppercase}
 .bs-sep{width:1px;height:32px;background:rgba(255,255,255,.08)}
-.bs-player-wrap{position:relative;padding:20px;background:radial-gradient(ellipse at center,#0f1022 0%,#07080f 70%)}
+.bs-content{display:grid;grid-template-columns:1fr 280px;min-height:0}
+.bs-player-wrap{position:relative;padding:16px;background:radial-gradient(ellipse at center,#0f1022 0%,#07080f 70%)}
 .bs-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(99,102,241,.08) 0%,transparent 70%);pointer-events:none}
 .bs-corner{position:absolute;width:18px;height:18px;z-index:2;pointer-events:none}
 .bs-corner-tl{top:20px;left:20px;border-top:2px solid rgba(99,102,241,.6);border-left:2px solid rgba(99,102,241,.6);border-radius:4px 0 0 0}
 .bs-corner-tr{top:20px;right:20px;border-top:2px solid rgba(99,102,241,.6);border-right:2px solid rgba(99,102,241,.6);border-radius:0 4px 0 0}
 .bs-corner-bl{bottom:20px;left:20px;border-bottom:2px solid rgba(99,102,241,.6);border-left:2px solid rgba(99,102,241,.6);border-radius:0 0 0 4px}
 .bs-corner-br{bottom:20px;right:20px;border-bottom:2px solid rgba(99,102,241,.6);border-right:2px solid rgba(99,102,241,.6);border-radius:0 0 4px 0}
+.bs-sidebar{background:#05060d;border-left:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;min-height:0}
+.bs-sidebar-hdr{flex-shrink:0;padding:10px 12px;font-family:var(--fm);font-size:9px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.4);border-bottom:1px solid rgba(255,255,255,.06)}
+#bs-count{color:rgba(255,255,255,.2);margin-left:4px}
+.bs-sidebar-list{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+.bs-sidebar-loading{padding:20px;font-family:var(--fm);font-size:11px;color:rgba(255,255,255,.3);text-align:center}
+.bs-item{display:flex;gap:8px;padding:8px 10px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s;align-items:flex-start;border-left:2px solid transparent}
+.bs-item:hover{background:rgba(255,255,255,.04)}
+.bs-item.active{background:rgba(99,102,241,.12);border-left-color:rgba(99,102,241,.7)}
+.bs-item-thumb{flex-shrink:0;width:96px;height:54px;border-radius:4px;object-fit:cover;background:#111}
+.bs-item-thumb-wrap{position:relative;flex-shrink:0}
+.bs-item-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s}
+.bs-item:hover .bs-item-play{opacity:1}
+.bs-item-play svg{width:20px;height:20px;fill:white;filter:drop-shadow(0 1px 3px rgba(0,0,0,.8))}
+.bs-item-info{flex:1;min-width:0}
+.bs-item-title{font-size:11px;font-weight:500;color:rgba(255,255,255,.8);line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.bs-item-num{font-family:var(--fm);font-size:9px;color:rgba(255,255,255,.3);margin-top:3px}
+@media(max-width:640px){.bs-content{grid-template-columns:1fr}.bs-sidebar{max-height:220px;border-left:none;border-top:1px solid rgba(255,255,255,.06)}.bs-sidebar-list{display:flex;overflow-x:auto;overflow-y:hidden}.bs-item{flex-direction:column;min-width:130px;border-bottom:none;border-left:none;border-right:1px solid rgba(255,255,255,.04);padding:8px}.bs-item.active{border-left:none;border-top:2px solid rgba(99,102,241,.7)}.bs-item-thumb{width:100%;height:70px}}
 .bs-ticker{display:flex;align-items:center;overflow:hidden;background:#0c0d18;border-top:1px solid rgba(255,255,255,.05);height:32px}
 .bs-ticker-label{flex-shrink:0;font-family:var(--fm);font-size:9px;font-weight:800;letter-spacing:.14em;color:#fff;background:var(--crimson);padding:0 12px;height:100%;display:flex;align-items:center}
 .bs-ticker-track{flex:1;overflow:hidden;position:relative}
@@ -578,15 +596,21 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         <div class="bs-sep"></div>
         <div class="bs-stat"><span class="bs-stat-val" id="bs-finished-val">—</span><span class="bs-stat-lbl">Terminés</span></div>
       </div>
-      <div class="bs-player-wrap">
-        <div class="bs-glow"></div>
-        <div class="yt-playlist-wrap">
-          <iframe src="https://www.youtube.com/embed/m9XH9TmZhqg?list=PLYTrSce4LemRNjnWWkdPnU9GG44dMAKnZ&rel=0&modestbranding=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+      <div class="bs-content">
+        <div class="bs-player-wrap">
+          <div class="bs-glow"></div>
+          <div class="yt-playlist-wrap">
+            <iframe id="bs-iframe" src="https://www.youtube.com/embed/m9XH9TmZhqg?list=PLYTrSce4LemRNjnWWkdPnU9GG44dMAKnZ&rel=0&modestbranding=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+          </div>
+          <div class="bs-corner bs-corner-tl"></div>
+          <div class="bs-corner bs-corner-tr"></div>
+          <div class="bs-corner bs-corner-bl"></div>
+          <div class="bs-corner bs-corner-br"></div>
         </div>
-        <div class="bs-corner bs-corner-tl"></div>
-        <div class="bs-corner bs-corner-tr"></div>
-        <div class="bs-corner bs-corner-bl"></div>
-        <div class="bs-corner bs-corner-br"></div>
+        <div class="bs-sidebar" id="bs-sidebar">
+          <div class="bs-sidebar-hdr">▶ PLAYLIST <span id="bs-count"></span></div>
+          <div class="bs-sidebar-list" id="bs-sidebar-list"><div class="bs-sidebar-loading">Chargement…</div></div>
+        </div>
       </div>
       <div class="bs-ticker">
         <div class="bs-ticker-label">COMPÉTITION</div>
@@ -687,7 +711,7 @@ const fl=a=>FL[a]||'🏳',tn=a=>NM[a]||a;
 let M=[],ST={},PL=[];
 const OD={};
 let VID=[],sF='final',gF='all',dF='all',scTab='goals',scGrp='all',bk='winamax',expId=null;
-function showTab(id,btn){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');if(btn)btn.classList.add('active')}
+function showTab(id,btn){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');if(btn)btn.classList.add('active');if(id==='videos'&&!YTP.length)loadYTPlaylist();}
 function showCalTab(t,btn){document.getElementById('cal-upcoming').style.display=t==='upcoming'?'block':'none';document.getElementById('cal-bracket').style.display=t==='bracket'?'block':'none';document.querySelectorAll('.cal-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
 function getOd(m){return(OD[bk]||[]).find(o=>o.home===m.home&&o.away===m.away)||null}
 /* DATE NAV */
@@ -770,6 +794,41 @@ function renderDet(m){
   return`<div class="dgrid"><div><div class="dtitle">${fl(m.home)} Buteurs & passeurs ${fl(m.away)}</div>${scH}</div><div><div class="dtitle">Statistiques du match</div>${stH}</div></div><div class="vsec"><div class="vsec-title">▶ Résumé vidéo</div>${vidH}</div>`;
 }
 function loadYT(id,ytId){document.getElementById('yte-'+id).innerHTML=`<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`}
+let YTP=[];
+function loadYTPlaylist(){
+  fetch('/api/ytplaylist').then(r=>r.json()).then(data=>{
+    if(!data.items?.length)return;
+    YTP=data.items;
+    const list=document.getElementById('bs-sidebar-list');
+    const cnt=document.getElementById('bs-count');
+    if(!list)return;
+    if(cnt)cnt.textContent=YTP.length;
+    list.innerHTML=YTP.map((item,i)=>{
+      const vid=item.snippet?.resourceId?.videoId;
+      const title=item.snippet?.title||'Résumé';
+      const thumb=item.snippet?.thumbnails?.medium?.url||item.snippet?.thumbnails?.default?.url||`https://img.youtube.com/vi/${vid}/mqdefault.jpg`;
+      return`<div class="bs-item${i===0?' active':''}" onclick="playYT('${vid}',this)" data-vid="${vid}">
+        <div class="bs-item-thumb-wrap">
+          <img class="bs-item-thumb" src="${thumb}" loading="lazy">
+          <div class="bs-item-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div>
+        <div class="bs-item-info">
+          <div class="bs-item-title">${title}</div>
+          <div class="bs-item-num">#${i+1}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }).catch(()=>{
+    const list=document.getElementById('bs-sidebar-list');
+    if(list)list.innerHTML='<div class="bs-sidebar-loading">Playlist indisponible</div>';
+  });
+}
+function playYT(vid,el){
+  const iframe=document.getElementById('bs-iframe');
+  if(iframe)iframe.src=`https://www.youtube.com/embed/${vid}?list=PLYTrSce4LemRNjnWWkdPnU9GG44dMAKnZ&autoplay=1&rel=0&modestbranding=1`;
+  document.querySelectorAll('.bs-item').forEach(x=>x.classList.remove('active'));
+  if(el){el.classList.add('active');el.scrollIntoView({block:'nearest',behavior:'smooth'});}
+}
 function ytID(url){if(!url)return null;const m=url.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);return m?m[1]:null}
 /* STANDINGS */
 function b3(){const t=Object.entries(ST).map(([g,ts])=>{const x=ts[2];return x?{...x,g,gd:x.gf-x.ga}:null}).filter(Boolean);t.sort((a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf);return t}
