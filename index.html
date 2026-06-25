@@ -1046,7 +1046,7 @@ function renderLiveModule(){
     }).join('');
   }
   document.getElementById('live-scores-list').innerHTML=html;
-  document.getElementById('live-count').textContent=M.length+' matchs';
+  const lc=document.getElementById('live-count');if(lc)lc.textContent=M.length+' matchs';
   const now=new Date();
   document.getElementById('live-update-time').textContent=`MAJ ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
 }
