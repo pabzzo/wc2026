@@ -1338,7 +1338,7 @@ function applyStandings(data){
     ST[letter]=grp.table.map(row=>({t:row.team.tla,w:row.won,d:row.draw,l:row.lost,gf:row.goalsFor,ga:row.goalsAgainst,pts:row.points}));
   });
   renderST();renderCal();
-  if(document.getElementById('bracket')?.classList.contains('active'))renderBracket();
+  renderBracket();
 }
 function applyScorers(data){
   if(!data.scorers)return;
@@ -1478,8 +1478,8 @@ const BKD = {
 };
 
 const BK_COLS = [
-  {label:'32ES DE FINALE', ids:['m73','m75','m74','m77','m76','m78','m79','m80','m83','m84','m81','m82','m86','m88','m85','m87']},
-  {label:'8ES DE FINALE',  ids:['m90','m89','m91','m92','m93','m94','m95','m96']},
+  {label:'16ES DE FINALE', ids:['m73','m75','m74','m77','m76','m78','m79','m80','m83','m84','m81','m82','m86','m88','m85','m87']},
+  {label:'HUITIÈMES',      ids:['m90','m89','m91','m92','m93','m94','m95','m96']},
   {label:'QUARTS DE FINALE', ids:['m97','m99','m98','m100']},
   {label:'DEMI-FINALES',   ids:['m101','m102']},
   {label:'🏆 FINALE',      ids:['m104']},
