@@ -95,7 +95,7 @@ html.light .bs-ticker-inner{color:rgba(10,22,40,.45)}
 .notif-nav-btn:hover{background:rgba(62,240,122,.22);border-color:rgba(62,240,122,.6)}
 .notif-nav-btn.active{background:var(--glive);color:#07101c;border-color:var(--glive)}
 .notif-nav-btn.active:hover{opacity:.85}
-.theme-toggle{margin-left:auto;padding:6px 12px;background:none;border:1px solid var(--border);border-radius:20px;cursor:pointer;font-size:11px;color:var(--text-2);font-family:var(--fm);display:flex;align-items:center;gap:5px;transition:all .2s;flex-shrink:0}
+.theme-toggle{margin-left:auto;padding:6px 12px;background:none;border:1px solid var(--border);border-radius:20px;cursor:pointer;font-size:11px;color:var(--text-2);font-family:var(--fm);display:flex;align-items:center;gap:5px;transition:all .2s;flex-shrink:0;align-self:center}
 .theme-toggle:hover{border-color:var(--border-h);color:var(--text)}
 /* COUNTDOWN */
 .cd-timer{display:block;font-family:var(--fm);font-size:10px;color:var(--crimson);letter-spacing:.02em;margin-top:2px;font-weight:600}
@@ -136,6 +136,13 @@ html.light .bs-ticker-inner{color:rgba(10,22,40,.45)}
 .prono-total{background:var(--surface-2);border:1px solid var(--border-h);border-radius:var(--rl);padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:16px}
 .prono-total-val{font-family:var(--fd);font-size:36px;color:var(--gold);line-height:1}
 .prono-total-info{font-size:11px;color:var(--text-2);font-family:var(--fm)}
+.prono-match-hdr{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.prono-team-inp{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:18px}
+.prono-inp{width:44px;height:44px;border-radius:var(--r);border:1px solid var(--border-h);background:var(--surface-2);color:var(--text);font-family:var(--fd);font-size:22px;text-align:center;appearance:none;-moz-appearance:textfield}
+.prono-inp::-webkit-inner-spin-button{appearance:none}
+.prono-inp:focus{outline:none;border-color:var(--crimson)}
+.prono-past-card{transition:border-color .15s}
+.prono-past-card:hover{background:var(--surface-2)}
 /* TIMELINE BUTS */
 .goal-timeline{padding:10px 14px}
 .goal-event{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:11px}
@@ -170,7 +177,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .nav-sticky-wrap.scrolled::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(21,101,192,.5),transparent);pointer-events:none}
 .nav{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;overflow-x:auto;scrollbar-width:none;position:relative}
 .nav::-webkit-scrollbar{display:none}
-.nav-tab{padding:12px 15px;font-size:11px;font-weight:500;color:var(--text-3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color .2s,border-color .2s;letter-spacing:.5px;text-transform:uppercase;display:flex;align-items:center;gap:5px}
+.nav-tab{padding:14px 13px;font-size:11px;font-weight:500;color:var(--text-3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color .2s,border-color .2s;letter-spacing:.5px;text-transform:uppercase;display:flex;align-items:center;gap:5px}
 .nav-tab svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 .nav-tab.active{color:var(--crimson);border-bottom-color:var(--crimson)}
 .nav-tab:hover:not(.active){color:var(--text-2)}
@@ -428,6 +435,9 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .btsm{padding:5px 11px;border-radius:var(--r);font-size:11px;cursor:pointer;font-weight:500;background:var(--crimson);color:white;border:none}
 /* STICKY SEARCH FAB */
 #search-fab{position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.notif-fab{position:fixed;bottom:76px;right:24px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border-h);background:var(--surface);color:var(--text-2);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:all .2s;z-index:600}
+.notif-fab:hover{background:var(--surface-2);transform:scale(1.08)}
+.notif-fab.active{background:rgba(62,240,122,.15);border-color:rgba(62,240,122,.5);color:var(--glive)}
 .sfab-btn{width:52px;height:52px;border-radius:50%;background:var(--crimson);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(21,101,192,.5);transition:transform .2s,box-shadow .2s;position:relative;z-index:2;flex-shrink:0}
 .sfab-btn:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(21,101,192,.7)}
 .sfab-btn svg{width:22px;height:22px;stroke:white;fill:none;stroke-width:2.5}
@@ -486,7 +496,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .yt-ew iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
 #cc{position:fixed;inset:0;pointer-events:none;z-index:9998;display:none}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--pitch)}::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:2px}
-@media(max-width:680px){.match-card{grid-template-columns:70px 1fr 58px 1fr 18px;padding:10px 11px;gap:6px}.sdigits{font-size:21px}.tname{font-size:11px}.dgrid{grid-template-columns:1fr}.bgrid{grid-template-columns:1fr}.cal-row{grid-template-columns:65px 1fr auto 1fr;gap:6px}.cal-odds-col{display:none}.sp{width:calc(100vw - 32px)}#search-fab{bottom:16px;right:16px}}
+@media(max-width:680px){.match-card{grid-template-columns:70px 1fr 58px 1fr 18px;padding:10px 11px;gap:6px}.sdigits{font-size:21px}.tname{font-size:11px}.dgrid{grid-template-columns:1fr}.bgrid{grid-template-columns:1fr}.cal-row{grid-template-columns:65px 1fr auto 1fr;gap:6px}.cal-odds-col{display:none}.sp{width:calc(100vw - 32px)}#search-fab{bottom:16px;right:16px}.notif-fab{bottom:76px;right:16px}}
 @media(max-width:480px){
   .main{padding:10px 10px;padding-bottom:72px}
   .section-header h2{font-size:18px;letter-spacing:1px}
@@ -673,10 +683,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <button class="nav-tab" onclick="showTab('odds',this)"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Cotes</button>
     <button class="nav-tab" onclick="showTab('pronos',this)"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Pronos</button>
     <button class="nav-tab" onclick="showTab('bracket',this)"><svg viewBox="0 0 24 24"><path d="M8 6h8M8 12h5M8 18h3"/><path d="M3 6h1M3 12h1M3 18h1"/></svg>Bracket</button>
-    <button class="notif-nav-btn" id="notif-btn" onclick="openNotifModal()">
-      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-      <span id="notif-btn-label">Alertes buts</span>
-    </button>
     <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">🌙 Nuit</button>
   </div>
 </div>
@@ -798,11 +804,13 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div class="api-banner" id="oab"><div>⚙️</div><div><strong>The Odds API</strong> — clé gratuite sur <a href="https://the-odds-api.com" target="_blank" style="color:var(--gold)">the-odds-api.com</a><div class="akwrap"><input class="akinput" id="oak" placeholder="Votre clé API…"><button class="btsm" onclick="saveOK()">Valider</button></div></div></div>
     <div class="odds-toolbar">
       <span class="odds-lbl">Bookmaker :</span>
-      <button class="bk-btn active" onclick="setBK(this,'winamax')">Winamax</button>
-      <button class="bk-btn" onclick="setBK(this,'betclic')">Betclic</button>
-      <button class="bk-btn" onclick="setBK(this,'pmu')">PMU</button>
-      <button class="bk-btn" onclick="setBK(this,'unibet')">Unibet</button>
-      <button class="bk-btn" onclick="setBK(this,'betway')">Betway</button>
+      <div id="odds-bk-toolbar" style="display:contents">
+        <button class="bk-btn active" onclick="setBK(this,'winamax')">Winamax</button>
+        <button class="bk-btn" onclick="setBK(this,'betclic')">Betclic</button>
+        <button class="bk-btn" onclick="setBK(this,'pmu')">PMU</button>
+        <button class="bk-btn" onclick="setBK(this,'unibet')">Unibet</button>
+        <button class="bk-btn" onclick="setBK(this,'betway')">Betway</button>
+      </div>
     </div>
     <div id="oc"></div>
     <div style="margin-top:10px;font-size:10px;color:var(--text-3);padding:7px 11px;background:var(--pitch-3);border-radius:var(--r);font-family:var(--fm)">⚠️ Cotes indicatives · Jeu responsable — 18+</div>
@@ -854,6 +862,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <button onclick="closeNotifModal()" style="margin-top:10px;background:none;border:none;color:var(--text-3);font-family:var(--fm);font-size:11px;cursor:pointer;padding:6px">Fermer</button>
   </div>
 </div>
+<!-- NOTIF FAB -->
+<button class="notif-fab" id="notif-fab" onclick="openNotifModal()" title="Alertes buts"></button>
 <!-- STICKY SEARCH FAB -->
 <div id="search-fab">
   <div class="sp" id="sp">
@@ -1192,7 +1202,37 @@ function closeM(){document.getElementById('ytbg').classList.remove('open');docum
 document.getElementById('ytbg').addEventListener('click',e=>{if(e.target===e.currentTarget)closeM()});
 /* ODDS */
 function setBK(btn,bk2){bk=bk2;document.querySelectorAll('.bk-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderO();renderCal();renderS()}
-function renderO(){document.getElementById('oc').innerHTML=(OD[bk]||[]).map(m=>`<div class="ocard"><div class="ocard-hdr"><div class="omatch-name">${fl(m.home)} ${tn(m.home)} <span style="color:var(--text-3);font-size:10px;font-family:var(--fm)">vs</span> ${tn(m.away)} ${fl(m.away)}</div><div class="ometa"><div class="otime">⏱ ${m.time}</div><div class="ostadium">🏟️ ${m.stadium}</div></div></div><div class="orow"><div class="obtn" onclick="this.classList.toggle('sel')"><div class="otype">1 — ${tn(m.home)}</div><div class="oval">${m.h.toFixed(2)}</div><div class="oteam">Victoire dom.</div></div><div class="obtn" onclick="this.classList.toggle('sel')"><div class="otype">N — Nul</div><div class="oval">${m.d.toFixed(2)}</div><div class="oteam">Match nul</div></div><div class="obtn" onclick="this.classList.toggle('sel')"><div class="otype">2 — ${tn(m.away)}</div><div class="oval">${m.a.toFixed(2)}</div><div class="oteam">Victoire ext.</div></div></div></div>`).join('')}
+const EN_TLA={'France':'FRA','Germany':'GER','Brazil':'BRA','Argentina':'ARG','Spain':'ESP','Portugal':'POR','England':'ENG','Netherlands':'NED','Belgium':'BEL','Uruguay':'URU','Mexico':'MEX','Japan':'JPN','United States':'USA','Canada':'CAN','Morocco':'MAR','Senegal':'SEN','Australia':'AUS','South Korea':'KOR','Croatia':'CRO','Denmark':'DEN','Switzerland':'SUI','Colombia':'COL','Ecuador':'ECU','Norway':'NOR','Turkey':'TUR','Poland':'POL','Austria':'AUT','Ghana':'GHA','Cameroon':'CMR','Serbia':'SRB','Saudi Arabia':'KSA','Qatar':'QAT','Paraguay':'PAR','Panama':'PAN','Jamaica':'JAM','Bolivia':'BOL',"Ivory Coast":'CIV','Egypt':'EGY','Iraq':'IRQ','Jordan':'JOR','Algeria':'ALG','Tunisia':'TUN','Uzbekistan':'UZB','New Zealand':'NZL','DR Congo':'COD','Cape Verde':'CPV','Haiti':'HTI','Curaçao':'CUW','South Africa':'RSA','Scotland':'SCO','Bosnia and Herzegovina':'BIH','Czech Republic':'CZE','Sweden':'SWE','United States of America':'USA','Korea Republic':'KOR','Côte d\'Ivoire':'CIV','Congo DR':'COD','USA':'USA'};
+function applyOdds(data){
+  if(!Array.isArray(data)||!data.length)return;
+  Object.keys(OD).forEach(k=>delete OD[k]);
+  data.forEach(match=>{
+    const home=EN_TLA[match.home_team]||null;
+    const away=EN_TLA[match.away_team]||null;
+    if(!home||!away)return;
+    const mInfo=M.find(m=>m.home===home&&m.away===away);
+    (match.bookmakers||[]).forEach(bmaker=>{
+      const bkKey=bmaker.key;
+      if(!OD[bkKey])OD[bkKey]=[];
+      const market=(bmaker.markets||[]).find(mk=>mk.key==='h2h');
+      if(!market)return;
+      const outs=market.outcomes||[];
+      const hOut=outs.find(o=>EN_TLA[o.name]===home||o.name===home);
+      const aOut=outs.find(o=>EN_TLA[o.name]===away||o.name===away);
+      const dOut=outs.find(o=>o.name==='Draw');
+      if(!hOut||!aOut)return;
+      OD[bkKey].push({home,away,h:hOut.price,a:aOut.price,d:dOut?.price||0,time:mInfo?.time||'',stadium:mInfo?.stadium||''});
+    });
+  });
+  // Update bookmaker buttons dynamically
+  const avail=Object.keys(OD);
+  if(!avail.length)return;
+  if(!OD[bk]||!OD[bk].length)bk=avail[0];
+  const toolbar=document.getElementById('odds-bk-toolbar');
+  if(toolbar){toolbar.innerHTML=avail.map((k,i)=>`<button class="bk-btn${k===bk?' active':''}" onclick="setBK(this,'${k}')">${k.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</button>`).join('')}
+  renderO();
+}
+function renderO(){const oc=document.getElementById('oc');if(!oc)return;const items=OD[bk]||[];if(!items.length){oc.innerHTML='<div style="text-align:center;padding:40px 20px;font-family:var(--fm);color:var(--text-3);font-size:12px">⏳ Chargement des cotes...<br><span style="font-size:10px;margin-top:6px;display:block">Les cotes sont mises à jour toutes les 5 min</span></div>';return}oc.innerHTML=items.map(m=>`<div class="ocard"><div class="ocard-hdr"><div class="omatch-name">${fl(m.home)} ${tn(m.home)} <span style="color:var(--text-3);font-size:10px;font-family:var(--fm)">vs</span> ${tn(m.away)} ${fl(m.away)}</div><div class="ometa"><div class="otime">⏱ ${m.time}</div><div class="ostadium">🏟️ ${m.stadium}</div></div></div><div class="orow"><div class="obtn" onclick="this.classList.toggle('sel')"><div class="otype">1 — ${tn(m.home)}</div><div class="oval">${m.h.toFixed(2)}</div><div class="oteam">Victoire dom.</div></div><div class="obtn" onclick="this.classList.toggle('sel')"><div class="otype">N — Nul</div><div class="oval">${m.d.toFixed(2)}</div><div class="oteam">Match nul</div></div><div class="obtn" onclick="this.classList.toggle('sel')"><div class="otype">2 — ${tn(m.away)}</div><div class="oval">${m.a.toFixed(2)}</div><div class="oteam">Victoire ext.</div></div></div></div>`).join('')}
 function saveOK(){const k=document.getElementById('oak').value.trim();if(!k)return;localStorage.setItem('odds_api_key',k);document.getElementById('oab').innerHTML=`<div>✅</div><div><strong style="color:var(--gold)">Clé API active</strong> — ${k.slice(0,8)}••••••</div>`}
 /* STICKY SEARCH */
 let SI=[];
@@ -1497,6 +1537,7 @@ async function loadScoresFromAPI(){
       fetch('/api/standings').then(r=>r.json()).then(applyStandings).catch(()=>{});
       fetch('/api/scorers').then(r=>r.json()).then(applyScorers).catch(()=>{});
       fetch('/api/teams').then(r=>r.json()).then(applyTeams).catch(()=>{});
+      fetch('/api/odds').then(r=>r.json()).then(applyOdds).catch(()=>{});
     } else {
       renderLiveModule();
       M.filter(m=>m.status==='live').forEach(m=>{
@@ -1552,20 +1593,93 @@ function saveProno(id,h,a){if(h===''||a==='')return;PRONOS[id]={h:parseInt(h),a:
 function calcPts(pred,real){if(!pred||real.h===null)return null;const exact=pred.h===real.h&&pred.a===real.a;const res=r=>r.h>r.a?1:r.h<r.a?-1:0;const goodRes=res(pred)===res(real);return exact?3:goodRes?1:0}
 function renderPronos(){
   const up=M.filter(m=>m.status==='upcoming').sort((a,b)=>new Date(a.utcDate)-new Date(b.utcDate));
-  const fin=M.filter(m=>m.status==='final'&&PRONOS[m.id]);
-  const total=fin.reduce((s,m)=>{const p=calcPts(PRONOS[m.id],{h:m.scoreH,a:m.scoreA});return s+(p||0)},0);
-  const tot=document.getElementById('prono-total');const totV=document.getElementById('prono-total-val');const totD=document.getElementById('prono-total-detail');
-  const hasAny=Object.keys(PRONOS).length>0;
-  if(tot)tot.style.display=hasAny?'flex':'none';
-  if(totV)totV.textContent=total;
-  if(totD)totD.textContent=fin.length?`sur ${fin.length} résultat${fin.length>1?'s':''} connu${fin.length>1?'s':''}`:`${Object.keys(PRONOS).length} prono${Object.keys(PRONOS).length>1?'s':''} en attente`;
+  const past=M.filter(m=>m.status==='final').sort((a,b)=>new Date(b.utcDate)-new Date(a.utcDate));
+  // Total
+  const tot=document.getElementById('prono-total');
+  const totVal=document.getElementById('prono-total-val');
+  const totDet=document.getElementById('prono-total-detail');
+  let pts=0,exact=0,bon=0,nul=0,played=0;
+  past.forEach(m=>{
+    const p=PRONOS[m.id];
+    if(!p)return;
+    played++;
+    const r=calcPts(p,{h:m.scoreH,a:m.scoreA});
+    pts+=r;
+    if(r===3)exact++;
+    else if(r===1)bon++;
+    else nul++;
+  });
+  if(Object.keys(PRONOS).length>0){
+    tot.style.display='flex';
+    totVal.textContent=pts;
+    totDet.innerHTML=`${played} résultats connus · <span style="color:var(--glive)">${exact} exact${exact>1?'s':''}</span> · ${bon} bon${bon>1?'s':''} résultat${bon>1?'s':''}`;
+  } else {
+    tot.style.display='none';
+  }
+  // Upcoming
   const upEl=document.getElementById('pronos-upcoming');
   if(upEl){
-    if(!up.length){upEl.innerHTML='<div style="color:var(--text-3);text-align:center;padding:28px;font-family:var(--fm);font-size:12px">Aucun match à venir</div>';return}
-    upEl.innerHTML='<div style="font-family:var(--fm);font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Matchs à venir</div>'+up.map(m=>{const p=PRONOS[m.id];return`<div class="prono-card"><div class="prono-team">${fl(m.home)} <span style="font-size:11px">${tn(m.home)}</span></div><div><div class="prono-inputs"><input class="prono-input" type="number" min="0" max="20" value="${p?p.h:''}" placeholder="—" id="ph-${m.id}" onchange="saveProno('${m.id}',this.value,document.getElementById('pa-${m.id}').value)"><span class="prono-sep">:</span><input class="prono-input" type="number" min="0" max="20" value="${p?p.a:''}" placeholder="—" id="pa-${m.id}" onchange="saveProno('${m.id}',document.getElementById('ph-${m.id}').value,this.value)"></div><div style="text-align:center;font-family:var(--fm);font-size:9px;color:var(--text-3);margin-top:4px">${m.time.split('·')[1]?.trim()||''}</div></div><div class="prono-team right"><span style="font-size:11px">${tn(m.away)}</span> ${fl(m.away)}</div></div>`}).join('')
+    if(!up.length){upEl.innerHTML='<div style="text-align:center;padding:20px;font-family:var(--fm);font-size:11px;color:var(--text-3)">Aucun match à venir</div>';}
+    else{upEl.innerHTML='<div style="font-family:var(--fm);font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">À PRONOSTIQUER</div>'+up.map(m=>{
+      const p=PRONOS[m.id]||{h:'',a:''};
+      const cd=fmtCD(new Date(m.utcDate)-Date.now());
+      return`<div class="prono-card">
+        <div class="prono-match-hdr">${fl(m.home)} ${tn(m.home)} <span style="color:var(--text-3);font-size:10px;font-family:var(--fm)">vs</span> ${fl(m.away)} ${tn(m.away)}</div>
+        <div style="font-size:9px;color:var(--text-3);font-family:var(--fm);margin:2px 0 8px">${m.time} · <span style="color:${new Date(m.utcDate)-Date.now()<3600000?'#ef4444':'var(--text-3)'}">${cd}</span></div>
+        <div class="prono-inputs">
+          <div class="prono-team-inp">${fl(m.home)}<input class="prono-inp" type="number" min="0" max="20" placeholder="—" value="${p.h}" onchange="saveProno('${m.id}',this.value,document.getElementById('pa-${m.id}').value)" id="ph-${m.id}"></div>
+          <div style="font-family:var(--fm);font-size:12px;color:var(--text-3)">—</div>
+          <div class="prono-team-inp">${fl(m.away)}<input class="prono-inp" type="number" min="0" max="20" placeholder="—" value="${p.a}" onchange="saveProno('${m.id}',document.getElementById('ph-${m.id}').value,this.value)" id="pa-${m.id}"></div>
+        </div>
+      </div>`;
+    }).join('')}
   }
+  // Past — full history
   const pastEl=document.getElementById('pronos-past');
-  if(pastEl&&fin.length){pastEl.innerHTML='<div style="font-family:var(--fm);font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Résultats</div>'+fin.reverse().map(m=>{const p=PRONOS[m.id],pts=calcPts(p,{h:m.scoreH,a:m.scoreA});return`<div class="prono-card"><div class="prono-team">${fl(m.home)} <span style="font-size:11px">${tn(m.home)}</span></div><div class="prono-result"><div><div class="prono-score-real">${m.scoreH}–${m.scoreA}</div><div style="font-size:9px;color:var(--text-3);font-family:var(--fm);text-align:center">Résultat</div></div><div class="prono-pts p${pts}">${pts}pt${pts!==1?'s':''}</div><div><div class="prono-score-real">${p.h}–${p.a}</div><div style="font-size:9px;color:var(--text-3);font-family:var(--fm);text-align:center">Prono</div></div></div><div class="prono-team right"><span style="font-size:11px">${tn(m.away)}</span> ${fl(m.away)}</div></div>`}).join('')}
+  if(pastEl){
+    const withProno=past.filter(m=>PRONOS[m.id]);
+    const withoutProno=past.filter(m=>!PRONOS[m.id]);
+    let html='';
+    if(withProno.length){
+      html+=`<div style="font-family:var(--fm);font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">HISTORIQUE · ${withProno.length} prono${withProno.length>1?'s':''}</div>`;
+      html+=withProno.map(m=>{
+        const p=PRONOS[m.id];
+        const pts=calcPts(p,{h:m.scoreH,a:m.scoreA});
+        const col=pts===3?'var(--glive)':pts===1?'var(--gold)':'var(--text-3)';
+        const lbl=pts===3?'✓ Score exact':pts===1?'✓ Bon résultat':'✗ Raté';
+        return`<div class="prono-card prono-past-card" style="border-left:3px solid ${col}">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+            <div>
+              <div class="prono-match-hdr" style="font-size:12px">${fl(m.home)} ${tn(m.home)} vs ${fl(m.away)} ${tn(m.away)}</div>
+              <div style="font-size:9px;color:var(--text-3);font-family:var(--fm);margin-top:2px">${m.time}</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <div style="font-family:var(--fd);font-size:20px;color:var(--text);letter-spacing:2px">${m.scoreH}–${m.scoreA}</div>
+              <div style="font-size:8px;color:var(--text-3);font-family:var(--fm)">Résultat</div>
+            </div>
+          </div>
+          <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:9px;color:var(--text-3);font-family:var(--fm)">Mon prono</span>
+              <span style="font-family:var(--fd);font-size:16px;letter-spacing:1px;color:var(--text-2)">${p.h}–${p.a}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="font-size:10px;color:${col};font-family:var(--fm);font-weight:700">${lbl}</span>
+              <span style="font-family:var(--fd);font-size:18px;color:${col};letter-spacing:1px">+${pts}pt${pts>1?'s':''}</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+    if(withoutProno.length&&withProno.length){
+      html+=`<div style="font-family:var(--fm);font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin:16px 0 8px">SANS PRONO · ${withoutProno.length} match${withoutProno.length>1?'s':''}</div>`;
+      html+=withoutProno.map(m=>`<div class="prono-card" style="opacity:.5">
+        <div class="prono-match-hdr" style="font-size:11px">${fl(m.home)} ${tn(m.home)} <span style="font-family:var(--fd);font-size:14px;color:var(--text-3)">${m.scoreH}–${m.scoreA}</span> ${tn(m.away)} ${fl(m.away)}</div>
+        <div style="font-size:9px;color:var(--text-3);font-family:var(--fm);margin-top:2px">${m.time} · Non pronostiqué</div>
+      </div>`).join('');
+    }
+    pastEl.innerHTML=html||'<div style="text-align:center;padding:20px;font-family:var(--fm);font-size:11px;color:var(--text-3)">Aucun match terminé pour l\'instant</div>';
+  }
 }
 /* ===== TIMELINE BUTS (score change detection) ===== */
 let GOAL_LOG=[],PREV_SCORES={};
@@ -1573,9 +1687,12 @@ let NOTIF_ON=localStorage.getItem('wc_notif')==='1';
 function updateNotifBtn(){
   const b=document.getElementById('notif-btn');
   const l=document.getElementById('notif-btn-label');
-  if(!b)return;
-  if(NOTIF_ON){b.classList.add('active');if(l)l.textContent='Alertes activées';}
-  else{b.classList.remove('active');if(l)l.textContent='Alertes buts';}
+  if(b){
+    if(NOTIF_ON){b.classList.add('active');if(l)l.textContent='Alertes activées';}
+    else{b.classList.remove('active');if(l)l.textContent='Alertes buts';}
+  }
+  const fab=document.getElementById('notif-fab');
+  if(fab){fab.textContent=NOTIF_ON?'🔔':'🔕';fab.classList.toggle('active',NOTIF_ON);}
 }
 function openNotifModal(){
   const m=document.getElementById('notif-modal');
