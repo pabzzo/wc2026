@@ -95,6 +95,34 @@ html.light .bs-ticker-inner{color:rgba(10,22,40,.45)}
 .notif-nav-btn:hover{background:rgba(62,240,122,.22);border-color:rgba(62,240,122,.6)}
 .notif-nav-btn.active{background:var(--glive);color:#07101c;border-color:var(--glive)}
 .notif-nav-btn.active:hover{opacity:.85}
+/* AUTH */
+.auth-btn{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border-h);color:var(--text-2);border-radius:20px;padding:5px 12px;font-family:var(--fm);font-size:10px;font-weight:600;letter-spacing:.04em;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.auth-btn:hover{background:var(--surface-2);color:var(--text)}
+.auth-btn.connected{background:rgba(62,240,122,.1);border-color:rgba(62,240,122,.3);color:var(--glive)}
+.auth-avatar{width:20px;height:20px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.2)}
+.auth-initials{width:20px;height:20px;border-radius:50%;background:var(--crimson);color:white;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+/* AUTH MODAL */
+.auth-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:3000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);padding:16px}
+.auth-modal{background:var(--pitch-2);border:1px solid var(--border-h);border-radius:var(--rl);padding:28px 24px;max-width:360px;width:100%;text-align:center}
+.auth-modal-logo{font-size:32px;margin-bottom:12px}
+.auth-modal h3{font-family:var(--fd);font-size:20px;letter-spacing:2px;margin-bottom:6px}
+.auth-modal p{font-size:11px;color:var(--text-3);font-family:var(--fm);margin-bottom:20px;line-height:1.7}
+.google-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px 16px;background:#fff;color:#1f1f1f;border:1px solid rgba(0,0,0,.12);border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:box-shadow .15s;font-family:'Inter',sans-serif}
+.google-btn:hover{box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.google-btn svg{flex-shrink:0}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--text-3);font-size:10px;font-family:var(--fm)}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.auth-benefits{text-align:left;margin-bottom:18px}
+.auth-benefit{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:11px;color:var(--text-2);font-family:var(--fm)}
+.auth-benefit-icon{font-size:14px;flex-shrink:0}
+.auth-user-info{display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px 0}
+.auth-user-avatar{width:56px;height:56px;border-radius:50%;border:2px solid var(--glive)}
+.auth-user-name{font-size:15px;font-weight:600;color:var(--text)}
+.auth-user-email{font-size:11px;color:var(--text-3);font-family:var(--fm)}
+.auth-sync-status{font-size:10px;font-family:var(--fm);color:var(--glive);margin-top:4px}
+.auth-signout-btn{margin-top:14px;background:transparent;border:1px solid var(--border);color:var(--text-3);border-radius:20px;padding:7px 18px;font-family:var(--fm);font-size:11px;cursor:pointer;transition:all .15s}
+.auth-signout-btn:hover{border-color:var(--border-h);color:var(--text)}
+.auth-close-btn{margin-top:10px;background:none;border:none;color:var(--text-3);font-family:var(--fm);font-size:11px;cursor:pointer;padding:6px}
 .theme-toggle{margin-left:auto;padding:6px 12px;background:none;border:1px solid var(--border);border-radius:20px;cursor:pointer;font-size:11px;color:var(--text-2);font-family:var(--fm);display:flex;align-items:center;gap:5px;transition:all .2s;flex-shrink:0;align-self:center}
 .theme-toggle:hover{border-color:var(--border-h);color:var(--text)}
 /* COUNTDOWN */
@@ -524,7 +552,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   .ggroups{grid-template-columns:1fr}
   .section-header p{display:none}
   .bottom-nav{display:grid}
-  .theme-toggle,.notif-nav-btn{display:none}
+  .theme-toggle,.notif-nav-btn,.auth-btn{display:none}
   #notif-btn-label{display:none}
   .bk-round-tabs{display:flex}
   .bk-mobile-rounds{display:block}
@@ -652,6 +680,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .game-reset-btn{background:transparent;border:1px solid var(--border);color:var(--text-2);font-size:9px;padding:2px 8px;border-radius:4px;cursor:pointer;font-family:var(--fm)}
 .game-reset-btn:hover{border-color:var(--border-h);color:var(--text)}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
 <body>
 <canvas id="cc"></canvas>
@@ -683,6 +712,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <button class="nav-tab" onclick="showTab('odds',this)"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Cotes</button>
     <button class="nav-tab" onclick="showTab('pronos',this)"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Pronos</button>
     <button class="nav-tab" onclick="showTab('bracket',this)"><svg viewBox="0 0 24 24"><path d="M8 6h8M8 12h5M8 18h3"/><path d="M3 6h1M3 12h1M3 18h1"/></svg>Bracket</button>
+    <button class="auth-btn" id="auth-btn" onclick="openAuthModal()">Se connecter</button>
     <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">🌙 Nuit</button>
   </div>
 </div>
@@ -864,6 +894,13 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 </div>
 <!-- NOTIF FAB -->
 <button class="notif-fab" id="notif-fab" onclick="openNotifModal()" title="Alertes buts"></button>
+<!-- AUTH MODAL -->
+<div class="auth-modal-overlay" id="auth-modal" style="display:none" onclick="if(event.target===this)closeAuthModal()">
+  <div class="auth-modal" id="auth-modal-inner">
+    <!-- Contenu injecté par JS -->
+  </div>
+</div>
+
 <!-- STICKY SEARCH FAB -->
 <div id="search-fab">
   <div class="sp" id="sp">
@@ -1585,11 +1622,11 @@ setInterval(updateCountdowns,1000);
 let FAV=localStorage.getItem('wc_fav')||'';
 function openFavModal(){const g=document.getElementById('fav-grid');if(!g)return;const teams=Object.keys(NM).sort((a,b)=>tn(a).localeCompare(tn(b)));g.innerHTML=teams.map(t=>`<button class="fav-btn" onclick="setFav('${t}')"><span class="ff">${fl(t)}</span><span class="fn">${tn(t)}</span></button>`).join('');document.getElementById('fav-modal').style.display='flex'}
 function closeFavModal(){document.getElementById('fav-modal').style.display='none'}
-function setFav(tla){FAV=tla;localStorage.setItem('wc_fav',tla);closeFavModal();renderFavBanner();renderS()}
+function setFav(tla){FAV=tla;localStorage.setItem('wc_fav',tla);syncFavToCloud();closeFavModal();renderFavBanner();renderS()}
 function renderFavBanner(){const b=document.getElementById('fav-banner');if(!b)return;if(!FAV){b.style.display='none';return}const next=M.filter(m=>m.status==='upcoming'&&(m.home===FAV||m.away===FAV)).sort((a,z)=>new Date(a.utcDate)-new Date(z.utcDate))[0];const opp=next?(next.home===FAV?next.away:next.home):null;b.style.display='block';b.innerHTML=`<div class="fav-banner"><div class="fav-banner-flag">${fl(FAV)}</div><div class="fav-banner-info"><div class="fav-banner-team">${tn(FAV)}</div><div class="fav-banner-next">${next?`Prochain : vs ${fl(opp)} ${tn(opp)} · ${next.time}`:'Tous les matchs joués'}</div>${next?`<div class="fav-banner-cd cd-timer" data-ts="${next.utcDate}" id="fav-cd">—</div>`:''}</div><button class="fav-banner-change" onclick="openFavModal()">Changer</button></div>`}
 /* ===== PRONOSTICS ===== */
 let PRONOS=JSON.parse(localStorage.getItem('wc_pronos')||'{}');
-function saveProno(id,h,a){if(h===''||a==='')return;PRONOS[id]={h:parseInt(h),a:parseInt(a)};localStorage.setItem('wc_pronos',JSON.stringify(PRONOS));renderPronos()}
+function saveProno(id,h,a){if(h===''||a==='')return;PRONOS[id]={h:parseInt(h),a:parseInt(a)};localStorage.setItem('wc_pronos',JSON.stringify(PRONOS));renderPronos();syncPronosToCloud();}
 function calcPts(pred,real){if(!pred||real.h===null)return null;const exact=pred.h===real.h&&pred.a===real.a;const res=r=>r.h>r.a?1:r.h<r.a?-1:0;const goodRes=res(pred)===res(real);return exact?3:goodRes?1:0}
 function renderPronos(){
   const up=M.filter(m=>m.status==='upcoming').sort((a,b)=>new Date(a.utcDate)-new Date(b.utcDate));
@@ -1897,6 +1934,7 @@ function bkPick(mid, tla) {
   getDownstream(mid);
   BKPICKS[mid] = tla;
   localStorage.setItem('wc_bracket', JSON.stringify(BKPICKS));
+  syncBracketToCloud();
   renderBracket();
 }
 
@@ -1932,7 +1970,165 @@ function loadBracketFromUrl() {
   }
 }
 
-loadAdmin();initTheme();updateNotifBtn();buildT();renderS();renderST();renderSC();renderLiveModule();renderVL();renderO();refreshTS();loadBracketFromUrl();initRoute();if(FAV){renderFavBanner();updateCountdowns()}else{setTimeout(openFavModal,1500)}loadScoresFromAPI();setInterval(loadScoresFromAPI,60000);
+/* ===== SUPABASE AUTH ===== */
+let SUPA = null, USER = null;
+
+async function initSupabase() {
+  try {
+    const cfg = await fetch('/api/config').then(r => r.json());
+    if (!cfg.configured) return;
+    SUPA = supabase.createClient(cfg.url, cfg.key);
+    SUPA.auth.onAuthStateChange(async (event, session) => {
+      USER = session?.user || null;
+      updateAuthUI();
+      if (event === 'SIGNED_IN') {
+        await migrateLocalToCloud();
+        await loadFromCloud();
+      }
+    });
+    const { data: { session } } = await SUPA.auth.getSession();
+    USER = session?.user || null;
+    updateAuthUI();
+    if (USER) await loadFromCloud();
+  } catch(e) {}
+}
+
+function updateAuthUI() {
+  const btn = document.getElementById('auth-btn');
+  const moreBtn = document.getElementById('more-auth-btn');
+  if (!btn) return;
+  if (USER) {
+    const initials = (USER.user_metadata?.full_name || USER.email || 'U').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    const avatar = USER.user_metadata?.avatar_url;
+    btn.classList.add('connected');
+    btn.innerHTML = avatar
+      ? `<img class="auth-avatar" src="${avatar}" alt=""> ${USER.user_metadata?.full_name?.split(' ')[0] || 'Mon compte'}`
+      : `<span class="auth-initials">${initials}</span> Mon compte`;
+    if (moreBtn) { const t = moreBtn.lastChild; if(t) t.textContent=' Mon compte'; }
+  } else {
+    btn.classList.remove('connected');
+    btn.innerHTML = 'Se connecter';
+    if (moreBtn) { const t = moreBtn.lastChild; if(t) t.textContent=' Se connecter'; }
+  }
+}
+
+function openAuthModal() {
+  const modal = document.getElementById('auth-modal');
+  const inner = document.getElementById('auth-modal-inner');
+  if (!modal || !inner) return;
+  if (USER) {
+    const name = USER.user_metadata?.full_name || USER.email;
+    const email = USER.email;
+    const avatar = USER.user_metadata?.avatar_url;
+    const pronoCnt = Object.keys(PRONOS).length;
+    const bracketCnt = Object.keys(BKPICKS).length;
+    inner.innerHTML = `
+      <div class="auth-user-info">
+        ${avatar ? `<img class="auth-user-avatar" src="${avatar}" alt="">` : `<div class="auth-initials" style="width:56px;height:56px;font-size:20px">${name[0].toUpperCase()}</div>`}
+        <div class="auth-user-name">${name}</div>
+        <div class="auth-user-email">${email}</div>
+        <div class="auth-sync-status">✓ Données synchronisées</div>
+      </div>
+      <div style="background:var(--surface);border-radius:var(--r);padding:12px 14px;text-align:left;margin-bottom:16px">
+        <div style="font-family:var(--fm);font-size:9px;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Mes données</div>
+        <div style="display:flex;justify-content:space-around;text-align:center">
+          <div><div style="font-family:var(--fd);font-size:22px;color:var(--text)">${pronoCnt}</div><div style="font-size:9px;color:var(--text-3);font-family:var(--fm)">Pronos</div></div>
+          <div><div style="font-family:var(--fd);font-size:22px;color:var(--text)">${bracketCnt}</div><div style="font-size:9px;color:var(--text-3);font-family:var(--fm)">Picks bracket</div></div>
+          <div><div style="font-size:18px">${FAV ? fl(FAV) : '—'}</div><div style="font-size:9px;color:var(--text-3);font-family:var(--fm)">Équipe fav</div></div>
+        </div>
+      </div>
+      <button class="auth-signout-btn" onclick="signOut()">Se déconnecter</button>
+      <button class="auth-close-btn" onclick="closeAuthModal()">Fermer</button>`;
+  } else {
+    inner.innerHTML = `
+      <div class="auth-modal-logo">⚽</div>
+      <h3>MON COMPTE</h3>
+      <p>Connecte-toi pour sauvegarder tes pronos et ton bracket sur tous tes appareils.</p>
+      <div class="auth-benefits">
+        <div class="auth-benefit"><span class="auth-benefit-icon">💾</span> Pronos et bracket sauvegardés dans le cloud</div>
+        <div class="auth-benefit"><span class="auth-benefit-icon">📱</span> Accès depuis n'importe quel appareil</div>
+        <div class="auth-benefit"><span class="auth-benefit-icon">🏆</span> Historique permanent de tes prédictions</div>
+      </div>
+      ${SUPA ? `<button class="google-btn" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 6.293C4.672 4.166 6.656 3.58 9 3.58z"/></svg>
+        Continuer avec Google
+      </button>` : `<div style="font-family:var(--fm);font-size:11px;color:var(--text-3);padding:12px;background:var(--surface);border-radius:var(--r)">⚙️ Configuration Supabase requise<br><span style="font-size:10px">Ajouter SUPABASE_URL et SUPABASE_ANON_KEY dans Vercel</span></div>`}
+      <button class="auth-close-btn" onclick="closeAuthModal()">Continuer sans compte</button>`;
+  }
+  modal.style.display = 'flex';
+}
+
+function closeAuthModal() {
+  document.getElementById('auth-modal').style.display = 'none';
+}
+
+async function signInWithGoogle() {
+  if (!SUPA) return;
+  await SUPA.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin + window.location.pathname }
+  });
+}
+
+async function signOut() {
+  if (!SUPA) return;
+  await SUPA.auth.signOut();
+  USER = null;
+  updateAuthUI();
+  closeAuthModal();
+}
+
+async function syncPronosToCloud() {
+  if (!SUPA || !USER) return;
+  const rows = Object.entries(PRONOS).map(([match_id, p]) => ({
+    user_id: USER.id, match_id, score_h: Number(p.h), score_a: Number(p.a), updated_at: new Date().toISOString()
+  }));
+  if (!rows.length) return;
+  await SUPA.from('pronos').upsert(rows, { onConflict: 'user_id,match_id' });
+}
+
+async function syncBracketToCloud() {
+  if (!SUPA || !USER) return;
+  await SUPA.from('bracket_picks').upsert({ user_id: USER.id, picks: BKPICKS, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+}
+
+async function syncFavToCloud() {
+  if (!SUPA || !USER) return;
+  await SUPA.from('user_prefs').upsert({ user_id: USER.id, fav_team: FAV, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+}
+
+async function loadFromCloud() {
+  if (!SUPA || !USER) return;
+  try {
+    const { data: pronos } = await SUPA.from('pronos').select('*').eq('user_id', USER.id);
+    if (pronos?.length) {
+      pronos.forEach(p => { PRONOS[p.match_id] = { h: p.score_h, a: p.score_a }; });
+      localStorage.setItem('wc_pronos', JSON.stringify(PRONOS));
+    }
+    const { data: brackets } = await SUPA.from('bracket_picks').select('*').eq('user_id', USER.id);
+    if (brackets?.[0]?.picks) {
+      BKPICKS = brackets[0].picks;
+      localStorage.setItem('wc_bracket', JSON.stringify(BKPICKS));
+    }
+    const { data: prefs } = await SUPA.from('user_prefs').select('*').eq('user_id', USER.id);
+    if (prefs?.[0]?.fav_team) {
+      FAV = prefs[0].fav_team;
+      localStorage.setItem('wc_fav', FAV);
+    }
+    renderPronos();
+    renderBracket();
+    renderFavBanner();
+  } catch(e) {}
+}
+
+async function migrateLocalToCloud() {
+  if (!SUPA || !USER) return;
+  await syncPronosToCloud();
+  await syncBracketToCloud();
+  if (FAV) await syncFavToCloud();
+}
+
+initSupabase();loadAdmin();initTheme();updateNotifBtn();buildT();renderS();renderST();renderSC();renderLiveModule();renderVL();renderO();refreshTS();loadBracketFromUrl();initRoute();if(FAV){renderFavBanner();updateCountdowns()}else{setTimeout(openFavModal,1500)}loadScoresFromAPI();setInterval(loadScoresFromAPI,60000);
 setInterval(refreshTS,60000);
 window.addEventListener('scroll',()=>{document.getElementById('nav-wrap').classList.toggle('scrolled',window.scrollY>60)},{passive:true});
 window.addEventListener('message',e=>{try{const d=JSON.parse(e.data);if(d.event==='onError'&&(d.info===150||d.info===153||d.info===101))collapseVB()}catch(ignore){}});
@@ -1990,6 +2186,10 @@ if(sk){document.getElementById('oak').value=sk;document.getElementById('oab').in
     <button class="more-menu-item" onclick="toggleTheme();toggleMoreMenu()">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       Thème
+    </button>
+    <button class="more-menu-item" id="more-auth-btn" onclick="openAuthModal();toggleMoreMenu()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Se connecter
     </button>
   </div>
 </div>
