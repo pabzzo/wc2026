@@ -1264,9 +1264,13 @@ function applyOdds(data){
   // Update bookmaker buttons dynamically
   const avail=Object.keys(OD);
   if(!avail.length)return;
-  if(!OD[bk]||!OD[bk].length)bk=avail[0];
+  // Prioritize known bookmakers, filter out obscure ones
+  const BK_LABELS={'winamax_fr':'Winamax','winamax':'Winamax','betclic_fr':'Betclic','betclic':'Betclic','unibet_fr':'Unibet','unibet':'Unibet','pmu_fr':'PMU','pmu':'PMU','pinnacle':'Pinnacle','williamhill':'William Hill','betsson':'Betsson','betfair_ex_eu':'Betfair','sport888':'888sport','leovegas_se':'LeoVegas','nordicbet':'NordicBet','marathonbet':'MarathonBet'};
+  const preferred=['winamax_fr','winamax','betclic_fr','betclic','unibet_fr','unibet','pmu_fr','pmu','pinnacle','williamhill','betsson','betfair_ex_eu','sport888'];
+  const sorted=[...preferred.filter(k=>avail.includes(k)),...avail.filter(k=>!preferred.includes(k))];
+  if(!OD[bk]?.length)bk=sorted[0]||avail[0];
   const toolbar=document.getElementById('odds-bk-toolbar');
-  if(toolbar){toolbar.innerHTML=avail.map((k,i)=>`<button class="bk-btn${k===bk?' active':''}" onclick="setBK(this,'${k}')">${k.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</button>`).join('')}
+  if(toolbar){toolbar.innerHTML=sorted.slice(0,8).map(k=>`<button class="bk-btn${k===bk?' active':''}" onclick="setBK(this,'${k}')">${BK_LABELS[k]||k.replace(/_[a-z]{2}$/,'').replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</button>`).join('')}
   renderO();
 }
 function renderO(){const oc=document.getElementById('oc');if(!oc)return;const items=OD[bk]||[];if(!items.length){oc.innerHTML='<div style="text-align:center;padding:40px 20px;font-family:var(--fm);color:var(--text-3);font-size:12px">⏳ Chargement des cotes...<br><span style="font-size:10px;margin-top:6px;display:block">Les cotes sont mises à jour toutes les 5 min</span></div>';return}oc.innerHTML=items.map(m=>`<div class="ocard"><div class="ocard-hdr"><div class="omatch-name">${fl(m.home)} ${tn(m.home)} <span style="color:var(--text-3);font-size:10px;font-family:var(--fm)">vs</span> ${tn(m.away)} ${fl(m.away)}</div><div class="ometa"><div class="otime">⏱ ${m.time}</div><div class="ostadium">🏟️ ${m.stadium}</div></div></div><div class="orow"><div class="obtn" onclick="this.classList.toggle('sel')"><div class="otype">1 — ${tn(m.home)}</div><div class="oval">${m.h.toFixed(2)}</div><div class="oteam">Victoire dom.</div></div><div class="obtn" onclick="this.classList.toggle('sel')"><div class="otype">N — Nul</div><div class="oval">${m.d.toFixed(2)}</div><div class="oteam">Match nul</div></div><div class="obtn" onclick="this.classList.toggle('sel')"><div class="otype">2 — ${tn(m.away)}</div><div class="oval">${m.a.toFixed(2)}</div><div class="oteam">Victoire ext.</div></div></div></div>`).join('')}
