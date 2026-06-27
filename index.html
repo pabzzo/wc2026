@@ -15,8 +15,11 @@
 .bk-col-hdr{font-family:var(--fm);font-size:8px;letter-spacing:.12em;color:var(--text-3);text-align:center;padding:0 4px 8px;white-space:nowrap;text-transform:uppercase}
 .bk-sep{width:28px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-around}
 .bk-slot{padding:3px 5px;position:relative}
-.bk-slot::after{content:'';position:absolute;right:-5px;top:50%;width:5px;height:1px;background:var(--border-h)}
+.bk-slot::before,.bk-slot::after{content:'';position:absolute;top:50%;width:5px;height:1px;background:var(--border-h)}
+.bk-slot::after{right:-5px}
+.bk-slot::before{left:-5px}
 .bk-side-r .bk-slot::after{right:auto;left:-5px}
+.bk-side-r .bk-slot::before{left:auto;right:-5px}
 .bk-match{display:flex;flex-direction:column;gap:2px}
 .bk-team{height:28px;display:flex;align-items:center;gap:5px;padding:0 7px;cursor:pointer;border:1px solid var(--border);border-radius:4px;background:var(--surface);transition:border-color .15s,background .15s,opacity .15s;font-size:11px;font-weight:500;position:relative;overflow:hidden}
 .bk-team:hover:not(.tbd-t):not(.winner){border-color:var(--border-h);background:var(--surface-2)}
@@ -29,11 +32,13 @@
 .bk-vs::before{content:'';flex:1;height:1px;background:var(--border)}
 /* Sep connectors — left side */
 .bk-si{flex:1;display:flex;flex-direction:column}
-.bk-st{flex:1;border-right:1px solid var(--border-h);border-top:1px solid var(--border-h);margin-top:14px;border-radius:0 4px 0 0}
-.bk-sb{flex:1;border-right:1px solid var(--border-h);border-bottom:1px solid var(--border-h);margin-bottom:14px;border-radius:0 0 4px 0}
-/* Sep connectors — right side (mirrored) */
-.bk-st-r{flex:1;border-left:1px solid var(--border-h);border-top:1px solid var(--border-h);margin-top:14px;border-radius:4px 0 0 0}
-.bk-sb-r{flex:1;border-left:1px solid var(--border-h);border-bottom:1px solid var(--border-h);margin-bottom:14px;border-radius:0 0 0 4px}
+.bk-st,.bk-sb,.bk-st-r,.bk-sb-r{flex:1;position:relative}
+/* Left side: bracket ouvre à gauche, épine à droite */
+.bk-st::before{content:'';position:absolute;top:50%;left:0;right:0;bottom:0;border-top:1px solid var(--border-h);border-right:1px solid var(--border-h);border-radius:0 3px 0 0}
+.bk-sb::before{content:'';position:absolute;bottom:50%;left:0;right:0;top:0;border-bottom:1px solid var(--border-h);border-right:1px solid var(--border-h);border-radius:0 0 3px 0}
+/* Right side: bracket ouvre à droite, épine à gauche */
+.bk-st-r::before{content:'';position:absolute;top:50%;left:0;right:0;bottom:0;border-top:1px solid var(--border-h);border-left:1px solid var(--border-h);border-radius:3px 0 0 0}
+.bk-sb-r::before{content:'';position:absolute;bottom:50%;left:0;right:0;top:0;border-bottom:1px solid var(--border-h);border-left:1px solid var(--border-h);border-radius:0 0 0 3px}
 /* Center final area */
 .bk-center{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:20px;padding:0 24px;border-left:1px solid var(--border-h);border-right:1px solid var(--border-h);background:linear-gradient(180deg,transparent,var(--pitch-3) 20%,var(--pitch-3) 80%,transparent)}
 .bk-final-card{width:148px;background:var(--surface);border:1px solid rgba(245,200,66,.3);border-radius:var(--rl);padding:7px;display:flex;flex-direction:column;gap:2px;box-shadow:0 0 24px rgba(245,200,66,.06)}
