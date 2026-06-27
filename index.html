@@ -603,8 +603,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   .bs-title{font-size:10px;letter-spacing:.1em}
   .bs-studio{border-radius:var(--r)}
   .live-module{border-radius:0;height:100%}
-  .group-sel-mobile{display:block}
-  .grp-btns,.grp-bar .flabel{display:none}
+  .group-sel-mobile{display:block!important}
+  .grp-btns,.grp-bar .flabel{display:none!important}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 
@@ -836,10 +836,14 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
       <button class="stab" onclick="showSTab('combined',this)">🌟 Contributions</button>
       <button class="stab" onclick="showSTab('minutes',this)">⏱ Temps de jeu</button>
     </div>
-    <div class="filter-bar">
+    <div class="filter-bar grp-bar">
       <span class="flabel">Groupe :</span>
-      <button class="fbtn active" onclick="fSGrp('all',this)">Tous</button>
-      <button class="fbtn" onclick="fSGrp('A',this)">A</button><button class="fbtn" onclick="fSGrp('B',this)">B</button><button class="fbtn" onclick="fSGrp('C',this)">C</button><button class="fbtn" onclick="fSGrp('D',this)">D</button><button class="fbtn" onclick="fSGrp('E',this)">E</button><button class="fbtn" onclick="fSGrp('F',this)">F</button><button class="fbtn" onclick="fSGrp('G',this)">G</button><button class="fbtn" onclick="fSGrp('H',this)">H</button><button class="fbtn" onclick="fSGrp('I',this)">I</button><button class="fbtn" onclick="fSGrp('J',this)">J</button><button class="fbtn" onclick="fSGrp('K',this)">K</button><button class="fbtn" onclick="fSGrp('L',this)">L</button>
+      <div class="grp-btns"><button class="fbtn active" onclick="fSGrp('all',this)">Tous</button>
+      <button class="fbtn" onclick="fSGrp('A',this)">A</button><button class="fbtn" onclick="fSGrp('B',this)">B</button><button class="fbtn" onclick="fSGrp('C',this)">C</button><button class="fbtn" onclick="fSGrp('D',this)">D</button><button class="fbtn" onclick="fSGrp('E',this)">E</button><button class="fbtn" onclick="fSGrp('F',this)">F</button><button class="fbtn" onclick="fSGrp('G',this)">G</button><button class="fbtn" onclick="fSGrp('H',this)">H</button><button class="fbtn" onclick="fSGrp('I',this)">I</button><button class="fbtn" onclick="fSGrp('J',this)">J</button><button class="fbtn" onclick="fSGrp('K',this)">K</button><button class="fbtn" onclick="fSGrp('L',this)">L</button></div>
+      <select class="group-sel-mobile" id="sc-group-sel-mobile" onchange="fSGrpMob(this.value)">
+        <option value="all">Tous les groupes</option>
+        <option value="A">Groupe A</option><option value="B">Groupe B</option><option value="C">Groupe C</option><option value="D">Groupe D</option><option value="E">Groupe E</option><option value="F">Groupe F</option><option value="G">Groupe G</option><option value="H">Groupe H</option><option value="I">Groupe I</option><option value="J">Groupe J</option><option value="K">Groupe K</option><option value="L">Groupe L</option>
+      </select>
     </div>
     <div id="scorers-container"></div>
   </section>
@@ -1279,7 +1283,8 @@ function renderBr(){
 }
 /* SCORERS */
 function showSTab(t,btn){scTab=t;document.querySelectorAll('.stab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderSC()}
-function fSGrp(g,btn){scGrp=g;btn.closest('.filter-bar').querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderSC()}
+function fSGrp(g,btn){scGrp=g;if(btn){btn.closest('.filter-bar').querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}const sel=document.getElementById('sc-group-sel-mobile');if(sel)sel.value=g;renderSC()}
+function fSGrpMob(v){scGrp=v;renderSC()}
 function renderSC(){
   if(!PL.length){loading('scorers-container');return}
   let d=[...PL];
