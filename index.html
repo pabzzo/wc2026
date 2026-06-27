@@ -1020,7 +1020,9 @@ window.addEventListener('popstate',e=>{
   showTab(id,null,false);
 });
 function initRoute(){
-  const id=location.hash.replace('#','')||'scores';
+  const hash=location.hash;
+  if(hash.includes('access_token=')||hash.includes('error_description='))return;
+  const id=hash.replace('#','')||'scores';
   showTab(id,null,false);
 }
 function showCalTab(t,btn){document.getElementById('cal-upcoming').style.display=t==='upcoming'?'block':'none';document.getElementById('cal-bracket').style.display=t==='bracket'?'block':'none';document.querySelectorAll('.cal-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
@@ -1986,19 +1988,28 @@ async function initSupabase() {
   try {
     const cfg = await fetch('/api/config').then(r => r.json());
     if (!cfg.configured) return;
-    SUPA = supabase.createClient(cfg.url, cfg.key);
+    const isAuthCallback = location.hash.includes('access_token=') || location.hash.includes('error_description=');
+    SUPA = supabase.createClient(cfg.url, cfg.key, {
+      auth: { detectSessionInUrl: true, persistSession: true }
+    });
     SUPA.auth.onAuthStateChange(async (event, session) => {
       USER = session?.user || null;
       updateAuthUI();
       if (event === 'SIGNED_IN') {
+        // Nettoyer le hash auth et rediriger vers l'accueil
+        if (location.hash.includes('access_token=')) {
+          history.replaceState({tab:'scores'}, '', '#scores');
+          showTab('scores', null, false);
+        }
         await migrateLocalToCloud();
         await loadFromCloud();
+        openAuthModal();
       }
     });
     const { data: { session } } = await SUPA.auth.getSession();
     USER = session?.user || null;
     updateAuthUI();
-    if (USER) await loadFromCloud();
+    if (USER && !isAuthCallback) await loadFromCloud();
   } catch(e) {}
 }
 
