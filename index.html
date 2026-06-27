@@ -1537,7 +1537,7 @@ function applyStandings(data){
   if(!data.standings)return;
   ST={};
   data.standings.forEach(grp=>{
-    const letter=(grp.group||'').replace('GROUP_','');
+    const letter=(grp.group||'').replace(/^Group\s*/i,'').replace('GROUP_','').trim();
     if(!letter)return;
     ST[letter]=grp.table.map(row=>({t:row.team.tla,w:row.won,d:row.draw,l:row.lost,gf:row.goalsFor,ga:row.goalsAgainst,pts:row.points}));
   });
