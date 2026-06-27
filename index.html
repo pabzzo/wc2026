@@ -849,7 +849,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div style="margin-top:10px;font-size:10px;color:var(--text-3);padding:7px 11px;background:var(--pitch-3);border-radius:var(--r);font-family:var(--fm)">⚠️ Cotes indicatives · Jeu responsable — 18+</div>
   </section>
   <section id="pronos" class="section">
-    <div class="section-header"><h2>PRONOSTICS</h2><p>Prédisez les scores avant chaque match · 3 pts score exact · 1 pt bon résultat</p></div>
+    <div class="section-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><h2>PRONOSTICS</h2><p>Prédisez les scores avant chaque match · 3 pts score exact · 1 pt bon résultat</p></div><button id="scroll-history-btn" onclick="document.getElementById('pronos-past').scrollIntoView({behavior:'smooth',block:'start'})" style="display:none;flex-shrink:0;margin-top:4px;background:transparent;border:1px solid var(--border-h);color:var(--text-2);border-radius:20px;padding:6px 13px;font-family:var(--fm);font-size:10px;cursor:pointer;white-space:nowrap;transition:all .15s" onmouseover="this.style.color='var(--text)';this.style.borderColor='var(--text-2)'" onmouseout="this.style.color='var(--text-2)';this.style.borderColor='var(--border-h)'">↓ Historique</button></div>
     <div class="prono-total" id="prono-total" style="display:none">
       <div class="prono-total-val" id="prono-total-val">0</div>
       <div class="prono-total-info">points<br><span id="prono-total-detail" style="color:var(--text-3)"></span></div>
@@ -1687,6 +1687,8 @@ function renderPronos(){
   if(pastEl){
     const withProno=past.filter(m=>PRONOS[m.id]);
     const withoutProno=past.filter(m=>!PRONOS[m.id]);
+    const histBtn=document.getElementById('scroll-history-btn');
+    if(histBtn)histBtn.style.display=withProno.length?'block':'none';
     let html='';
     if(withProno.length){
       html+=`<div style="font-family:var(--fm);font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">HISTORIQUE · ${withProno.length} prono${withProno.length>1?'s':''}</div>`;
