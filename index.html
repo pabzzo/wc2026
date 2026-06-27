@@ -759,7 +759,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 <div class="vb-wrap" id="vb-wrap">
   <div class="video-banner">
     <div class="vb-iframe-wrap">
-      <iframe id="vb-iframe" src="https://www.youtube.com/embed/sM8lJcIu09M?autoplay=1&mute=1&loop=1&playlist=sM8lJcIu09M&controls=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=https://wc2026-kowm.vercel.app" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <iframe id="vb-iframe" src="https://www.youtube.com/embed/sM8lJcIu09M?autoplay=1&mute=1&loop=1&playlist=sM8lJcIu09M&controls=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=https://www.pabzz.fr" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
     <div class="vb-overlay">
       <button class="vb-yt-cta" onclick="showTab('videos',document.querySelectorAll('.nav-tab')[4]);document.querySelector('.main')?.scrollIntoView({behavior:'smooth'})">
@@ -2221,6 +2221,7 @@ initSupabase();loadAdmin();initTheme();updateNotifBtn();buildT();renderS();rende
 setInterval(refreshTS,60000);
 window.addEventListener('scroll',()=>{document.getElementById('nav-wrap').classList.toggle('scrolled',window.scrollY>60)},{passive:true});
 window.addEventListener('message',e=>{try{const d=JSON.parse(e.data);if(d.event==='onError'&&(d.info===150||d.info===153||d.info===101))collapseVB()}catch(ignore){}});
+if(window.innerWidth<=480)collapseVB();
 const sk=localStorage.getItem('odds_api_key');
 if(sk){document.getElementById('oak').value=sk;document.getElementById('oab').innerHTML=`<div>✅</div><div><strong style="color:var(--gold)">Clé API active</strong> — ${sk.slice(0,8)}••••••</div>`}
 </script>
