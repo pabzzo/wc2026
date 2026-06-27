@@ -295,7 +295,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .bs-item-info{flex:1;min-width:0}
 .bs-item-title{font-size:11px;font-weight:500;color:rgba(255,255,255,.8);line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .bs-item-num{font-family:var(--fm);font-size:9px;color:rgba(255,255,255,.3);margin-top:3px}
-@media(max-width:640px){.bs-content{grid-template-columns:1fr}.bs-sidebar{max-height:220px;border-left:none;border-top:1px solid rgba(255,255,255,.06)}.bs-sidebar-list{display:flex;overflow-x:auto;overflow-y:hidden}.bs-item{flex-direction:column;min-width:130px;border-bottom:none;border-left:none;border-right:1px solid rgba(255,255,255,.04);padding:8px}.bs-item.active{border-left:none;border-top:2px solid rgba(99,102,241,.7)}.bs-item-thumb{width:100%;height:70px}}
+@media(max-width:640px){.bs-content{grid-template-columns:1fr}.bs-sidebar{max-height:220px;border-left:none;border-top:1px solid rgba(255,255,255,.06)}.bs-sidebar-list{display:flex;overflow-x:auto;overflow-y:hidden}.bs-item{flex-direction:column;min-width:130px;border-bottom:none;border-left:none;border-right:1px solid rgba(255,255,255,.04);padding:8px}.bs-item.active{border-left:none;border-top:2px solid rgba(99,102,241,.7)}.bs-item-thumb{width:100%;height:70px}.bs-player-wrap{min-height:200px}}
 .bs-ticker{display:flex;align-items:center;overflow:hidden;background:#0c0d18;border-top:1px solid rgba(255,255,255,.05);height:32px}
 .bs-ticker-label{flex-shrink:0;font-family:var(--fm);font-size:9px;font-weight:800;letter-spacing:.14em;color:#fff;background:var(--crimson);padding:0 12px;height:100%;display:flex;align-items:center}
 .bs-ticker-track{flex:1;overflow:hidden;position:relative}
@@ -592,7 +592,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   .hero-inner{padding:14px 16px 14px}
   .burger-btn{display:flex}
   /* Vidéo bannière */
-  .video-banner{height:clamp(150px,28vh,210px)}
+  .video-banner{height:130px}
   .vb-reopen{bottom:76px}
   /* FABs au-dessus de la bottom nav */
   #search-fab{bottom:76px;right:12px}
@@ -603,6 +603,12 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   .bs-header{padding:10px 12px;gap:8px}
   .bs-title{font-size:10px;letter-spacing:.1em}
   .bs-studio{border-radius:var(--r)}
+  .live-tab{display:flex}
+  .live-sidebar{position:fixed;top:0;right:0;bottom:0;width:min(85vw,300px);z-index:1100;transform:translateX(105%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;box-shadow:-4px 0 24px rgba(0,0,0,.5);border-radius:0;padding-bottom:72px}
+  .live-sidebar.open{transform:translateX(0)}
+  .live-module{border-radius:0;height:100%}
+  .group-sel-mobile{display:block}
+  .grp-btns,.grp-bar .flabel{display:none}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 
@@ -684,6 +690,10 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 @keyframes vbPillIn{from{opacity:0;transform:translateX(-50%) translateY(16px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 .live-sidebar.hidden{display:none}
 .live-layout:has(.live-sidebar.hidden){grid-template-columns:1fr}
+.live-tab{display:none;position:fixed;right:0;top:50%;transform:translateY(-50%);writing-mode:vertical-lr;background:var(--crimson);color:#fff;padding:10px 7px;font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:.1em;z-index:700;cursor:pointer;border-radius:6px 0 0 6px;align-items:center;gap:5px;border:none;box-shadow:-2px 0 12px rgba(21,101,192,.4)}
+.live-bd{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1099;backdrop-filter:blur(2px)}
+.live-bd.show{display:block}
+.group-sel-mobile{display:none;width:100%;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-family:var(--fm);font-size:11px;cursor:pointer}
 
 /* === FOOTER === */
 .site-footer{background:var(--pitch-2);border-top:1px solid var(--border);margin-top:48px}
@@ -791,10 +801,14 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
           <button class="fbtn" onclick="fStat('live',this)">En cours</button>
           <button class="fbtn" onclick="fStat('all',this)">Tous</button>
         </div>
-        <div class="filter-bar">
+        <div class="filter-bar grp-bar">
           <span class="flabel">Groupe :</span>
-          <button class="fbtn active" onclick="fGrp('all',this)">Tous</button>
-          <button class="fbtn" onclick="fGrp('A',this)">A</button><button class="fbtn" onclick="fGrp('B',this)">B</button><button class="fbtn" onclick="fGrp('C',this)">C</button><button class="fbtn" onclick="fGrp('D',this)">D</button><button class="fbtn" onclick="fGrp('E',this)">E</button><button class="fbtn" onclick="fGrp('F',this)">F</button><button class="fbtn" onclick="fGrp('G',this)">G</button><button class="fbtn" onclick="fGrp('H',this)">H</button><button class="fbtn" onclick="fGrp('I',this)">I</button><button class="fbtn" onclick="fGrp('J',this)">J</button><button class="fbtn" onclick="fGrp('K',this)">K</button><button class="fbtn" onclick="fGrp('L',this)">L</button>
+          <div class="grp-btns"><button class="fbtn active" onclick="fGrp('all',this)">Tous</button>
+          <button class="fbtn" onclick="fGrp('A',this)">A</button><button class="fbtn" onclick="fGrp('B',this)">B</button><button class="fbtn" onclick="fGrp('C',this)">C</button><button class="fbtn" onclick="fGrp('D',this)">D</button><button class="fbtn" onclick="fGrp('E',this)">E</button><button class="fbtn" onclick="fGrp('F',this)">F</button><button class="fbtn" onclick="fGrp('G',this)">G</button><button class="fbtn" onclick="fGrp('H',this)">H</button><button class="fbtn" onclick="fGrp('I',this)">I</button><button class="fbtn" onclick="fGrp('J',this)">J</button><button class="fbtn" onclick="fGrp('K',this)">K</button><button class="fbtn" onclick="fGrp('L',this)">L</button></div>
+          <select class="group-sel-mobile" id="group-sel-mobile" onchange="fGrpMob(this.value)">
+  <option value="all">Tous les groupes</option>
+  <option value="A">Groupe A</option><option value="B">Groupe B</option><option value="C">Groupe C</option><option value="D">Groupe D</option><option value="E">Groupe E</option><option value="F">Groupe F</option><option value="G">Groupe G</option><option value="H">Groupe H</option><option value="I">Groupe I</option><option value="J">Groupe J</option><option value="K">Groupe K</option><option value="L">Groupe L</option>
+</select>
         </div>
         <div class="date-nav" id="date-nav"></div>
         <div id="scores-container"></div>
@@ -908,8 +922,22 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         Partager mon bracket
       </button>
       <button class="bk-reset-btn" onclick="resetBracket()">↺ Réinitialiser</button>
-      <span class="bk-share-url" id="bk-url"></span>
-      <span class="bk-copied" id="bk-copied">✓ Copié !</span>
+      <span class="bk-copied" id="bk-copied" style="display:none">✓ Lien copié !</span>
+      <div id="bk-share-panel" style="display:none;flex-wrap:wrap;gap:8px;width:100%;margin-top:8px;align-items:center">
+        <a id="bk-swa" href="#" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;background:#25D366;color:#fff;font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:.05em;text-decoration:none">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+        <a id="bk-stw" href="#" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;background:#000;color:#fff;font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:.05em;text-decoration:none">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X / Twitter
+        </a>
+        <a id="bk-sfb" href="#" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;background:#1877F2;color:#fff;font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:.05em;text-decoration:none">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </a>
+        <span style="font-family:var(--fm);font-size:9px;color:var(--glive)">✓ Lien copié !</span>
+      </div>
     </div>
     <div class="bk-stage-info" id="bk-stage-info"></div>
     <div class="bk-round-tabs" id="bk-round-tabs"></div>
@@ -1080,7 +1108,7 @@ function buildDN(){
 }
 function fDate(d,btn){dF=d;document.querySelectorAll('.date-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderS()}
 function fStat(f,btn){sF=f;btn.closest('.filter-bar').querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderS()}
-function fGrp(g,btn){gF=g;btn.closest('.filter-bar').querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderS()}
+function fGrp(g,btn){gF=g;if(btn){btn.closest('.filter-bar').querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}const sel=document.getElementById('group-sel-mobile');if(sel)sel.value=g;renderS()}
 /* SCORES */
 function loading(id,msg='Chargement des données…'){document.getElementById(id).innerHTML=`<div style="color:var(--text-3);text-align:center;padding:36px;font-family:var(--fm);font-size:12px;letter-spacing:.5px">${msg}</div>`}
 const STAGE_LABELS={'GROUP_STAGE':'Phase de groupes','LAST_32':'Huitièmes de finale','LAST_16':'Seizièmes de finale','QUARTER_FINALS':'Quarts de finale','SEMI_FINALS':'Demi-finales','THIRD_PLACE':'Match pour la 3e place','FINAL':'FINALE'};
@@ -2025,22 +2053,23 @@ function bkPick(mid, tla) {
 function resetBracket() {
   BKPICKS = {};
   localStorage.removeItem('wc_bracket');
-  document.getElementById('bk-url').style.display = 'none';
-  document.getElementById('bk-copied').style.display = 'none';
+  const bkPanel=document.getElementById('bk-share-panel');if(bkPanel)bkPanel.style.display='none';
+  const bkCopied=document.getElementById('bk-copied');if(bkCopied)bkCopied.style.display='none';
   renderBracket();
 }
 
 function shareBracket() {
   const encoded = btoa(JSON.stringify(BKPICKS));
   const url = `${location.origin}/#bracket?b=${encoded}`;
-  const urlEl = document.getElementById('bk-url');
-  const copiedEl = document.getElementById('bk-copied');
-  urlEl.textContent = url;
-  urlEl.style.display = 'block';
-  navigator.clipboard.writeText(url).then(() => {
-    copiedEl.style.display = 'inline';
-    setTimeout(() => { copiedEl.style.display = 'none'; }, 2500);
-  }).catch(() => {});
+  const text = '🏆 Mon bracket FIFA World Cup 2026 !';
+  navigator.clipboard.writeText(url).catch(()=>{});
+  const wa=document.getElementById('bk-swa');const tw=document.getElementById('bk-stw');const fb=document.getElementById('bk-sfb');
+  if(wa)wa.href=`https://wa.me/?text=${encodeURIComponent(text+' '+url)}`;
+  if(tw)tw.href=`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+  if(fb)fb.href=`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+  if(navigator.share){navigator.share({title:'Mon bracket WC 2026',text,url}).catch(()=>{})}
+  else{const p=document.getElementById('bk-share-panel');if(p)p.style.display=p.style.display==='none'?'flex':'none';}
+  const copiedEl=document.getElementById('bk-copied');if(copiedEl){copiedEl.style.display='inline';setTimeout(()=>{copiedEl.style.display='none'},2500);}
 }
 
 function loadBracketFromUrl() {
@@ -2225,10 +2254,17 @@ initSupabase();loadAdmin();initTheme();updateNotifBtn();buildT();renderS();rende
 setInterval(refreshTS,60000);
 window.addEventListener('scroll',()=>{document.getElementById('nav-wrap').classList.toggle('scrolled',window.scrollY>60)},{passive:true});
 window.addEventListener('message',e=>{try{const d=JSON.parse(e.data);if(d.event==='onError'&&(d.info===150||d.info===153||d.info===101))collapseVB()}catch(ignore){}});
-if(window.innerWidth<=480)collapseVB();
 const sk=localStorage.getItem('odds_api_key');
 if(sk){document.getElementById('oak').value=sk;document.getElementById('oab').innerHTML=`<div>✅</div><div><strong style="color:var(--gold)">Clé API active</strong> — ${sk.slice(0,8)}••••••</div>`}
+function openLivePanel(){document.querySelector('.live-sidebar').classList.add('open');document.getElementById('live-bd').classList.add('show')}
+function closeLivePanel(){document.querySelector('.live-sidebar').classList.remove('open');document.getElementById('live-bd').classList.remove('show')}
+function fGrpMob(v){gF=v;const sel=document.getElementById('group-sel-mobile');if(sel)sel.value=v;renderS()}
 </script>
+<button class="live-tab" id="live-tab" onclick="openLivePanel()" title="En Direct">
+  <span class="live-pulse" style="width:6px;height:6px;border-radius:50%;background:var(--glive);box-shadow:0 0 6px var(--glive);animation:lpulse 1.1s ease-in-out infinite;flex-shrink:0"></span>
+  EN DIRECT
+</button>
+<div class="live-bd" id="live-bd" onclick="closeLivePanel()"></div>
 <nav class="bottom-nav" id="bottom-nav">
   <button class="bnav-btn" data-tab="scores" onclick="showTab('scores',null);updateBottomNav('scores')">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
@@ -2256,6 +2292,22 @@ if(sk){document.getElementById('oak').value=sk;document.getElementById('oab').in
   <div class="more-menu-backdrop" onclick="toggleMoreMenu()"></div>
   <div class="more-menu-sheet">
     <div class="more-menu-title">Navigation</div>
+    <button class="more-menu-item" onclick="showTab('scores',null);updateBottomNav('scores');toggleMoreMenu()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      Scores
+    </button>
+    <button class="more-menu-item" onclick="showTab('standings',null);updateBottomNav('standings');toggleMoreMenu()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Classements
+    </button>
+    <button class="more-menu-item" onclick="showTab('calendar',null);updateBottomNav('calendar');toggleMoreMenu()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Calendrier
+    </button>
+    <button class="more-menu-item" onclick="showTab('bracket',null);updateBottomNav('bracket');toggleMoreMenu()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h8M8 12h5M8 18h3"/><path d="M3 6h1M3 12h1M3 18h1"/></svg>
+      Bracket
+    </button>
     <button class="more-menu-item" onclick="showTab('scorers',null);updateBottomNav('scorers');toggleMoreMenu()">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       Buteurs
