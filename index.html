@@ -1031,6 +1031,24 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   </div>
 </footer>
 <div class="yt-modal-bg" id="ytbg"><div class="yt-modal"><div class="yt-mh"><div class="yt-mt" id="ytmt">Résumé</div><div class="yt-cl" onclick="closeM()">✕</div></div><div id="ytmb"></div></div></div>
+<div class="live-sidebar" id="live-sidebar">
+  <div class="live-module">
+    <div class="live-module-hdr">
+      <div class="live-badge"><span class="live-pulse"></span>EN DIRECT</div>
+      <div class="live-hdr-title">SCORES</div>
+      <button onclick="closeLivePanel()" style="margin-left:auto;background:none;border:none;color:var(--text-2);cursor:pointer;padding:4px;line-height:1" title="Fermer">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="live-scores-list" id="live-scores-list"><div class="live-empty">Chargement…</div></div>
+    <div id="goal-timeline" style="display:none"></div>
+    <div class="api-bar"><div class="api-dot" id="api-dot"></div><span id="api-label">Connexion…</span></div>
+    <div class="live-module-footer">
+      <span class="lmf-label" id="live-update-time">Mis à jour —</span>
+      <button class="lmf-btn" onclick="loadScoresFromAPI()">↻ Actualiser</button>
+    </div>
+  </div>
+</div>
 <script>
 const FL={BRA:'🇧🇷',HTI:'🇭🇹',TUR:'🇹🇷',PAR:'🇵🇾',NED:'🇳🇱',SWE:'🇸🇪',GER:'🇩🇪',CIV:'🇨🇮',ECU:'🇪🇨',CUW:'🇨🇼',TUN:'🇹🇳',JPN:'🇯🇵',ESP:'🇪🇸',KSA:'🇸🇦',BEL:'🇧🇪',IRN:'🇮🇷',URU:'🇺🇾',CPV:'🇨🇻',NZL:'🇳🇿',EGY:'🇪🇬',ARG:'🇦🇷',AUT:'🇦🇹',FRA:'🇫🇷',IRQ:'🇮🇶',NOR:'🇳🇴',SEN:'🇸🇳',JOR:'🇯🇴',DZA:'🇩🇿',ALG:'🇩🇿',POR:'🇵🇹',UZB:'🇺🇿',ENG:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',GHA:'🇬🇭',PAN:'🇵🇦',CRO:'🇭🇷',COL:'🇨🇴',COD:'🇨🇩',SUI:'🇨🇭',CAN:'🇨🇦',BIH:'🇧🇦',QAT:'🇶🇦',MEX:'🇲🇽',KOR:'🇰🇷',CZE:'🇨🇿',RSA:'🇿🇦',USA:'🇺🇸',AUS:'🇦🇺',MAR:'🇲🇦',SCO:'🏴󠁧󠁢󠁳󠁣󠁴󠁿'};
 const NM={BRA:'Brésil',HTI:'Haïti',TUR:'Turquie',PAR:'Paraguay',NED:'Pays-Bas',SWE:'Suède',GER:'Allemagne',CIV:"Côte d'Ivoire",ECU:'Équateur',CUW:'Curaçao',TUN:'Tunisie',JPN:'Japon',ESP:'Espagne',KSA:'Arabie Saoud.',BEL:'Belgique',IRN:'Iran',URU:'Uruguay',CPV:'Cap-Vert',NZL:'Nvl-Zélande',EGY:'Égypte',ARG:'Argentine',AUT:'Autriche',FRA:'France',IRQ:'Irak',NOR:'Norvège',SEN:'Sénégal',JOR:'Jordanie',DZA:'Algérie',ALG:'Algérie',POR:'Portugal',UZB:'Ouzbékistan',ENG:'Angleterre',GHA:'Ghana',PAN:'Panama',CRO:'Croatie',COL:'Colombie',COD:'RD Congo',SUI:'Suisse',CAN:'Canada',BIH:'Bosnie',QAT:'Qatar',MEX:'Mexique',KOR:'Corée du Sud',CZE:'Tchéquie',RSA:'Afrique du Sud',USA:'États-Unis',AUS:'Australie',MAR:'Maroc',SCO:'Écosse'};
@@ -2248,24 +2266,6 @@ function fGrpMob(v){gF=v;const sel=document.getElementById('group-sel-mobile');i
   <span class="live-pulse" style="position:absolute;top:8px;right:8px;width:8px;height:8px"></span>
 </button>
 <div class="live-bd" id="live-bd" onclick="closeLivePanel()"></div>
-<div class="live-sidebar" id="live-sidebar">
-  <div class="live-module">
-    <div class="live-module-hdr">
-      <div class="live-badge"><span class="live-pulse"></span>EN DIRECT</div>
-      <div class="live-hdr-title">SCORES</div>
-      <button onclick="closeLivePanel()" style="margin-left:auto;background:none;border:none;color:var(--text-2);cursor:pointer;padding:4px;line-height:1" title="Fermer">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <div class="live-scores-list" id="live-scores-list"><div class="live-empty">Chargement…</div></div>
-    <div id="goal-timeline" style="display:none"></div>
-    <div class="api-bar"><div class="api-dot" id="api-dot"></div><span id="api-label">Connexion…</span></div>
-    <div class="live-module-footer">
-      <span class="lmf-label" id="live-update-time">Mis à jour —</span>
-      <button class="lmf-btn" onclick="loadScoresFromAPI()">↻ Actualiser</button>
-    </div>
-  </div>
-</div>
 <nav class="bottom-nav" id="bottom-nav">
   <button class="bnav-btn" data-tab="scores" onclick="showTab('scores',null);updateBottomNav('scores')">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
