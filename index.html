@@ -8,28 +8,39 @@
 <style>
 /* BRACKET */
 .bk-wrap{overflow-x:auto;padding:4px 0 16px}
-.bk-grid{display:flex;gap:0;height:740px;min-width:max-content;padding:0 4px}
-.bk-col{display:flex;flex-direction:column;justify-content:space-around;width:154px;position:relative;flex-shrink:0}
-.bk-col-hdr{font-family:var(--fm);font-size:8px;letter-spacing:.12em;color:var(--text-3);text-align:center;padding:0 4px 6px;white-space:nowrap;text-transform:uppercase}
-.bk-sep{width:22px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-around;position:relative}
-.bk-conn{display:flex;flex-direction:column;justify-content:center;align-items:center;flex:1}
-.bk-slot{padding:2px 4px;position:relative}
-/* Right connector line from each match */
+/* ===== BRACKET DESKTOP ===== */
+.bk-grid{display:flex;align-items:stretch;min-width:max-content;padding:0 8px;gap:0}
+.bk-side{display:flex;flex-direction:row;align-items:stretch;height:820px}
+.bk-col{display:flex;flex-direction:column;justify-content:space-around;width:148px;flex-shrink:0}
+.bk-col-hdr{font-family:var(--fm);font-size:8px;letter-spacing:.12em;color:var(--text-3);text-align:center;padding:0 4px 8px;white-space:nowrap;text-transform:uppercase}
+.bk-sep{width:28px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-around}
+.bk-slot{padding:3px 5px;position:relative}
 .bk-slot::after{content:'';position:absolute;right:-5px;top:50%;width:5px;height:1px;background:var(--border-h)}
+.bk-side-r .bk-slot::after{right:auto;left:-5px}
 .bk-match{display:flex;flex-direction:column;gap:2px}
 .bk-team{height:28px;display:flex;align-items:center;gap:5px;padding:0 7px;cursor:pointer;border:1px solid var(--border);border-radius:4px;background:var(--surface);transition:border-color .15s,background .15s,opacity .15s;font-size:11px;font-weight:500;position:relative;overflow:hidden}
 .bk-team:hover:not(.tbd-t):not(.winner){border-color:var(--border-h);background:var(--surface-2)}
 .bk-team.winner{background:var(--crimson);border-color:var(--crimson);color:#fff}
-.bk-team.loser{opacity:.35}
+.bk-team.loser{opacity:.3}
 .bk-team.tbd-t{cursor:default;color:var(--text-3);font-size:10px;font-style:italic;font-family:var(--fm)}
 .bk-tf{font-size:13px;flex-shrink:0}
 .bk-tn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
-.bk-vs{height:3px;display:flex;align-items:center}
+.bk-vs{height:4px;display:flex;align-items:center}
 .bk-vs::before{content:'';flex:1;height:1px;background:var(--border)}
-/* Connector in sep column */
-.bk-sep-top{flex:1;border-right:1px solid var(--border-h);border-top:1px solid var(--border-h);margin-top:14px}
-.bk-sep-mid{width:10px;height:1px;background:var(--border-h);align-self:center}
-.bk-sep-bot{flex:1;border-right:1px solid var(--border-h);border-bottom:1px solid var(--border-h);margin-bottom:14px}
+/* Sep connectors — left side */
+.bk-si{flex:1;display:flex;flex-direction:column}
+.bk-st{flex:1;border-right:1px solid var(--border-h);border-top:1px solid var(--border-h);margin-top:14px;border-radius:0 4px 0 0}
+.bk-sb{flex:1;border-right:1px solid var(--border-h);border-bottom:1px solid var(--border-h);margin-bottom:14px;border-radius:0 0 4px 0}
+/* Sep connectors — right side (mirrored) */
+.bk-st-r{flex:1;border-left:1px solid var(--border-h);border-top:1px solid var(--border-h);margin-top:14px;border-radius:4px 0 0 0}
+.bk-sb-r{flex:1;border-left:1px solid var(--border-h);border-bottom:1px solid var(--border-h);margin-bottom:14px;border-radius:0 0 0 4px}
+/* Center final area */
+.bk-center{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:20px;padding:0 24px;border-left:1px solid var(--border-h);border-right:1px solid var(--border-h);background:linear-gradient(180deg,transparent,var(--pitch-3) 20%,var(--pitch-3) 80%,transparent)}
+.bk-final-card{width:148px;background:var(--surface);border:1px solid rgba(245,200,66,.3);border-radius:var(--rl);padding:7px;display:flex;flex-direction:column;gap:2px;box-shadow:0 0 24px rgba(245,200,66,.06)}
+.bk-champ-area{width:148px;text-align:center;padding:16px 8px;background:var(--surface);border:1px solid rgba(245,200,66,.2);border-radius:var(--rl);box-shadow:0 0 32px rgba(245,200,66,.08)}
+.bk-champ-n{font-family:var(--fd);font-size:22px;color:var(--gold);letter-spacing:2px;margin-top:6px}
+.bk-champ-l{font-family:var(--fm);font-size:8px;color:var(--text-3);letter-spacing:.12em;text-transform:uppercase;margin-top:5px}
+.bk-champ-empty-lbl{font-family:var(--fm);font-size:10px;color:var(--text-3);margin-top:6px;line-height:1.5}
 /* Champion display */
 .bk-champion{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;padding:8px}
 .bk-champ-flag{font-size:40px;line-height:1}
@@ -1857,14 +1868,10 @@ function bkMatchHtml(id) {
   </div>`;
 }
 
-function bkSepHtml(n) {
+function bkSepHtml(n, mirrored=false) {
   let h = '';
   for (let i = 0; i < n; i++) {
-    h += `<div style="flex:1;display:flex;flex-direction:column">
-      <div class="bk-sep-top"></div>
-      <div class="bk-sep-mid"></div>
-      <div class="bk-sep-bot"></div>
-    </div>`;
+    h += `<div class="bk-si"><div class="${mirrored?'bk-st-r':'bk-st'}"></div><div class="${mirrored?'bk-sb-r':'bk-sb'}"></div></div>`;
   }
   return `<div class="bk-sep">${h}</div>`;
 }
@@ -1873,24 +1880,56 @@ function renderBracket() {
   const grid = document.getElementById('bk-grid');
   if (!grid) return;
   const champion = BKPICKS['m104'];
-  let html = '';
-  BK_COLS.forEach((col, ci) => {
-    html += `<div class="bk-col"><div class="bk-col-hdr">${col.label}</div>`;
-    col.ids.forEach(id => { html += bkMatchHtml(id); });
-    html += '</div>';
-    if (ci < BK_COLS.length - 1) {
-      const nConnectors = BK_COLS[ci + 1].ids.length;
-      html += bkSepHtml(nConnectors);
-    }
-  });
-  html += `<div class="bk-col" style="width:100px"><div class="bk-col-hdr">CHAMPION</div>
-    <div style="display:flex;flex-direction:column;justify-content:center;height:100%;padding:8px 4px;align-items:center;gap:6px">
+
+  // Left half: R32 top 8 → R16 top 4 → QF top 2 → SF1
+  const LEFT_COLS = [
+    {label:'16ES DE FINALE', ids:['m73','m75','m74','m77','m76','m78','m79','m80']},
+    {label:'HUITIÈMES',      ids:['m90','m89','m91','m92']},
+    {label:'QUARTS',         ids:['m97','m99']},
+    {label:'DEMI-FINALES',   ids:['m101']},
+  ];
+  // Right half (mirrored): SF2 → QF bottom 2 → R16 bottom 4 → R32 bottom 8
+  const RIGHT_COLS = [
+    {label:'DEMI-FINALES',   ids:['m102']},
+    {label:'QUARTS',         ids:['m98','m100']},
+    {label:'HUITIÈMES',      ids:['m93','m94','m95','m96']},
+    {label:'16ES DE FINALE', ids:['m83','m84','m81','m82','m86','m88','m85','m87']},
+  ];
+
+  let leftHtml = LEFT_COLS.map((col, ci) => {
+    let h = `<div class="bk-col"><div class="bk-col-hdr">${col.label}</div>`;
+    col.ids.forEach(id => { h += bkMatchHtml(id); });
+    h += '</div>';
+    if (ci < LEFT_COLS.length - 1) h += bkSepHtml(LEFT_COLS[ci+1].ids.length, false);
+    return h;
+  }).join('');
+
+  let rightHtml = RIGHT_COLS.map((col, ci) => {
+    let h = `<div class="bk-col"><div class="bk-col-hdr">${col.label}</div>`;
+    col.ids.forEach(id => { h += bkMatchHtml(id); });
+    h += '</div>';
+    if (ci < RIGHT_COLS.length - 1) h += bkSepHtml(RIGHT_COLS[ci].ids.length, true);
+    return h;
+  }).join('');
+
+  const [fA, fB] = bkTeams('m104');
+  const fPick = BKPICKS['m104'];
+  const hasFPick = !!fPick;
+  const centerHtml = `<div class="bk-center">
+    <div class="bk-col-hdr" style="letter-spacing:.15em;font-size:9px">🏆 FINALE · 19 JUILLET</div>
+    <div class="bk-final-card">
+      ${bkTeamHtml(fA,'m104',hasFPick&&fPick===fA,hasFPick)}
+      <div class="bk-vs"></div>
+      ${bkTeamHtml(fB,'m104',hasFPick&&fPick===fB,hasFPick)}
+    </div>
+    <div class="bk-champ-area">
       ${champion
-        ? `<div style="font-size:36px">${fl(champion)}</div><div style="font-family:var(--fd);font-size:16px;color:var(--gold);text-align:center;letter-spacing:1px">${tn(champion)}</div><div style="font-family:var(--fm);font-size:9px;color:var(--text-3)">🏆 CHAMPION</div>`
-        : `<div style="font-size:28px;opacity:.3">🏆</div><div style="font-family:var(--fm);font-size:10px;color:var(--text-3);text-align:center">Complète ton bracket</div>`}
+        ? `<div style="font-size:38px">${fl(champion)}</div><div class="bk-champ-n">${tn(champion)}</div><div class="bk-champ-l">Champion du monde</div>`
+        : `<div style="font-size:26px;opacity:.2">🏆</div><div class="bk-champ-empty-lbl">Complète<br>ton bracket</div>`}
     </div>
   </div>`;
-  grid.innerHTML = html;
+
+  grid.innerHTML = `<div class="bk-side">${leftHtml}</div>${centerHtml}<div class="bk-side bk-side-r">${rightHtml}</div>`;
   // Mobile bracket rendering
   const mobileEl = document.getElementById('bk-mobile-rounds');
   const tabsEl = document.getElementById('bk-round-tabs');
