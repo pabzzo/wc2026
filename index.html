@@ -602,9 +602,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   .bs-header{padding:10px 12px;gap:8px}
   .bs-title{font-size:10px;letter-spacing:.1em}
   .bs-studio{border-radius:var(--r)}
-  .live-tab{display:flex!important}
-  .live-sidebar{position:fixed;top:0;right:0;bottom:0;width:min(85vw,300px);z-index:1100;transform:translateX(105%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;box-shadow:-4px 0 24px rgba(0,0,0,.5);border-radius:0;padding-bottom:24px}
-  .live-sidebar.open{transform:translateX(0)}
   .live-module{border-radius:0;height:100%}
   .group-sel-mobile{display:block}
   .grp-btns,.grp-bar .flabel{display:none}
@@ -614,7 +611,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 /* === LIVE LAYOUT === */
 .live-layout{display:grid;grid-template-columns:1fr 288px;gap:22px;align-items:start}.live-layout>div{min-width:0}
 @media(max-width:960px){.live-layout{grid-template-columns:1fr}}
-.live-sidebar{position:sticky;top:52px}
+@media(min-width:961px){.live-sidebar{display:block;position:fixed;right:20px;top:60px;width:288px;max-height:calc(100vh - 80px);overflow-y:auto}}
+@media(max-width:960px){.live-sidebar{display:none}.live-sidebar.open{display:block!important;position:fixed!important;top:0;right:0;bottom:0;width:min(85vw,300px);z-index:1100;overflow-y:auto;box-shadow:-4px 0 24px rgba(0,0,0,.5);border-radius:0;padding-bottom:24px}.live-tab{display:flex!important}}
 .live-module{background:linear-gradient(160deg,var(--pitch-2),var(--pitch-3));border:1px solid rgba(21,101,192,.3);border-radius:var(--rl);overflow:hidden;box-shadow:0 0 32px rgba(21,101,192,.12)}
 .live-module-hdr{background:linear-gradient(90deg,rgba(21,101,192,.25),transparent);padding:11px 14px;display:flex;align-items:center;gap:9px;border-bottom:1px solid rgba(21,101,192,.18)}
 .live-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(21,101,192,.85);padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1.2px;color:#fff;font-family:var(--fm);flex-shrink:0}
@@ -689,7 +687,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 @keyframes vbPillIn{from{opacity:0;transform:translateX(-50%) translateY(16px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 .live-sidebar.hidden{display:none}
 .live-layout:has(.live-sidebar.hidden){grid-template-columns:1fr}
-.live-tab{display:none;position:fixed;right:16px;top:196px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--crimson),#1a5faf);border:none;cursor:pointer;z-index:700;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(21,101,192,.55),0 0 0 1px rgba(255,255,255,.07);transition:transform .2s,box-shadow .2s}
+.live-tab{display:none;position:fixed;right:16px;bottom:80px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--crimson),#1a5faf);border:none;cursor:pointer;z-index:700;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(21,101,192,.55),0 0 0 1px rgba(255,255,255,.07);transition:transform .2s,box-shadow .2s}
 .live-tab:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(21,101,192,.7)}
 .live-bd{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1099;backdrop-filter:blur(2px)}
 .live-bd.show{display:block}
@@ -812,21 +810,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         </div>
         <div class="date-nav" id="date-nav"></div>
         <div id="scores-container"></div>
-      </div>
-      <div class="live-sidebar">
-        <div class="live-module">
-          <div class="live-module-hdr">
-            <div class="live-badge"><span class="live-pulse"></span>EN DIRECT</div>
-            <div class="live-hdr-title">SCORES</div>
-          </div>
-          <div class="live-scores-list" id="live-scores-list"><div class="live-empty">Chargement…</div></div>
-          <div id="goal-timeline" style="display:none"></div>
-          <div class="api-bar"><div class="api-dot" id="api-dot"></div><span id="api-label">Connexion…</span></div>
-          <div class="live-module-footer">
-            <span class="lmf-label" id="live-update-time">Mis à jour —</span>
-            <button class="lmf-btn" onclick="loadScoresFromAPI()">↻ Actualiser</button>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -2265,6 +2248,24 @@ function fGrpMob(v){gF=v;const sel=document.getElementById('group-sel-mobile');i
   <span class="live-pulse" style="position:absolute;top:8px;right:8px;width:8px;height:8px"></span>
 </button>
 <div class="live-bd" id="live-bd" onclick="closeLivePanel()"></div>
+<div class="live-sidebar" id="live-sidebar">
+  <div class="live-module">
+    <div class="live-module-hdr">
+      <div class="live-badge"><span class="live-pulse"></span>EN DIRECT</div>
+      <div class="live-hdr-title">SCORES</div>
+      <button onclick="closeLivePanel()" style="margin-left:auto;background:none;border:none;color:var(--text-2);cursor:pointer;padding:4px;line-height:1" title="Fermer">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="live-scores-list" id="live-scores-list"><div class="live-empty">Chargement…</div></div>
+    <div id="goal-timeline" style="display:none"></div>
+    <div class="api-bar"><div class="api-dot" id="api-dot"></div><span id="api-label">Connexion…</span></div>
+    <div class="live-module-footer">
+      <span class="lmf-label" id="live-update-time">Mis à jour —</span>
+      <button class="lmf-btn" onclick="loadScoresFromAPI()">↻ Actualiser</button>
+    </div>
+  </div>
+</div>
 <nav class="bottom-nav" id="bottom-nav">
   <button class="bnav-btn" data-tab="scores" onclick="showTab('scores',null);updateBottomNav('scores')">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
